@@ -1,7 +1,7 @@
 package com.main.app;
 
 import com.google.protobuf.*;
-import com.protobuf.app.Basilioprotos.*;
+import com.main.app.Mainprotos.*;
 import java.util.Scanner;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
