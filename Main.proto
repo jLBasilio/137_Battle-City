@@ -2,6 +2,7 @@ syntax = "proto2";
 
 package app;
 
+import "player.proto";
 option java_package = "com.main.app";
 option java_outer_classname = "Mainprotos";
 
@@ -12,3 +13,15 @@ message Person {
 }
 
 // Protoc ver: libprotoc 3.6.1
+
+
+message ConnectPacket {
+  enum Update {
+    SELF = 0;
+    NEW = 1;
+  }
+
+  required Player player = 2;
+  optional string lobby_id  = 3;
+  optional ConnectPacket.Update update = 4;
+}
