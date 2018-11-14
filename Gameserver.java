@@ -40,18 +40,15 @@ public class Gameserver implements Runnable {
     System.out.println("\n");
 
     // Set type of request to server
-    // lobbyPacket.setType(TcpPacket.PacketType.CREATE_LOBBY);
-    // lobbyPacket.setMaxPlayers(5); 
-    // System.out.println("Type: " + lobbyPacket.getType());
-    // System.out.println("Max players: " + lobbyPacket.getMaxPlayers());
-    // System.out.println("All lobby fields are set: " + lobbyPacket.isInitialized() + "\n");
-    // toSend = lobbyPacket.build().toByteArray();
+    tcppacket.setType(TcpPacket.PacketType.CREATE_LOBBY);
+    lobbyPacket.setType(TcpPacket.PacketType.CREATE_LOBBY);
+    lobbyPacket.setMaxPlayers(5); 
+    System.out.println("Type: " + lobbyPacket.getType());
+    System.out.println("Max players: " + lobbyPacket.getMaxPlayers());
 
 
-    chatpacket.setType(TcpPacket.PacketType.CHAT);
-    chatpacket.setLobbyId("AB1L");
-    chatpacket.setMessage("Hello");
-    toSend = chatpacket.build().toByteArray();
+    System.out.println("All lobby fields are set: " + lobbyPacket.isInitialized() + "\n");
+    toSend = lobbyPacket.build().toByteArray();
 
 
     // Send byte of request to server
