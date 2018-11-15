@@ -44,6 +44,7 @@ public class Gameserver implements Runnable {
     lobbyPacket.setType(TcpPacket.PacketType.CREATE_LOBBY);
     lobbyPacket.setMaxPlayers(5); 
     System.out.println("Type: " + lobbyPacket.getType());
+    System.out.println("Type: " + lobbyPacket.getType());
     System.out.println("Max players: " + lobbyPacket.getMaxPlayers());
 
 
@@ -58,7 +59,7 @@ public class Gameserver implements Runnable {
       System.out.println("Connected to server: " + serverSocket.getInetAddress() + ":" + serverSocket.getPort() + "\n");
 
       dOut = new DataOutputStream(serverSocket.getOutputStream());
-      dOut.writeInt(1024);
+      dOut.writeInt(2048);
       dOut.write(toSend);
 
       dIn = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
