@@ -6,11 +6,11 @@ public class MapFrame{
 	private JFrame frame;
 	private Canvas canvas;
 
-	private String title;
+	private String mapName;
 	private int width, height;
 
-	public MapFrame(String title,int width,int height){
-		this.title = title;
+	public MapFrame(String mapName,int width,int height){
+		this.mapName = mapName;
 		this.width = width;
 		this.height = height;
 
@@ -18,7 +18,7 @@ public class MapFrame{
 	}
 
 	private void createMapFrame(){
-		frame = new JFrame(title);
+		frame = new JFrame(mapName);
 		frame.setSize(width,height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);

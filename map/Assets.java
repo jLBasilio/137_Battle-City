@@ -6,12 +6,11 @@ public class Assets{
 	public static BufferedImage brick, road, grass, water, steel;
 	public static BufferedImage tankU, tankR, tankD, tankL;
 
-	public static void init(){
-		//loads spritesheet image and create new instance of SpriteSheet class
+	public static void initialize(){
+		
 		SpriteSheet tileSprites = new SpriteSheet(ImageLoader.loadImage("tileSprites.png"));
 		SpriteSheet tankSprites = new SpriteSheet(ImageLoader.loadImage("tankSprites.png"));
 
-		//create textures for tiles by getting a subimage of the spritesheet
 		brick = tileSprites.cropImg(0,0,tileWidth,tileHeight);
 		road = tileSprites.cropImg(tileWidth,0,tileWidth,tileHeight);
 		grass = tileSprites.cropImg(tileWidth*2,0,tileWidth,tileHeight);

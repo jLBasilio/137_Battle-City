@@ -4,7 +4,6 @@ import java.io.IOException;
 
 public class MapUtils{
 	
-	//load and reads map file, and return a string of tile id's
 	public static String loadMapFile(String path){
 		StringBuilder builder = new StringBuilder();
 
@@ -23,7 +22,6 @@ public class MapUtils{
 		return builder.toString();
 	}
 
-	//parse string into int
 	public static int parseInt(String num){
 		try{
 			return Integer.parseInt(num);

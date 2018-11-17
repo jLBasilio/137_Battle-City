@@ -1,10 +1,12 @@
 import java.awt.Graphics;
 
 public abstract class Entity{
+	protected Handler handler;
 	protected float x,y;
 	protected int width, height;
 
-	public Entity(float x, float y, int width, int height){
+	public Entity(Handler handler,float x, float y, int width, int height){
+		this.handler = handler;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -45,8 +47,5 @@ public abstract class Entity{
 
 	public abstract void update();
 
-
 	public abstract void render(Graphics g);
-
-	public abstract void render(Graphics g,int tx,int ty,int dir);
 }

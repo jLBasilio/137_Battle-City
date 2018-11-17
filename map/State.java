@@ -1,16 +1,13 @@
-public class State{
-	private static State currentState = null;
-	protected Map map;
-	
-	public State(Map map){
-		this.map = map;
+import java.awt.Graphics;
+
+public abstract class State{
+	private Handler handler;
+
+	public State(Handler handler){
+		this.handler = handler;
 	}
 
-	public static void setState(State state){
-		currentState = state;
-	}
+	public abstract void update();
 
-	public static State getState(){
-		return currentState;
-	}
+	public abstract void render(Graphics g);
 }

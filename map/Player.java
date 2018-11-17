@@ -1,26 +1,49 @@
 import java.awt.Graphics;
 
 public class Player extends Tank{
-	// public static final int TILEWIDTH = 30, TILEHEIGHT = 60;
-	
-	public Player(float x,float y,int width, int height){
-		super(x,y,width,height);
+	private int dir;
+
+	public Player(Handler handler,float x,float y,int width, int height){
+		super(handler,x,y,width,height);
 	}
 
 	public void update(){
-
+		if (handler.getGame().getKeyHandler().isKeyPressed()) {
+			switch(handler.getGame().getKeyHandler().getDirection()){
+				case 0:
+					dir=0;
+					if((y-2) >= 0){
+						y-=2;
+					}
+					break;
+				case 1:
+					dir=1;
+					if((x+2) <= 870){
+						x+=2;
+					}
+					break;
+				case 2:
+					dir=2;
+					if((y+2) <= 570){
+						y+=2;
+					}
+					break;
+				case 3:
+					dir=3;
+					if((x-2) >= 0){
+						x-=2;
+					}
+					break;
+			}
+		}
 	}
 
 	public void render(Graphics g){
-		g.drawImage(Assets.tankU ,(int)x ,(int)y ,width ,height ,null);
-	}
-
-	public void render(Graphics g,int tx, int ty, int dir){
 		switch(dir){
-			case 0: g.drawImage(Assets.tankU ,tx ,ty ,width ,height ,null);break;
-			case 1: g.drawImage(Assets.tankR ,tx ,ty ,width ,height ,null);break;
-			case 2: g.drawImage(Assets.tankD ,tx ,ty ,width ,height ,null);break;
-			case 3: g.drawImage(Assets.tankL ,tx ,ty ,width ,height ,null);break;
+			case 0: g.drawImage(Assets.tankU ,(int)x ,(int)y ,width ,height ,null);break;
+			case 1: g.drawImage(Assets.tankR ,(int)x ,(int)y ,width ,height ,null);break;
+			case 2: g.drawImage(Assets.tankD ,(int)x ,(int)y ,width ,height ,null);break;
+			case 3: g.drawImage(Assets.tankL ,(int)x ,(int)y ,width ,height ,null);break;
 		}
 	}
 }
