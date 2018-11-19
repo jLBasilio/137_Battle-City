@@ -31,6 +31,8 @@ public class Gameclient implements Runnable {
   TcpPacket.ConnectPacket.Builder connectPacket = TcpPacket.ConnectPacket.newBuilder();
   TcpPacket.ConnectPacket receivedConnectPacket;
 
+  TcpPacket.DisconnectPacket.Builder disconnectPacket = TcpPacket.DisconnectPacket.newBuilder();
+
   TcpPacket.ChatPacket.Builder chatPacket = TcpPacket.ChatPacket.newBuilder();
   TcpPacket.ChatPacket receivedChatPacket;
 
@@ -49,6 +51,9 @@ public class Gameclient implements Runnable {
     connectPacket.setType(TcpPacket.PacketType.CONNECT);
     connectPacket.setPlayer(playerSelf);
     connectPacket.setLobbyId(lobbyId);
+
+    disconnectPacket.setType(TcpPacket.PacketType.DISCONNECT);
+    disconnectPacket.setPlayer(playerSelf);
 
     chatPacket.setType(TcpPacket.PacketType.CHAT);
     chatPacket.setPlayer(playerSelf);
@@ -117,16 +122,27 @@ public class Gameclient implements Runnable {
     try {
 
       /* Start of chat. Do not stop until input quit */
-      System.out.println("\n\nChat Start!\n");
-      while(!((selfMessage = sc.nextLine()).equals("Quit"))) {
+      System.out.println("\n\nChat Start! Type `Quit` to disconnect.\n");
+      while(true) {
+        selfMessage = sc.nextLine();
 
-        chatPacket.setMessage(selfMessage);
-        chatPacket.setLobbyId(lobbyId);
+        if (selfMessage.equals("Quit")) {
 
-        /* Send Chat Packet to server */
-        toSendChat = chatPacket.build().toByteArray();
-        os.write(toSendChat);
+          /* Send Disconnect Packet to server */
+          toSendChat = disconnectPacket.build().toByteArray();
+          os.write(toSendChat);  
+          break;
+          
+        } else {
 
+          chatPacket.setMessage(selfMessage);
+          chatPacket.setLobbyId(lobbyId);
+
+          /* Send Chat Packet to server */
+          toSendChat = chatPacket.build().toByteArray();
+          os.write(toSendChat);
+          
+        }
       }
 
     } catch (Exception e) {

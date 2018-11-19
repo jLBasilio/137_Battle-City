@@ -151,15 +151,26 @@ public class Gameserver implements Runnable {
 
       /* Start of chat. Do not stop until input quit */
       System.out.println("\n\nChat Start!\n");
-      while(!((selfMessage = sc.nextLine()).equals("Quit"))) {
+      while(true) {
+        selfMessage = sc.nextLine();
 
-        chatPacket.setMessage(selfMessage);
-        chatPacket.setLobbyId(lobbyId);
+        if (selfMessage.equals("Quit")) {
 
-        /* Send Chat Packet to server */
-        toSendChat = chatPacket.build().toByteArray();
-        os.write(toSendChat);
+          /* Send Disconnect Packet to server */
+          toSendChat = disconnectPacket.build().toByteArray();
+          os.write(toSendChat);  
+          break;
+          
+        } else {
 
+          chatPacket.setMessage(selfMessage);
+          chatPacket.setLobbyId(lobbyId);
+
+          /* Send Chat Packet to server */
+          toSendChat = chatPacket.build().toByteArray();
+          os.write(toSendChat);
+          
+        }
       }
 
     } catch (Exception e) {
