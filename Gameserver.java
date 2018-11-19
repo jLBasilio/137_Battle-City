@@ -119,12 +119,20 @@ public class Gameserver implements Runnable {
         receiveResult = in.read(toReceiveChat);
 
         /* Skip if CONNECT PACKET */
-        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
           System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
           continue;
         }
 
-        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
+        /* Notify if DISCONNECT PACKET */
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
+          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
+          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
+          continue;
+        }
+
+        /* Parse message if CHAT PACKET */
+        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
           receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
           System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
         }

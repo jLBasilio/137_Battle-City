@@ -90,7 +90,15 @@ public class Gameclient implements Runnable {
           continue;
         }
 
-        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
+        /* Notify if DISCONNECT PACKET */
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
+          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
+          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
+          continue;
+        }
+
+        /* Parse message if CHAT PACKET */
+        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
           receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
           System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
         }
