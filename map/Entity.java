@@ -1,9 +1,11 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public abstract class Entity{
 	protected Handler handler;
 	protected float x,y;
 	protected int width, height;
+	protected Rectangle bounds;
 
 	public Entity(Handler handler,float x, float y, int width, int height){
 		this.handler = handler;
@@ -11,6 +13,8 @@ public abstract class Entity{
 		this.y = y;
 		this.width = width;
 		this.height = height;
+
+		bounds = new Rectangle((int)x,(int)y,width,height);
 	}
 
 	public void setX(float x){
@@ -43,6 +47,10 @@ public abstract class Entity{
 
 	public int getHeight(){
 		return height;
+	}
+
+	public Rectangle getBounds(int dx, int dy){
+		return new Rectangle((int)x + dx,(int)y + dy,width,height);
 	}
 
 	public abstract void update();

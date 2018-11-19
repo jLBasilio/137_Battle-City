@@ -4,8 +4,8 @@ public class SteelTile extends Tile{
 		super(Assets.steel, id);
 	}
 
-	@Override
-	public boolean isPassable(){
-		return false;
-	}
+	// @Override
+	// public boolean isPassable(){
+	// 	return false;
+	// }
 }

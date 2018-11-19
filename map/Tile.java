@@ -27,7 +27,11 @@ public class Tile implements Constants{
 		g.drawImage(texture, x, y, TILE_WIDTH, TILE_HEIGHT, null);
 	}
 
-	public boolean isPassable(){
+	// public boolean isPassable(){
+	// 	return true;
+	// }
+
+	public boolean isSolid(){
 		return true;
 	}
 }

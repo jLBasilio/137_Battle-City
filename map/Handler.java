@@ -1,6 +1,7 @@
 public class Handler{
 	private BattleCity game;
 	private GameMap gameMap;
+	private GameState gameState;
 
 	public Handler(BattleCity game){
 		this.game = game;
@@ -20,5 +21,13 @@ public class Handler{
 
 	public void setGameMap(GameMap gameMap){
 		this.gameMap = gameMap;
+	}
+
+	public GameState getGameState(){
+		return gameState;
+	}
+
+	public void setGameState(GameState gameState){
+		this.gameState = gameState;
 	}
 }

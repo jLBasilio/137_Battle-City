@@ -4,8 +4,8 @@ public class BrickTile extends Tile{
 		super(Assets.brick, id);
 	}
 
-	@Override
-	public boolean isPassable(){
-		return false;
-	}
+	// @Override
+	// public boolean isPassable(){
+	// 	return false;
+	// }
 }

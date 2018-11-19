@@ -4,8 +4,8 @@ public class WaterTile extends Tile{
 		super(Assets.water, id);
 	}
 
-	@Override
-	public boolean isPassable(){
-		return false;
-	}
+	// @Override
+	// public boolean isPassable(){
+	// 	return false;
+	// }
 }
