@@ -21,14 +21,12 @@ public class Gameclient implements Runnable {
   OutputStream os;
   InputStream in;
 
-  byte[] toSendArray;
-  byte[] toReceiveArray;
-  int serverResponseLength, readResult;
+  byte[] toSendArray, toReceiveArray, toSendChat, toReceiveChat;
+  int serverResponseLength, receiveLength, readResult, receiveResult;
   String serverResponse, lobbyId, selfName, selfId, selfMessage;
   Scanner sc = new Scanner(System.in);
 
   PlayerProtos.Player.Builder playerSelf = PlayerProtos.Player.newBuilder();
-  TcpPacket.Builder tcppacket = TcpPacket.newBuilder();
 
   TcpPacket.ConnectPacket.Builder connectPacket = TcpPacket.ConnectPacket.newBuilder();
   TcpPacket.ConnectPacket receivedConnectPacket;
@@ -39,7 +37,7 @@ public class Gameclient implements Runnable {
   Thread gameThread = new Thread(this);
 
 
-  public Gameclient (String lobbyIdIn, String playerName) {
+  public Gameclient (String playerName, String lobbyIdIn) {
 
     System.out.println();
 
@@ -48,10 +46,9 @@ public class Gameclient implements Runnable {
     selfName = playerName;
     lobbyId = lobbyIdIn;
 
-    tcppacket.setType(TcpPacket.PacketType.CREATE_LOBBY);
-
     connectPacket.setType(TcpPacket.PacketType.CONNECT);
     connectPacket.setPlayer(playerSelf);
+    connectPacket.setLobbyId(lobbyId);
 
     chatPacket.setType(TcpPacket.PacketType.CHAT);
     chatPacket.setPlayer(playerSelf);
@@ -63,85 +60,81 @@ public class Gameclient implements Runnable {
       in = serverSocket.getInputStream();
       System.out.println("Connected to server: " + serverSocket.getInetAddress() + ":" + serverSocket.getPort() + "\n");
 
-      gameThread.start();
-
-    } catch(Exception e) { 
-
-      System.err.println("Error: " + e.toString());
-
-    }
-  }
-
-
-  public void run() {
-
-
-    // TODO: Client interface for chat
-
-    try {
-
-      // Set the lobby id and connect to it
-      connectPacket.setLobbyId(lobbyId);
       toSendArray = connectPacket.build().toByteArray();
       os.write(toSendArray);
-
       while((serverResponseLength = in.available()) == 0) {
         // Do nothing lul
       }
       toReceiveArray = new byte[serverResponseLength];
       readResult = in.read(toReceiveArray);
       receivedConnectPacket = TcpPacket.ConnectPacket.parseFrom(toReceiveArray);
-      System.out.println("\n[2]Server response: ");
-      System.out.println("   Player: \t" + receivedConnectPacket.getPlayer().getName());
-      System.out.println("   Player id: \t" + receivedConnectPacket.getPlayer().getId());
-      System.out.println("   Update: \t" + receivedConnectPacket.getUpdate());
-
+      System.out.println("\nServer_response (Connect): ");
+      System.out.println(" Player: \t" + receivedConnectPacket.getPlayer().getName());
+      System.out.println(" Player id: \t" + receivedConnectPacket.getPlayer().getId());
+      System.out.println(" Update: \t" + receivedConnectPacket.getUpdate());
       selfId = receivedConnectPacket.getPlayer().getId();
-      
 
-      /* Start of chat. Do not stop until input quit */
-      System.out.println("\n\nChat Start!\n");
-      System.out.print(selfName + ": ");
-      while(!((selfMessage = sc.next()).equals("Quit"))) {
+      /* For continuous send */
+      gameThread.start();
 
-        System.out.print(selfName + ": ");
+      /* For continuous receive */
+      while(true) {
+        while((receiveLength = in.available()) == 0) { /* Do nothing lul */ }
 
-        chatPacket.setMessage(selfMessage);
-        chatPacket.setLobbyId(lobbyId);
+        toReceiveChat = new byte[receiveLength];
+        receiveResult = in.read(toReceiveChat);
 
-        /* Send Chat Packet to server */
-        toSendArray = chatPacket.build().toByteArray();
-        while((serverResponseLength = in.available()) == 0) {
-          // Do nothing lul
+        /* Skip if CONNECT PACKET */
+        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
+          System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
+          continue;
         }
-        toReceiveArray = new byte[serverResponseLength];
-        readResult = in.read(toReceiveArray);
-        receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveArray);
-        System.out.println("One cycle");
-        System.out.println("\n[3]Server response: ");
-        System.out.println("   Message: \t" + receivedChatPacket.getMessage());
-        System.out.println("   Player Name: \t" + receivedChatPacket.getPlayer().getName());
-        System.out.println("   Player id: \t" + receivedChatPacket.getPlayer().getId());
 
+        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
+          receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
+          System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
+        }
 
       }
 
-
-    } catch (Exception e) {
-      System.err.println("Error: " + e.toString());
+    } catch(Exception e) { 
+      System.err.println("[Client] main: " + e.toString());
     }
 
   }
 
 
+  public void run() {
+    
+    try {
+
+      /* Start of chat. Do not stop until input quit */
+      System.out.println("\n\nChat Start!\n");
+      while(!((selfMessage = sc.nextLine()).equals("Quit"))) {
+
+        chatPacket.setMessage(selfMessage);
+        chatPacket.setLobbyId(lobbyId);
+
+        /* Send Chat Packet to server */
+        toSendChat = chatPacket.build().toByteArray();
+        os.write(toSendChat);
+
+      }
+
+    } catch (Exception e) {
+      System.err.println("Error in run(): " + e.toString());
+    }
+  } 
+
+
   public static void main (String[] args) throws Exception {
 
     if (args.length != 2) {
-      System.out.println("Usage: java com.main.app.Gameclient <lobbyId> <playerName>");
+      System.out.println("Usage: java com.main.app.Gameclient <playerName> <lobbyId>");
       System.exit(1);
     }
 
-    new Gameserver(Integer.parseInt(args[0]), args[1]);
+    new Gameclient(args[0], args[1]);
 
   }
 
