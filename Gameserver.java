@@ -33,6 +33,8 @@ public class Gameserver implements Runnable {
 
   TcpPacket.ConnectPacket.Builder connectPacket = TcpPacket.ConnectPacket.newBuilder();
   TcpPacket.ConnectPacket receivedConnectPacket;
+  
+  TcpPacket.DisconnectPacket.Builder disconnectPacket = TcpPacket.DisconnectPacket.newBuilder();
 
   TcpPacket.ChatPacket.Builder chatPacket = TcpPacket.ChatPacket.newBuilder();
   TcpPacket.ChatPacket receivedChatPacket;
