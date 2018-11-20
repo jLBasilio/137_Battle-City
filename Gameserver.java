@@ -33,7 +33,7 @@ public class Gameserver implements Runnable {
 
   TcpPacket.ConnectPacket.Builder connectPacket = TcpPacket.ConnectPacket.newBuilder();
   TcpPacket.ConnectPacket receivedConnectPacket;
-  
+
   TcpPacket.DisconnectPacket.Builder disconnectPacket = TcpPacket.DisconnectPacket.newBuilder();
 
   TcpPacket.ChatPacket.Builder chatPacket = TcpPacket.ChatPacket.newBuilder();
@@ -62,6 +62,9 @@ public class Gameserver implements Runnable {
 
     connectPacket.setType(TcpPacket.PacketType.CONNECT);
     connectPacket.setPlayer(playerSelf);
+
+    disconnectPacket.setType(TcpPacket.PacketType.DISCONNECT);
+    disconnectPacket.setPlayer(playerSelf);
 
     chatPacket.setType(TcpPacket.PacketType.CHAT);
     chatPacket.setPlayer(playerSelf);
