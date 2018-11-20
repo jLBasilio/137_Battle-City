@@ -53,6 +53,10 @@ public abstract class Entity{
 		return new Rectangle((int)x + dx,(int)y + dy,width,height);
 	}
 
+	public Rectangle getBounds(){
+		return new Rectangle((int)x,(int)y,width,height);
+	}
+
 	public abstract void update();
 
 	public abstract void render(Graphics g);
