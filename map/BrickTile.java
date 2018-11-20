@@ -1,8 +1,8 @@
-public class BrickTile extends Tile{
+public class BrickTile{
 	
-	public BrickTile(int id){
-		super(Assets.brick, id);
-	}
+	// public BrickTile(int id){
+	// 	super(Assets.brick, id);
+	// }
 
 	// @Override
 	// public boolean isPassable(){

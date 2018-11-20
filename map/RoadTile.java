@@ -1,11 +1,11 @@
-public class RoadTile extends Tile{
+public class RoadTile{
 	
-	public RoadTile(int id){
-		super(Assets.road, id);
-	}
+	// public RoadTile(int id){
+	// 	super(Assets.road, id);
+	// }
 
-	@Override
-	public boolean isSolid(){
-		return false;
-	}
+	// @Override
+	// public boolean isSolid(){
+	// 	return false;
+	// }
 }

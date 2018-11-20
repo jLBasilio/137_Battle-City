@@ -2,7 +2,7 @@ public abstract class PowerUp extends Entity{
 	
 	protected boolean shield, atkBonus, speedBonus;
 
-	public PowerUp(Handler handler,float x, float y, int width, int height){
+	public PowerUp(Handler handler,int x, int y, int width, int height){
 		super(handler,x,y,width,height);
 	}
 

@@ -1,37 +1,46 @@
 import java.awt.image.BufferedImage;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 public class Tile implements Constants{
-	public static Tile[] tiles = new Tile[5];
 
-	public static Tile roadTile = new RoadTile(0);
-	public static Tile brickTile = new BrickTile(1);
-	public static Tile grassTile = new GrassTile(2);
-	public static Tile waterTile = new WaterTile(3);
-	public static Tile steelTile = new SteelTile(4);
+  protected final int x,y;
+  protected int id;
 
-	protected BufferedImage texture;
-	protected final int id;
-
-	public Tile(BufferedImage texture, int id){
-		this.texture = texture;
-		this.id = id;
-		tiles[this.id] = this;
+	public Tile(int x, int y, int id){
+    this.x=x;
+    this.y=y;
+    this.id=id;
 	}
 
 	public void update(){
 
 	}
 
-	public void render(Graphics g, int x, int y){
-		g.drawImage(texture, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+	public void render(Graphics g){
+		switch(id){
+			case 0:
+				g.drawImage(Assets.road, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+				break;
+			case 1:
+        g.drawImage(Assets.brick, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+				break;
+			case 2:
+        g.drawImage(Assets.grass, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+				break;
+			case 3:
+        g.drawImage(Assets.water, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+				break;
+			case 4:
+        g.drawImage(Assets.steel, x, y, TILE_WIDTH, TILE_HEIGHT, null);
+				break;
+		}
 	}
+  public void setID(int id){
+    this.id = id
+  }
 
-	// public boolean isPassable(){
-	// 	return true;
-	// }
-
-	public boolean isSolid(){
-		return true;
-	}
+  public Rectangle getBounds(){
+    return new Rectangle(x,y,TILE_WIDTH,TILE_HEIGHT);
+  }
 }

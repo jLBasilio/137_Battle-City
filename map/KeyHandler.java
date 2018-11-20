@@ -4,7 +4,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler extends KeyAdapter{
 	protected int dir;
-	protected boolean pressed;
+	protected boolean pressed,firing;
 
 	public KeyHandler(){
 
@@ -28,11 +28,15 @@ public class KeyHandler extends KeyAdapter{
 				pressed = true;
 				dir=3;
 				break;
+			case KeyEvent.VK_SPACE:
+				firing = true;
+				break;
 		}
 	}
 
 	public void keyReleased(KeyEvent ke){
 		pressed = false;
+		firing = false;
 	}
 
 	public int getDirection(){
@@ -41,5 +45,9 @@ public class KeyHandler extends KeyAdapter{
 
 	public boolean isKeyPressed(){
 		return pressed;
+	}
+
+	public boolean isFiring(){
+		return firing;
 	}
 }

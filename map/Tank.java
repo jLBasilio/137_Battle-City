@@ -2,7 +2,7 @@ public abstract class Tank extends Entity{
 	
 	protected int moveSpeed, health, atkDmg, powerUp;
 
-	public Tank(Handler handler,float x, float y, int width, int height){
+	public Tank(Handler handler,int x, int y, int width, int height){
 		super(handler,x,y,width,height);
 
 		moveSpeed = 3;

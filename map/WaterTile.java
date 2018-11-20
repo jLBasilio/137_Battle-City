@@ -1,8 +1,8 @@
-public class WaterTile extends Tile{
+public class WaterTile{
 	
-	public WaterTile(int id){
-		super(Assets.water, id);
-	}
+	// public WaterTile(int id){
+	// 	super(Assets.water, id);
+	// }
 
 	// @Override
 	// public boolean isPassable(){

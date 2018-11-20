@@ -1,8 +1,8 @@
-public class SteelTile extends Tile{
+public class SteelTile{
 	
-	public SteelTile(int id){
-		super(Assets.steel, id);
-	}
+	// public SteelTile(int id){
+	// 	super(Assets.steel, id);
+	// }
 
 	// @Override
 	// public boolean isPassable(){

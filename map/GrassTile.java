@@ -1,6 +1,6 @@
-public class GrassTile extends Tile{
+public class GrassTile{
 	
-	public GrassTile(int id){
-		super(Assets.grass, id);
-	}
+	// public GrassTile(int id){
+	// 	super(Assets.grass, id);
+	// }
 }
