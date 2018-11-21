@@ -86,7 +86,7 @@ public class Player extends Tank implements Constants{
     }
 
     if(handler.getGame().getKeyHandler().isFiring()){
-      bullets.add(new Bullet(x+TILE_WIDTH,y+TILE_HEIGHT/2,dir));
+      bullets.add(new Bullet(handler,x+TILE_WIDTH,y+TILE_HEIGHT/2,dir));
       System.out.println("Bullet fired!");
     }
   }

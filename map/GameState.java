@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameState extends State{
 	private GameMap gameMap;
@@ -14,10 +16,26 @@ public class GameState extends State{
 	public void update(){
 		gameMap.update();
 		player.update();
+
+		List<Bullet> bullets = player.getBullets();
+
+		for(int i = 0; i < bullets.size(); i++){
+			Bullet bullet = bullets.get(i);
+
+			if(bullet.isVisible())
+				bullet.update();
+		}
 	}
 
 	public void render(Graphics g){
 		gameMap.render(g);
 		player.render(g);
+
+		List<Bullet> bullets = player.getBullets();
+
+		for(Bullet bullet: bullets){
+			if(bullet.isVisible())
+				bullet.render(g);
+		}
 	}
 }

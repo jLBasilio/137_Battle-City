@@ -1,10 +1,15 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bullet implements Constants{
   private int x,y,dir;
   private boolean visibility;
+  private Handler handler;
 
-  public Bullet(int x,int y, int dir){
+  public Bullet(Handler handler,int x,int y, int dir){
+    this.handler = handler;
     this.x = x;
     this.y = y;
     this.dir = dir;
@@ -59,6 +64,8 @@ public class Bullet implements Constants{
           x-=BULLET_SPEED;
           break;
       }
+      if(collision())
+        visibility = false;
     }
   }
 
@@ -70,5 +77,22 @@ public class Bullet implements Constants{
       case 2: g.drawImage(Assets.tankD ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
       case 3: g.drawImage(Assets.tankL ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
     }
+  }  
+
+  public boolean collision(){
+    System.out.println("Detecting collision.");
+
+    Rectangle r = new Rectangle(x,y,BULLET_WIDTH,BULLET_HEIGHT);
+
+    List<Tile> tiles = handler.getGameMap().getTiles();
+
+    for(Tile tile : tiles){
+      Rectangle r2 = tile.getBounds();
+      if (r.intersects(r2)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
