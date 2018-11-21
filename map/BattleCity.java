@@ -65,9 +65,22 @@ public class BattleCity implements Runnable,Constants{
 	public void run(){
 		initialize();
 
+		int fps = 60;
+		double timePerUpdate = 1000000000 / fps;
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+
 		while(running){
-			update();
-			render();
+			now = System.nanoTime();
+			delta += (now - lastTime) / timePerUpdate;
+			lastTime = now;
+
+			if(delta >= 1){
+				update();
+				render();
+				delta--;
+			}
 		}
 	}
 

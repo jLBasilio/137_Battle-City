@@ -37,7 +37,7 @@ public class Tile implements Constants{
 		}
 	}
   public void setID(int id){
-    this.id = id
+    this.id = id;
   }
 
   public Rectangle getBounds(){

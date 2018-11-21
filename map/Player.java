@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Player extends Tank implements Constants{
 	private int dir, prevDir = 0;
+  private List<Bullet> bullets = new ArrayList<>();
 
 	public Player(Handler handler,int x,int y,int width, int height){
 		super(handler,x,y,width,height);
@@ -83,6 +84,11 @@ public class Player extends Tank implements Constants{
           break;
       }
     }
+
+    if(handler.getGame().getKeyHandler().isFiring()){
+      bullets.add(new Bullet(x+TILE_WIDTH,y+TILE_HEIGHT/2,dir));
+      System.out.println("Bullet fired!");
+    }
   }
 
 	public void render(Graphics g){
@@ -137,4 +143,8 @@ public class Player extends Tank implements Constants{
 
     return false;
 	}
+
+  public List<Bullet> getBullets(){
+    return bullets;
+  }
 }

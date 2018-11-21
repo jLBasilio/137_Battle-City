@@ -40,7 +40,7 @@ public class GameMap implements Constants{
 		}
 	}
 
-	public List getTiles(){
+	public List<Tile> getTiles(){
 		return solidTiles;
 	}
 }
