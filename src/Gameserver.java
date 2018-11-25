@@ -41,6 +41,7 @@ public class Gameserver implements Runnable {
 
   Thread gameThread = new Thread(this);
 
+
   public Gameserver(String playerName, int noOfPlayers) {
 
     /* FLOW
@@ -75,6 +76,7 @@ public class Gameserver implements Runnable {
     try {
       
       serverSocket = new Socket(IP_ADDRESS, PORT);
+      System.out.println("Checkpoint");
       os = serverSocket.getOutputStream();
       in = serverSocket.getInputStream();
       System.out.println("Connected to server: " + serverSocket.getInetAddress() + ":" + serverSocket.getPort());
