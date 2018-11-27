@@ -12,6 +12,11 @@ public class Player extends Tank implements Constants{
 	}
 
   public void update(){
+    double timerPerFire = 2000000000;
+    double delta = 0;
+    long now;
+    long lastTime = System.nanoTime();
+
     if (handler.getGame().getKeyHandler().isKeyPressed()) {
       switch(handler.getGame().getKeyHandler().getDirection()){
         case 0: // move up
@@ -86,7 +91,7 @@ public class Player extends Tank implements Constants{
     }
 
     if(handler.getGame().getKeyHandler().isFiring()){
-      bullets.add(new Bullet(handler,x+TILE_WIDTH,y+TILE_HEIGHT/2,dir));
+      bullets.add(new Bullet(handler,x,y,dir));
       System.out.println("Bullet fired!");
     }
   }
@@ -146,5 +151,9 @@ public class Player extends Tank implements Constants{
 
   public List<Bullet> getBullets(){
     return bullets;
+  }
+
+  public void removeBullet(int i){
+    this.bullets.remove(i);
   }
 }
