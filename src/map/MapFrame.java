@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import javax.swing.BorderFactory;
+import java.awt.Color;
 
 public class MapFrame {
 	private JFrame frame;
@@ -35,26 +38,30 @@ public class MapFrame {
 		frame.setVisible(true);
 
 		wrapperPanel =  new JPanel(new BorderLayout());
-
-		gamePanel = new JPanel();
-
-		chatPanel = new JPanel(new BorderLayout());
-		chatLogs = new JTextArea();
-		chatLogs.append("Hello");
-
-		chatPanel.add(chatLogs, BorderLayout.CENTER);
+		wrapperPanel.setPreferredSize(new Dimension(width,height));
+		wrapperPanel.setBorder(BorderFactory.createLineBorder(Color.blue));
 
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(900, 600));
 		canvas.setFocusable(false);
 
+		chatLogs = new JTextArea();
+		chatLogs.append("Chat Panel");
+
+		gamePanel = new JPanel();
+		gamePanel.setPreferredSize(new Dimension(900,600));
+		gamePanel.setBorder(BorderFactory.createLineBorder(Color.red));
 		gamePanel.add(canvas);
-		gamePanel.add(chatPanel, BorderLayout.CENTER);
 
-		wrapperPanel.add(gamePanel, BorderLayout.CENTER);
-		// wrapperPanel.add(chatPanel, BorderLayout.EAST);
+		chatPanel = new JPanel();
+		chatPanel.setPreferredSize(new Dimension(300,600));
+		chatPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+		chatPanel.add(chatLogs);
 
-		// frame.add(canvas);
+
+		wrapperPanel.add(gamePanel,BorderLayout.WEST);
+		wrapperPanel.add(chatPanel,BorderLayout.EAST);
+
 		frame.add(wrapperPanel);
 		frame.pack();
 	}	
