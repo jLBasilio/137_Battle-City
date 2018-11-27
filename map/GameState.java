@@ -24,6 +24,9 @@ public class GameState extends State{
 
 			if(bullet.isVisible())
 				bullet.update();
+			else
+				player.removeBullet(i);
+				// bullets.remove(i);
 		}
 	}
 
