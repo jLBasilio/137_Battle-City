@@ -1,10 +1,19 @@
 import javax.swing.JFrame;
 import java.awt.Canvas;
 import java.awt.Dimension;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import java.awt.BorderLayout;
 
-public class MapFrame{
+public class MapFrame {
 	private JFrame frame;
 	private Canvas canvas;
+	private JPanel wrapperPanel;
+
+	private JPanel gamePanel;
+	private JPanel chatPanel;
+	private JTextArea chatLogs;
+	private JTextArea chatInput;
 
 	private String mapName;
 	private int width, height;
@@ -25,11 +34,28 @@ public class MapFrame{
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
+		wrapperPanel =  new JPanel(new BorderLayout());
+
+		gamePanel = new JPanel();
+
+		chatPanel = new JPanel(new BorderLayout());
+		chatLogs = new JTextArea();
+		chatLogs.append("Hello");
+
+		chatPanel.add(chatLogs, BorderLayout.CENTER);
+
 		canvas = new Canvas();
-		canvas.setPreferredSize(new Dimension(width,height));
+		canvas.setPreferredSize(new Dimension(900, 600));
 		canvas.setFocusable(false);
 
-		frame.add(canvas);
+		gamePanel.add(canvas);
+		gamePanel.add(chatPanel, BorderLayout.CENTER);
+
+		wrapperPanel.add(gamePanel, BorderLayout.CENTER);
+		// wrapperPanel.add(chatPanel, BorderLayout.EAST);
+
+		// frame.add(canvas);
+		frame.add(wrapperPanel);
 		frame.pack();
 	}	
 

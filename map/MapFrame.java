@@ -31,7 +31,7 @@ public class MapFrame{
 
 		frame.add(canvas);
 		frame.pack();
-	}	
+	}
 
 	public JFrame getFrame(){
 		return this.frame;
