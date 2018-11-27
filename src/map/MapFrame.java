@@ -59,7 +59,7 @@ public class MapFrame {
 		chatPanel.add(chatLogs);
 
 
-		wrapperPanel.add(gamePanel,BorderLayout.WEST);
+		wrapperPanel.add(canvas,BorderLayout.WEST);
 		wrapperPanel.add(chatPanel,BorderLayout.EAST);
 
 		frame.add(wrapperPanel);
