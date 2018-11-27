@@ -72,23 +72,29 @@ public class Bullet implements Constants{
   public void render(Graphics g){
     //render sprite base on the direction the tank is facing/moving
     switch(dir){
-      case 0: g.drawImage(Assets.tankU ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
-      case 1: g.drawImage(Assets.tankR ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
-      case 2: g.drawImage(Assets.tankD ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
-      case 3: g.drawImage(Assets.tankL ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+      case 0: g.drawImage(Assets.tankU ,x-5+TILE_WIDTH/2 ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+      case 1: g.drawImage(Assets.tankR ,x+20 ,y-5+TILE_HEIGHT/2 ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+      case 2: g.drawImage(Assets.tankD ,x-5+TILE_WIDTH/2 ,y+20 ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+      case 3: g.drawImage(Assets.tankL ,x ,y-5+TILE_HEIGHT/2 ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
     }
   }  
 
   public boolean collision(){
-    System.out.println("Detecting collision.");
+    System.out.println("Detecting bullet collision.");
 
     Rectangle r = new Rectangle(x,y,BULLET_WIDTH,BULLET_HEIGHT);
 
     List<Tile> tiles = handler.getGameMap().getTiles();
 
+    if(x < 0 || x >= 900 || y < 0 || y >= 600){
+      System.out.println("Bullet out of bounds.");
+      return true;
+    }
+
     for(Tile tile : tiles){
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
+        System.out.println("Collision with tile.");
         return true;
       }
     }
