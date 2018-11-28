@@ -6,6 +6,7 @@ public class GameMap implements Constants{
 	private int[][] mapTiles;
 	private List<Tile> solidTiles = new ArrayList<Tile>();
 	private List<Tile> roadTiles = new ArrayList<Tile>();
+	private List<Coordinates> spawnAreas = new ArrayList<Coordinates>();
 
 	public GameMap(String mapFilePath){
 		loadMap(mapFilePath,30,20);
@@ -34,13 +35,19 @@ public class GameMap implements Constants{
 				mapTiles[x][y] = MapUtils.parseInt(tokens[(x+y*col)]);
 				if(mapTiles[x][y] > 0)
 					solidTiles.add(new Tile(x*TILE_WIDTH,y*TILE_HEIGHT,mapTiles[x][y]));
-				else
+				else{
 					roadTiles.add(new Tile(x*TILE_WIDTH,y*TILE_HEIGHT,mapTiles[x][y]));
+					spawnAreas.add(new Coordinates(x*TILE_WIDTH,y*TILE_HEIGHT,true));
+				}
 			}
 		}
 	}
 
 	public List<Tile> getTiles(){
 		return solidTiles;
+	}
+
+	public List<Coordinates> getSpawnAreas(){
+		return spawnAreas;
 	}
 }
