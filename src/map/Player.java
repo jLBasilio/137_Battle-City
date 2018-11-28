@@ -7,6 +7,10 @@ public class Player extends Tank implements Constants{
 	private int dir, prevDir = 0;
   private List<Bullet> bullets = new ArrayList<>();
 
+  private long bulletSpawnDelay = 250000000;
+  private long currentTime;
+  private long shootingTime = 0;
+
 	public Player(Handler handler,int x,int y,int width, int height){
 		super(handler,x,y,width,height);
 	}
@@ -23,7 +27,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ top!");
-                y+=1;
+                // y+=1;
               }
             }
           }
@@ -40,7 +44,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ right!");
-                x-=1;
+                // x-=1;
               }
             }
           }
@@ -57,7 +61,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ bottom!");
-                y-=1;
+                // y-=1;
               }
             }
           }
@@ -74,7 +78,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ left!");
-                x+=1;
+                // x+=1;
               }
             }
           }
@@ -85,8 +89,16 @@ public class Player extends Tank implements Constants{
       }
     }
 
-    if(handler.getGame().getKeyHandler().isFiring()){
-      bullets.add(new Bullet(handler,x+TILE_WIDTH,y+TILE_HEIGHT/2,dir));
+    currentTime = System.nanoTime();
+
+    if(handler.getGame().getKeyHandler().isFiring() && currentTime - shootingTime > bulletSpawnDelay){
+      shootingTime = System.nanoTime();
+      switch(dir){
+        case 0: bullets.add(new Bullet(handler ,x-5+TILE_WIDTH/2 ,y ,dir));break;
+        case 1: bullets.add(new Bullet(handler ,x+20 ,y-5+TILE_HEIGHT/2 ,dir));break;
+        case 2: bullets.add(new Bullet(handler ,x-5+TILE_WIDTH/2 ,y+20 ,dir));break;
+        case 3: bullets.add(new Bullet(handler ,x ,y-5+TILE_HEIGHT/2 ,dir));break;
+      }
       System.out.println("Bullet fired!");
     }
   }

@@ -80,15 +80,21 @@ public class Bullet implements Constants{
   }  
 
   public boolean collision(){
-    System.out.println("Detecting collision.");
+    System.out.println("Detecting bullet collision.");
 
     Rectangle r = new Rectangle(x,y,BULLET_WIDTH,BULLET_HEIGHT);
 
     List<Tile> tiles = handler.getGameMap().getTiles();
 
+    if(x < 0 || x >= 900 || y < 0 || y >= 600){
+      System.out.println("Bullet out of bounds.");
+      return true;
+    }
+
     for(Tile tile : tiles){
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
+        System.out.println("Collision with tile.");
         return true;
       }
     }
