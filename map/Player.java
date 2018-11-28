@@ -28,7 +28,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ top!");
-                y+=1;
+                // y+=1;
               }
             }
           }
@@ -45,7 +45,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ right!");
-                x-=1;
+                // x-=1;
               }
             }
           }
@@ -62,7 +62,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ bottom!");
-                y-=1;
+                // y-=1;
               }
             }
           }
@@ -79,7 +79,7 @@ public class Player extends Tank implements Constants{
               }
               else{
                 System.out.println("Collision detected @ left!");
-                x+=1;
+                // x+=1;
               }
             }
           }

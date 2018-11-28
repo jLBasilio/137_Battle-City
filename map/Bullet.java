@@ -71,6 +71,12 @@ public class Bullet implements Constants{
 
   public void render(Graphics g){
     //render sprite base on the direction the tank is facing/moving
+    // switch(dir){
+    //   case 0: g.drawImage(Assets.tankU ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+    //   case 1: g.drawImage(Assets.tankR ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+    //   case 2: g.drawImage(Assets.tankD ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+    //   case 3: g.drawImage(Assets.tankL ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
+    // }
     switch(dir){
       case 0: g.drawImage(Assets.tankU ,x-5+TILE_WIDTH/2 ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
       case 1: g.drawImage(Assets.tankR ,x+20 ,y-5+TILE_HEIGHT/2 ,BULLET_WIDTH ,BULLET_HEIGHT ,null);break;
