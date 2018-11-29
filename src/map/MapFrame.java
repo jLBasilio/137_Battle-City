@@ -50,7 +50,6 @@ public class MapFrame {
 		canvas.setPreferredSize(new Dimension(900, 600));
 		canvas.setFocusable(false);
 
-
 		chatLogs = new JTextArea(30, 25);
 		chatLogs.append("Chat Panel");
 		chatLogs.setFocusable(false);
@@ -58,15 +57,6 @@ public class MapFrame {
 		chatLogsScroll = new JScrollPane(chatLogs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		chatInput = new JTextArea(8, 25);
-		chatInput.append("Input chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat hereInput chat here\n\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
-		chatInput.append("Input chat here\n");
 		chatInput.append("Input chat here\n");
 		chatInput.setLineWrap(true);
 		chatInput.setWrapStyleWord(true);
