@@ -1,4 +1,4 @@
-# CMSC137
+# CMSC137 - BattleCity by JavBoiz
 
 ## Compile
 `javac -d . *.java`
