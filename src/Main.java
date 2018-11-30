@@ -37,11 +37,17 @@ public class Main implements Runnable {
 
   Gameserver gameServer;
   String lobbyId, playerName;
+  Thread gameServerThread;
+
   int maxPlayers;
 
   public Main() {
 
     backgroundImage = "assets/mainBackground.png";
+    lobbyId = "";
+
+    gameServerThread = new Thread(this);
+
 
     gbc = new GridBagConstraints();
     gbc.insets = new Insets(10, 10, 10, 10);
@@ -245,10 +251,9 @@ public class Main implements Runnable {
         /* Create the chat server */
         playerName = playerNameInput.getText();
         maxPlayers = Integer.parseInt(maxPlayersInput.getText());
+        gameServerThread.start();
 
-        // gameServer = new Thread(new Gameserver(playerName, maxPlayers));
-        // lobbyId = gameServer.lobbyId;
-
+        System.out.println("Wow");
         mainFrame.setContentPane(lobbyIdPanel);
         mainFrame.invalidate();
         mainFrame.validate();
@@ -291,9 +296,10 @@ public class Main implements Runnable {
   @Override
   public void run() {
 
-
-
-    
+    // TODO: NOT WORKING
+    gameServer = new Gameserver(playerName, maxPlayers);
+    lobbyId = gameServer.getLobbyId();
+    System.out.println("Lobby Id retrieved.");
   }
 
 

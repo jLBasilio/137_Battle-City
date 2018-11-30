@@ -190,6 +190,10 @@ public class Gameserver implements Runnable {
     }
   } 
 
+  public synchronized String getLobbyId() {
+    System.out.println("Lobby Id sent: " + this.lobbyId);
+    return this.lobbyId;
+  }
 
   public static void main (String[] args) throws Exception {
 
