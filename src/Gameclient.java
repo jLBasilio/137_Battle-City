@@ -23,7 +23,7 @@ public class Gameclient implements Runnable {
 
   byte[] toSendArray, toReceiveArray, toSendChat, toReceiveChat;
   int serverResponseLength, receiveLength, readResult, receiveResult;
-  String serverResponse, lobbyId, selfName, selfId, selfMessage;
+  String serverResponse, lobbyId, selfName, selfId, selfMessage, alertMessage, receivedMessage;
   Scanner sc = new Scanner(System.in);
 
   PlayerProtos.Player.Builder playerSelf = PlayerProtos.Player.newBuilder();
@@ -79,36 +79,35 @@ public class Gameclient implements Runnable {
       System.out.println(" Update: \t" + receivedConnectPacket.getUpdate());
       selfId = receivedConnectPacket.getPlayer().getId();
 
-      /* For continuous send */
+      /* For continuous receive */
       gameThread.start();
 
-      /* For continuous receive */
+      /* For continuous send */
       while(true) {
-        while((receiveLength = in.available()) == 0) { /* Do nothing lul */ }
+        selfMessage = sc.nextLine();
 
-        toReceiveChat = new byte[receiveLength];
-        receiveResult = in.read(toReceiveChat);
+        if (selfMessage.equals("Quit")) {
 
-        /* Skip if CONNECT PACKET */
-        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
-          System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
-          continue;
+          /* Send Disconnect Packet to server */
+          toSendChat = disconnectPacket.build().toByteArray();
+          os.write(toSendChat);  
+          System.out.println("You have disconnected.");
+          break;
+          
+        } else {
+
+          chatPacket.setMessage(selfMessage);
+          chatPacket.setLobbyId(lobbyId);
+
+          /* Send Chat Packet to server */
+          toSendChat = chatPacket.build().toByteArray();
+          os.write(toSendChat);
+          
         }
-
-        /* Notify if DISCONNECT PACKET */
-        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
-          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
-          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
-          continue;
-        }
-
-        /* Parse message if CHAT PACKET */
-        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
-          receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
-          System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
-        }
-
       }
+
+
+
 
     } catch(Exception e) { 
       System.err.println("[Client] main: " + e.toString());
@@ -124,25 +123,34 @@ public class Gameclient implements Runnable {
       /* Start of chat. Do not stop until input quit */
       System.out.println("\n\nChat Start! Type `Quit` to disconnect.\n");
       while(true) {
-        selfMessage = sc.nextLine();
 
-        if (selfMessage.equals("Quit")) {
+        while((receiveLength = in.available()) == 0) { /* Do nothing lul */ }
 
-          /* Send Disconnect Packet to server */
-          toSendChat = disconnectPacket.build().toByteArray();
-          os.write(toSendChat);  
-          break;
-          
-        } else {
+        toReceiveChat = new byte[receiveLength];
+        receiveResult = in.read(toReceiveChat);
 
-          chatPacket.setMessage(selfMessage);
-          chatPacket.setLobbyId(lobbyId);
-
-          /* Send Chat Packet to server */
-          toSendChat = chatPacket.build().toByteArray();
-          os.write(toSendChat);
-          
+        /* Skip if CONNECT PACKET */
+        if(TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
+          System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
+          alertMessage = TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!";
+          continue;
         }
+
+        /* Notify if DISCONNECT PACKET */
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
+          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
+          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
+          alertMessage = TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.";
+          continue;
+        }
+
+        /* Parse message if CHAT PACKET */
+        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
+          receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
+          System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
+          receivedMessage = receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage();
+        }
+
       }
 
     } catch (Exception e) {

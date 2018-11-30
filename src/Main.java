@@ -19,30 +19,29 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 
-public class Main extends JPanel {
+public class Main implements Runnable {
 
   BackgroundPanel bp;
-  
   GridBagConstraints gbc;
-  
   JButton startButton, helpButton, exitButton;
   JButton createLobbyButton, joinLobbyButton, createBackButton;
   JButton confirmButton, serverBackButton;
+  JButton lobbyStartButton, lobbyBackButton;
+
   JButton testButton, testButton2, testButton3, testButton4, testButton5;
-
   JFrame mainFrame;
-
-  JLabel playerNameLabel, maxPlayersLabel;
-  
+  JLabel playerNameLabel, maxPlayersLabel, lobbyIdLabel;
   JPanel startPanel, createPanel, serverPanel, lobbyIdPanel;
-
-  JTextField playerName, maxPlayers;
-
+  JTextField playerNameInput, maxPlayersInput, lobbyIdInput;
   String backgroundImage;
+
+  Gameserver gameServer;
+  String lobbyId, playerName;
+  int maxPlayers;
 
   public Main() {
 
-    backgroundImage = "../assets/mainBackground.png";
+    backgroundImage = "assets/mainBackground.png";
 
     gbc = new GridBagConstraints();
     gbc.insets = new Insets(10, 10, 10, 10);
@@ -64,8 +63,8 @@ public class Main extends JPanel {
     joinLobbyButton.setPreferredSize(new Dimension(240, 50));
 
     // ====== SERVER PANEL ====== //
-    playerName = new JTextField(20);
-    maxPlayers = new JTextField(20);
+    playerNameInput = new JTextField(20);
+    maxPlayersInput = new JTextField(20);
     playerNameLabel = new JLabel("Your Name");
     maxPlayersLabel = new JLabel("Max Players");
     confirmButton = new JButton("CONFIRM");
@@ -84,6 +83,14 @@ public class Main extends JPanel {
     testButton4.setPreferredSize(new Dimension(240, 50));
     testButton5 = new JButton("TEST");
     testButton5.setPreferredSize(new Dimension(240, 50));
+
+    lobbyIdInput = new JTextField(20);
+    lobbyIdLabel = new JLabel("LOBBY ID");
+    lobbyStartButton = new JButton("START GAME");
+    lobbyStartButton.setPreferredSize(new Dimension(240, 50));
+    lobbyBackButton = new JButton("BACK");
+    lobbyBackButton.setPreferredSize(new Dimension(200, 50));
+
 
 
     /* ========== START(1) PANEL =========== */    
@@ -134,13 +141,13 @@ public class Main extends JPanel {
     gbc.gridy = 0;
     serverPanel.add(playerNameLabel, gbc);
     gbc.gridx = 1;
-    serverPanel.add(playerName, gbc);
+    serverPanel.add(playerNameInput, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 1;
     serverPanel.add(maxPlayersLabel, gbc);
     gbc.gridx = 1;
-    serverPanel.add(maxPlayers, gbc);
+    serverPanel.add(maxPlayersInput, gbc);
 
     gbc.gridx = 0;
     gbc.gridy = 2;
@@ -155,7 +162,17 @@ public class Main extends JPanel {
     lobbyIdPanel = new BackgroundPanel(backgroundImage);
     lobbyIdPanel.setLayout(new GridBagLayout());
 
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    lobbyIdPanel.add(lobbyIdLabel, gbc);
+    gbc.gridx = 1;
+    lobbyIdPanel.add(lobbyIdInput, gbc);
 
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    lobbyIdPanel.add(lobbyBackButton, gbc);
+    gbc.gridx = 1;
+    lobbyIdPanel.add(lobbyStartButton, gbc);
 
 
 
@@ -224,6 +241,14 @@ public class Main extends JPanel {
     confirmButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
+
+        /* Create the chat server */
+        playerName = playerNameInput.getText();
+        maxPlayers = Integer.parseInt(maxPlayersInput.getText());
+
+        // gameServer = new Thread(new Gameserver(playerName, maxPlayers));
+        // lobbyId = gameServer.lobbyId;
+
         mainFrame.setContentPane(lobbyIdPanel);
         mainFrame.invalidate();
         mainFrame.validate();
@@ -241,19 +266,36 @@ public class Main extends JPanel {
       }
     });
 
+    
+    lobbyStartButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        // Game start!
 
+      }
+    });
+
+    lobbyBackButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        mainFrame.setContentPane(serverPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
+
+      }
+    });
 
 
   }
 
-  public void resetGbcConfigs() {
-
-    gbc.weightx = 0;
-    gbc.weighty = 0;
-    gbc.anchor = GridBagConstraints.CENTER;
+  @Override
+  public void run() {
 
 
+
+    
   }
+
 
   public void buildGUI() {
 

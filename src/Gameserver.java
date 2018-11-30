@@ -23,7 +23,7 @@ public class Gameserver implements Runnable {
 
   byte[] toSendArray, toReceiveArray, toSendChat, toReceiveChat;
   int serverResponseLength, receiveLength, readResult, receiveResult;
-  String serverResponse, lobbyId, selfName, selfId, selfMessage;
+  String serverResponse, lobbyId, selfName, selfId, selfMessage, alertMessage, receivedMessage;
   Scanner sc = new Scanner(System.in);
 
   PlayerProtos.Player.Builder playerSelf = PlayerProtos.Player.newBuilder();
@@ -120,45 +120,6 @@ public class Gameserver implements Runnable {
       /* For continuous receive */
       while(true) {
 
-        while((receiveLength = in.available()) == 0) { /* Do nothing lul */ }
-
-        toReceiveChat = new byte[receiveLength];
-        receiveResult = in.read(toReceiveChat);
-
-        /* Skip if CONNECT PACKET */
-        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
-          System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
-          continue;
-        }
-
-        /* Notify if DISCONNECT PACKET */
-        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
-          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
-          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
-          continue;
-        }
-
-        /* Parse message if CHAT PACKET */
-        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
-          receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
-          System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
-        }
-
-      }
-
-    } catch(Exception e) { 
-      System.err.println("[Server] main: " + e.toString());
-    }
-    
-  }
-
-  public void run() {
-
-    try {
-
-      /* Start of chat. Do not stop until input quit */
-      System.out.println("\n\nChat Start!\n");
-      while(true) {
         selfMessage = sc.nextLine();
 
         if (selfMessage.equals("Quit")) {
@@ -178,6 +139,50 @@ public class Gameserver implements Runnable {
           os.write(toSendChat);
           
         }
+
+      }
+
+    } catch(Exception e) { 
+      System.err.println("[Server] main: " + e.toString());
+    }
+    
+  }
+
+  public void run() {
+
+    try {
+
+      /* Start of chat. Do not stop until input quit */
+      System.out.println("\n\nChat Start!\n");
+      while(true) {
+
+        while((receiveLength = in.available()) == 0) { /* Do nothing lul */ }
+
+        toReceiveChat = new byte[receiveLength];
+        receiveResult = in.read(toReceiveChat);
+
+        /* Skip if CONNECT PACKET */
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
+          System.out.println("\n[!] " + TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!\n");
+          alertMessage = TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!";
+          continue;
+        }
+
+        /* Notify if DISCONNECT PACKET */
+        if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
+          System.out.println("\n[!] " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.");
+          System.out.println("[!] STATUS: " + TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getUpdate() + "\n");
+          alertMessage = TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.";
+          continue;
+        }
+
+        /* Parse message if CHAT PACKET */
+        else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
+          receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
+          System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
+          receivedMessage = receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage();
+        }
+
       }
 
     } catch (Exception e) {
