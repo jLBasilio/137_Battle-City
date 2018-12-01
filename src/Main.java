@@ -21,86 +21,155 @@ import javax.swing.SwingUtilities;
 
 public class Main implements Runnable {
 
+  /* Components are arranged according to the panel they belong */
+  // ====== START PANEL ====== //
+  JPanel startPanel;
+  JButton startButton, helpButton, exitButton;
+
+  // ====== CREATE PANEL ====== //
+  JPanel createPanel;
+  JButton createLobbyButton, joinLobbyButton, createBackButton;
+
+
+  // ====== SERVER SET PANEL ====== //
+  JPanel serverPanel;
+  JLabel playerNameLabel, maxPlayersLabel;
+  JTextField playerNameInput, maxPlayersInput;
+  JButton confirmButton, serverBackButton;
+
+  // ====== SERVER LOBBY PANEL ====== //
+  JPanel serverLobbyPanel;
+  JLabel currentlyInLobby, serverLobbyLobbyId, serverLobbyPlayerLabel;
+  JTextField serverLobbyLobbyIdField, lobbyPlayerCount;
+  JButton serverLobbyStart, serverLobbyBack;
+
+
+  // ====== CLIENT JOIN LOBBY PANEL ====== //
+  JPanel clientJoinLobbyPanel;
+  JLabel clientJoinLobbyLobbyId, clientJoinLobbyName, inputserverLobbyLobbyId, errorLabel;
+  JTextField clientJoinLobbyLobbyIdField, clientJoinLobbyNameField;
+  JButton clientJoinLobbyConfirm, clientJoinLobbyBack;
+
+
+  // ====== CLIENT LOBBY PANEL ====== //
+  JPanel clientLobbyPanel;
+  JLabel clientLobbyInLobbyLabel, clientLobbyLobbyId, clientLobbyPlayers;
+  JTextField clientLobbyLobbyIdField, clientLobbyPlayersField;
+  JButton clientLobbyBack, clientLobbyConfirm;
+  
+
+  /* ====== Other Constants ====== */
+  JFrame mainFrame;
   BackgroundPanel bp;
   GridBagConstraints gbc;
-  JButton startButton, helpButton, exitButton;
-  JButton createLobbyButton, joinLobbyButton, createBackButton;
-  JButton confirmButton, serverBackButton;
-  JButton lobbyStartButton, lobbyBackButton;
+  String backgroundImage;
+  Dimension defaultDimension, cancelDimension;
+
+  ChatResource chatResource;
+  String lobbyId, playerName;
+  Thread chatResourceThread;
+
 
   JButton testButton, testButton2, testButton3, testButton4, testButton5;
-  JFrame mainFrame;
-  JLabel playerNameLabel, maxPlayersLabel, lobbyIdLabel;
-  JPanel startPanel, createPanel, serverPanel, lobbyIdPanel;
-  JTextField playerNameInput, maxPlayersInput, lobbyIdInput;
-  String backgroundImage;
-
-  ChatResource chatServer;
-  String lobbyId, playerName;
-  Thread chatServerThread;
-
-  int maxPlayers;
+  int maxPlayers, connectedPlayers;
 
   public Main() {
 
     backgroundImage = "assets/mainBackground.png";
     lobbyId = "";
-
-    chatServerThread = new Thread(this);
-
+    chatResourceThread = new Thread(this);
+    
+    defaultDimension = new Dimension(240, 50);
+    cancelDimension = new Dimension(200, 50);
 
     gbc = new GridBagConstraints();
     gbc.insets = new Insets(10, 10, 10, 10);
 
+
     // ====== START PANEL ====== //
     startButton = new JButton("START");
-    startButton.setPreferredSize(new Dimension(240, 50));
+    startButton.setPreferredSize(defaultDimension);
     helpButton = new JButton("HELP");
-    helpButton.setPreferredSize(new Dimension(240, 50));
+    helpButton.setPreferredSize(defaultDimension);
     exitButton = new JButton("EXIT");
-    exitButton.setPreferredSize(new Dimension(240, 50));
+    exitButton.setPreferredSize(defaultDimension);
     
     // ====== CREATE PANEL ====== //
     createBackButton = new JButton("BACK");
-    createBackButton.setPreferredSize(new Dimension(200, 50));
+    createBackButton.setPreferredSize(cancelDimension);
     createLobbyButton = new JButton("CREATE LOBBY");
-    createLobbyButton.setPreferredSize(new Dimension(240, 50));
+    createLobbyButton.setPreferredSize(defaultDimension);
     joinLobbyButton = new JButton("JOIN LOBBY");
-    joinLobbyButton.setPreferredSize(new Dimension(240, 50));
+    joinLobbyButton.setPreferredSize(defaultDimension);
 
-    // ====== SERVER PANEL ====== //
+    // ====== SERVER SET PANEL ====== //
     playerNameInput = new JTextField(18);
     maxPlayersInput = new JTextField(18);
     playerNameLabel = new JLabel("Your Name");
     maxPlayersLabel = new JLabel("Max Players");
     confirmButton = new JButton("CONFIRM");
-    confirmButton.setPreferredSize(new Dimension(200, 50));
+    confirmButton.setPreferredSize(cancelDimension);
     serverBackButton = new JButton("BACK");
-    serverBackButton.setPreferredSize(new Dimension(200, 50));
+    serverBackButton.setPreferredSize(cancelDimension);
+
+    // ====== SERVER LOBBY PANEL ====== //
+    currentlyInLobby = new JLabel("YOU ARE CURRENTLY IN LOBBY.");
+    serverLobbyLobbyIdField = new JTextField(20);
+    serverLobbyLobbyIdField.setText("-----");
+    serverLobbyLobbyIdField.setEditable(false);
+    serverLobbyLobbyId = new JLabel("LOBBY ID");
+    serverLobbyPlayerLabel = new JLabel("PLAYERS ");
+    lobbyPlayerCount = new JTextField(20);
+    lobbyPlayerCount.setEditable(false);
+    serverLobbyStart = new JButton("WAITING FOR PLAYERS");
+    serverLobbyStart.setPreferredSize(defaultDimension);
+    serverLobbyStart.setEnabled(false);
+    serverLobbyBack = new JButton("BACK");
+    serverLobbyBack.setPreferredSize(cancelDimension);
+
+
+    // ====== CLIENT JOIN LOBBY PANEL ====== //
+    // inputserverLobbyLobbyId = new JLabel("Input LOBBY ID");
+    // errorLabel = new JLabel("ERROR");
+    clientJoinLobbyName = new JLabel("Your Name");
+    clientJoinLobbyNameField = new JTextField(20);
+    clientJoinLobbyLobbyId = new JLabel("LOBBY ID");
+    clientJoinLobbyConfirm = new JButton("CONFIRM"); 
+    clientJoinLobbyConfirm.setPreferredSize(defaultDimension);
+    clientJoinLobbyBack = new JButton("BACK");
+    clientJoinLobbyBack.setPreferredSize(cancelDimension);
+    clientJoinLobbyLobbyIdField = new JTextField(20);
+
+
+    // ====== CLIENT LOBBY PANEL ====== //
+    clientLobbyInLobbyLabel = new JLabel("YOU ARE CURRENTLY IN LOBBY.");
+    clientLobbyLobbyId = new JLabel("LOBBY ID");
+    clientLobbyPlayers = new JLabel("PLAYERS");
+    clientLobbyLobbyIdField = new JTextField(20);
+    clientLobbyLobbyIdField.setEditable(false);
+    clientLobbyPlayersField = new JTextField(20);
+    clientLobbyPlayersField.setEditable(false);
+    clientLobbyBack = new JButton("BACK");
+    clientLobbyBack.setPreferredSize(cancelDimension);
+    clientLobbyConfirm = new JButton("WAITING FOR SERVER");
+    clientLobbyConfirm.setPreferredSize(defaultDimension);
+    clientLobbyConfirm.setEnabled(false);
+
 
     // ====== TEST BUTTONS ====== //
     testButton = new JButton("TEST");
-    testButton.setPreferredSize(new Dimension(240, 50));
+    testButton.setPreferredSize(defaultDimension);
     testButton2 = new JButton("TEST");
-    testButton2.setPreferredSize(new Dimension(240, 50));
+    testButton2.setPreferredSize(defaultDimension);
     testButton3 = new JButton("TEST");
-    testButton3.setPreferredSize(new Dimension(240, 50));
+    testButton3.setPreferredSize(defaultDimension);
     testButton4 = new JButton("TEST");
-    testButton4.setPreferredSize(new Dimension(240, 50));
+    testButton4.setPreferredSize(defaultDimension);
     testButton5 = new JButton("TEST");
-    testButton5.setPreferredSize(new Dimension(240, 50));
-
-    lobbyIdInput = new JTextField(20);
-    lobbyIdLabel = new JLabel("LOBBY ID");
-    lobbyStartButton = new JButton("WAITING FOR PLAYERS");
-    lobbyStartButton.setPreferredSize(new Dimension(240, 50));
-    lobbyStartButton.setEnabled(false);
-    lobbyBackButton = new JButton("BACK");
-    lobbyBackButton.setPreferredSize(new Dimension(200, 50));
+    testButton5.setPreferredSize(defaultDimension);
 
 
-
-    /* ========== START(1) PANEL =========== */    
+    /* ========== START PANEL =========== */    
 
     startPanel = new BackgroundPanel(backgroundImage);
     startPanel.setLayout(new GridBagLayout());
@@ -120,7 +189,7 @@ public class Main implements Runnable {
     startPanel.add(exitButton, gbc);
 
     
-    /* ========== CREATE(2) PANEL =========== */    
+    /* ========== CREATE PANEL =========== */    
 
     // Create container panel
     createPanel = new BackgroundPanel(backgroundImage);
@@ -139,7 +208,7 @@ public class Main implements Runnable {
     createPanel.add(createBackButton, gbc);
 
 
-    /* ========== SERVER PANEL =========== */    
+    /* ========== SERVER SET PANEL =========== */    
 
     serverPanel = new BackgroundPanel(backgroundImage);
     serverPanel.setLayout(new GridBagLayout());
@@ -164,29 +233,97 @@ public class Main implements Runnable {
 
 
 
-    /* ========== LOBBY PANEL =========== */    
+    /* ========== CLIENT JOIN LOBBY PANEL =========== */    
+    clientJoinLobbyPanel = new BackgroundPanel(backgroundImage);
+    clientJoinLobbyPanel.setLayout(new GridBagLayout());
 
-    lobbyIdPanel = new BackgroundPanel(backgroundImage);
-    lobbyIdPanel.setLayout(new GridBagLayout());
+    // TODO: Conditional add, when lobby does not exist
 
     gbc.gridx = 0;
     gbc.gridy = 0;
-    lobbyIdPanel.add(lobbyIdLabel, gbc);
+    clientJoinLobbyPanel.add(clientJoinLobbyName, gbc);
     gbc.gridx = 1;
-    lobbyIdPanel.add(lobbyIdInput, gbc);
+    clientJoinLobbyPanel.add(clientJoinLobbyNameField, gbc);  
 
     gbc.gridx = 0;
     gbc.gridy = 1;
-    lobbyIdPanel.add(lobbyBackButton, gbc);
+    clientJoinLobbyPanel.add(clientJoinLobbyLobbyId, gbc);
     gbc.gridx = 1;
-    lobbyIdPanel.add(lobbyStartButton, gbc);
+    clientJoinLobbyPanel.add(clientJoinLobbyLobbyIdField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    clientJoinLobbyPanel.add(clientJoinLobbyBack, gbc);
+    gbc.gridx = 1;
+    clientJoinLobbyPanel.add(clientJoinLobbyConfirm, gbc);
+
+
+
+    /* ========== SERVER LOBBY PANEL =========== */    
+
+    serverLobbyPanel = new BackgroundPanel(backgroundImage);
+    serverLobbyPanel.setLayout(new GridBagLayout());
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    serverLobbyPanel.add(currentlyInLobby, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    serverLobbyPanel.add(serverLobbyLobbyId, gbc);
+    gbc.gridx = 1;
+    serverLobbyPanel.add(serverLobbyLobbyIdField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    serverLobbyPanel.add(serverLobbyPlayerLabel, gbc);
+    gbc.gridx = 1;
+    serverLobbyPanel.add(lobbyPlayerCount, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    serverLobbyPanel.add(serverLobbyBack, gbc);
+    gbc.gridx = 1;
+    serverLobbyPanel.add(serverLobbyStart, gbc);
+
+
+
+    /* ========== CLIENT LOBBY PANEL =========== */    
+
+    clientLobbyPanel = new BackgroundPanel(backgroundImage);
+    clientLobbyPanel.setLayout(new GridBagLayout());
+
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    clientLobbyPanel.add(clientLobbyInLobbyLabel, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    clientLobbyPanel.add(clientLobbyLobbyId, gbc);
+    gbc.gridx = 1;
+    clientLobbyPanel.add(clientLobbyLobbyIdField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    clientLobbyPanel.add(clientLobbyPlayers, gbc);
+    gbc.gridx = 1;
+    clientLobbyPanel.add(clientLobbyPlayersField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    clientLobbyPanel.add(clientLobbyBack, gbc);
+    gbc.gridx = 1;
+    clientLobbyPanel.add(clientLobbyConfirm, gbc);
+
+
 
 
 
 
     // ===================== BUTTON LISTENERS =================== //
 
-    // Start button evenr
+
+    /* ===================== START PANEL ===================== */
     startButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 
@@ -197,7 +334,6 @@ public class Main implements Runnable {
       }
     });
 
-    // help button event
     helpButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 
@@ -213,6 +349,7 @@ public class Main implements Runnable {
     });
 
     
+    /* ===================== CREATE PANEL ===================== */
     createLobbyButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 
@@ -229,11 +366,11 @@ public class Main implements Runnable {
       public void actionPerformed(ActionEvent e) {
 
         // Join lobby UI
-
+        mainFrame.setContentPane(clientJoinLobbyPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
       }
     });
-
-
 
     createBackButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -245,16 +382,24 @@ public class Main implements Runnable {
       }
     });
 
+
+    /* ===================== SERVER SET PANEL ===================== */
     confirmButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
         /* Create the chat server */
         playerName = playerNameInput.getText();
         maxPlayers = Integer.parseInt(maxPlayersInput.getText());
-        
-        chatServerThread.start();
 
-        mainFrame.setContentPane(lobbyIdPanel);
+        // Instantiate a chat server resource
+        chatResource = new ChatResource(playerName, maxPlayers);
+        lobbyId = chatResource.getLobbyId();
+        
+        Thread crThread = new Thread(chatResource);
+        crThread.start();
+        chatResourceThread.start();
+
+        mainFrame.setContentPane(serverLobbyPanel);
         mainFrame.invalidate();
         mainFrame.validate();
 
@@ -271,8 +416,40 @@ public class Main implements Runnable {
       }
     });
 
+    /* ===================== CLIENT JOIN LOBBY PANEL ===================== s*/
+    clientJoinLobbyBack.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        mainFrame.setContentPane(createPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
+
+      }
+    });
+
+    clientJoinLobbyConfirm.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        playerName = clientJoinLobbyNameField.getText();
+        lobbyId = clientJoinLobbyLobbyIdField.getText();
+        chatResource = new ChatResource(playerName, lobbyId);
+        connectedPlayers = chatResource.getCountPlayers();
+        maxPlayers = chatResource.getMaxPlayers();
+
+        Thread crThread = new Thread(chatResource);
+        crThread.start();
+        chatResourceThread.start();
+
+        mainFrame.setContentPane(clientLobbyPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
+
+      }
+    });
+
+    /* ===================== SERVER LOBBY PANEL ===================== s*/
     
-    lobbyStartButton.addActionListener(new ActionListener() {
+    serverLobbyStart.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
         // Game start!
@@ -280,10 +457,23 @@ public class Main implements Runnable {
       }
     });
 
-    lobbyBackButton.addActionListener(new ActionListener() {
+    serverLobbyBack.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
         mainFrame.setContentPane(serverPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
+
+      }
+    });
+
+
+    /* ===================== CLIENT LOBBY PANEL ===================== s*/
+
+    clientLobbyBack.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+        
+        mainFrame.setContentPane(clientJoinLobbyPanel);
         mainFrame.invalidate();
         mainFrame.validate();
 
@@ -296,10 +486,36 @@ public class Main implements Runnable {
   @Override
   public void run() {
 
-    // TODO: NOT WORKING
-    chatServer = new ChatResource(playerName, maxPlayers);
-    lobbyId = chatServer.getLobbyId();
-    lobbyIdInput.setText(lobbyId);
+    System.out.println("PUMASOK SA THREAD");
+    while(true) {
+
+      try{
+        
+
+        connectedPlayers = chatResource.getCountPlayers();
+        System.out.println("  Connected PLAYERS => " + connectedPlayers);
+        
+        // For server
+        serverLobbyLobbyIdField.setText(lobbyId);
+        lobbyPlayerCount.setText(Integer.toString(connectedPlayers) + "/" + maxPlayersInput.getText());
+
+        if(connectedPlayers == maxPlayers) {
+          serverLobbyStart.setEnabled(true);
+          serverLobbyStart.setText("START GAME");
+          break;
+        }
+
+
+        // For client
+        clientLobbyLobbyIdField.setText(lobbyId);
+        clientLobbyPlayersField.setText(Integer.toString(connectedPlayers));
+
+        Thread.sleep(1500);
+
+      } catch (Exception e) {}
+      
+    }
+
   }
 
 

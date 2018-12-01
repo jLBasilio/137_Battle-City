@@ -5,10 +5,7 @@ import com.main.app.Mainprotos.*;
 import com.main.app.PlayerProtos.*;
 import com.main.app.TcpPacketProtos.*;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.net.Socket;
+
 import java.util.Scanner;
 
 
@@ -41,7 +38,17 @@ public class ChatSendHandler implements Runnable {
           System.out.println("You have disconnected.");
           break;
           
-        } else {
+        }
+
+        else if (serverResource.selfMessage.equals("?noPL")){
+          System.out.println("Total Connected Players: " + serverResource.getCountPlayers());
+        }
+
+        else if (serverResource.selfMessage.equals("?listPL")){
+          System.out.println("Players connected: ");
+        }
+
+        else {
 
           serverResource.chatPacket.setMessage(serverResource.selfMessage);
           serverResource.chatPacket.setLobbyId(serverResource.lobbyId);
