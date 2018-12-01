@@ -35,9 +35,9 @@ public class Main implements Runnable {
   JTextField playerNameInput, maxPlayersInput, lobbyIdInput;
   String backgroundImage;
 
-  Gameserver gameServer;
+  ChatResource chatServer;
   String lobbyId, playerName;
-  Thread gameServerThread;
+  Thread chatServerThread;
 
   int maxPlayers;
 
@@ -46,7 +46,7 @@ public class Main implements Runnable {
     backgroundImage = "assets/mainBackground.png";
     lobbyId = "";
 
-    gameServerThread = new Thread(this);
+    chatServerThread = new Thread(this);
 
 
     gbc = new GridBagConstraints();
@@ -69,8 +69,8 @@ public class Main implements Runnable {
     joinLobbyButton.setPreferredSize(new Dimension(240, 50));
 
     // ====== SERVER PANEL ====== //
-    playerNameInput = new JTextField(20);
-    maxPlayersInput = new JTextField(20);
+    playerNameInput = new JTextField(18);
+    maxPlayersInput = new JTextField(18);
     playerNameLabel = new JLabel("Your Name");
     maxPlayersLabel = new JLabel("Max Players");
     confirmButton = new JButton("CONFIRM");
@@ -92,8 +92,9 @@ public class Main implements Runnable {
 
     lobbyIdInput = new JTextField(20);
     lobbyIdLabel = new JLabel("LOBBY ID");
-    lobbyStartButton = new JButton("START GAME");
+    lobbyStartButton = new JButton("WAITING FOR PLAYERS");
     lobbyStartButton.setPreferredSize(new Dimension(240, 50));
+    lobbyStartButton.setEnabled(false);
     lobbyBackButton = new JButton("BACK");
     lobbyBackButton.setPreferredSize(new Dimension(200, 50));
 
@@ -163,7 +164,7 @@ public class Main implements Runnable {
 
 
 
-    /* ========== SERVER PANEL =========== */    
+    /* ========== LOBBY PANEL =========== */    
 
     lobbyIdPanel = new BackgroundPanel(backgroundImage);
     lobbyIdPanel.setLayout(new GridBagLayout());
@@ -247,13 +248,12 @@ public class Main implements Runnable {
     confirmButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
-
         /* Create the chat server */
         playerName = playerNameInput.getText();
         maxPlayers = Integer.parseInt(maxPlayersInput.getText());
-        gameServerThread.start();
+        
+        chatServerThread.start();
 
-        System.out.println("Wow");
         mainFrame.setContentPane(lobbyIdPanel);
         mainFrame.invalidate();
         mainFrame.validate();
@@ -297,9 +297,9 @@ public class Main implements Runnable {
   public void run() {
 
     // TODO: NOT WORKING
-    gameServer = new Gameserver(playerName, maxPlayers);
-    lobbyId = gameServer.getLobbyId();
-    System.out.println("Lobby Id retrieved.");
+    chatServer = new ChatResource(playerName, maxPlayers);
+    lobbyId = chatServer.getLobbyId();
+    lobbyIdInput.setText(lobbyId);
   }
 
 
@@ -312,7 +312,6 @@ public class Main implements Runnable {
     mainFrame.setLocationRelativeTo(null);
     mainFrame.setVisible(true);
     mainFrame.setContentPane(startPanel);
-
 
   }
 
