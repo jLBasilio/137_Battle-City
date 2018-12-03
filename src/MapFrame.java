@@ -10,6 +10,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class MapFrame {
 	private JFrame frame;
@@ -28,15 +30,21 @@ public class MapFrame {
 	private String mapName;
 	private int width, height;
 
-	public MapFrame(String mapName,int width,int height){
+	public ChatResource chatResource;
+	// main.chatResource.sendHandler
+
+
+	public MapFrame(String mapName, int width, int height, Main main) {
 		this.mapName = mapName;
 		this.width = width;
 		this.height = height;
+		this.chatResource = main.chatResource;
 
+		instantiateSelfToChatResource();
 		createMapFrame();
 	}
 
-	private void createMapFrame(){
+	private void createMapFrame() {
 		frame = new JFrame(mapName);
 		frame.setSize(width,height);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,27 +58,18 @@ public class MapFrame {
 
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(900, 600));
-		canvas.setFocusable(false);
+		// canvas.setFocusable(false);
 
 		chatLogs = new JTextArea(30, 25);
-		chatLogs.append("Chat Panel");
+		chatLogs.append(" === BEGIN CHAT === \n");
 		chatLogs.setFocusable(false);
 		chatLogs.setEditable(false);
 		chatLogsScroll = new JScrollPane(chatLogs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		chatInput = new JTextArea(8, 25);
-		chatInput.append("Input chat here\n");
 		chatInput.setLineWrap(true);
 		chatInput.setWrapStyleWord(true);
-
-		chatInput.setFocusable(false);
-		chatInput.setEditable(false);
 		chatInputScroll = new JScrollPane(chatInput, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-		// gamePanel = new JPanel();
-		// gamePanel.setPreferredSize(new Dimension(900,600));
-		// gamePanel.setBorder(BorderFactory.createLineBorder(Color.red));
-		// gamePanel.add(canvas);
 
 		chatPanel = new JPanel();
 		chatPanel.setPreferredSize(new Dimension(300,600));
@@ -84,6 +83,27 @@ public class MapFrame {
 
 		frame.add(wrapperPanel);
 		frame.pack();
+
+		chatInput.addKeyListener(new KeyListener() {
+	    @Override
+	    public void keyPressed(KeyEvent e){
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+        	e.consume();
+        	sendMessage(chatInput.getText());
+        	chatInput.setText("");
+        	canvas.requestFocus();
+        }
+	    }
+
+	    @Override
+	    public void keyTyped(KeyEvent e) {
+	    }
+
+	    @Override
+	    public void keyReleased(KeyEvent e) {
+	    }
+		});
+
 	}	
 
 	public JFrame getFrame(){
@@ -93,4 +113,27 @@ public class MapFrame {
 	public Canvas getCanvas(){
 		return this.canvas;
 	}
+
+
+	public void addToChatLogs(String message) {
+
+		chatLogs.append(message + "\n");
+		chatLogs.setCaretPosition(chatLogs.getDocument().getLength());
+
+	}
+
+	public void sendMessage(String message) {
+
+		chatResource.handleMessageSend(message);
+
+	}
+
+
+	public void instantiateSelfToChatResource() {
+
+		chatResource.instantiateMapFrame(this);
+
+	}
+
+
 }

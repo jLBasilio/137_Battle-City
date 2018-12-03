@@ -66,6 +66,7 @@ public class Main implements Runnable {
   Dimension defaultDimension, cancelDimension;
 
   ChatResource chatResource;
+  Launcher gameLauncher;
   String lobbyId, playerName;
   Thread chatResourceThread;
 
@@ -322,7 +323,6 @@ public class Main implements Runnable {
 
     // ===================== BUTTON LISTENERS =================== //
 
-
     /* ===================== START PANEL ===================== */
     startButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -444,6 +444,8 @@ public class Main implements Runnable {
         mainFrame.invalidate();
         mainFrame.validate();
 
+
+
       }
     });
 
@@ -452,7 +454,7 @@ public class Main implements Runnable {
     serverLobbyStart.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         
-        // Game start!
+        startGame();
 
       }
     });
@@ -486,29 +488,31 @@ public class Main implements Runnable {
   @Override
   public void run() {
 
-    System.out.println("PUMASOK SA THREAD");
     while(true) {
 
       try{
         
-
         connectedPlayers = chatResource.getCountPlayers();
-        System.out.println("  Connected PLAYERS => " + connectedPlayers);
+        System.out.println("Connected PLAYERS => " + connectedPlayers);
         
-        // For server
+        // For server only
         serverLobbyLobbyIdField.setText(lobbyId);
         lobbyPlayerCount.setText(Integer.toString(connectedPlayers) + "/" + maxPlayersInput.getText());
-
         if(connectedPlayers == maxPlayers) {
           serverLobbyStart.setEnabled(true);
           serverLobbyStart.setText("START GAME");
           break;
         }
 
-
-        // For client
+        // For client only
         clientLobbyLobbyIdField.setText(lobbyId);
         clientLobbyPlayersField.setText(Integer.toString(connectedPlayers));
+        if(chatResource.checkIfGameStarted()) {
+          mainFrame.dispose();
+          Thread.sleep(1500);
+          gameLauncher = new Launcher(this);
+          break;
+        }
 
         Thread.sleep(1500);
 
@@ -516,6 +520,21 @@ public class Main implements Runnable {
       
     }
 
+  }
+
+
+  // For server only
+  public void startGame() {
+
+    // Close window and spawn the game proper
+    mainFrame.dispose();
+    try{
+
+      Thread.sleep(1500);
+
+    } catch (Exception e) {}
+    gameLauncher = new Launcher(this);
+    chatResource.setAndBroadcastStart();
   }
 
 
@@ -541,3 +560,10 @@ public class Main implements Runnable {
   }
 
 }
+
+/* TODO:
+[CLIENT]
+  - Check if lobby exists in lobby id
+[SERVER]
+  - 
+*/

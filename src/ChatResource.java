@@ -31,7 +31,7 @@ public class ChatResource implements Runnable {
   int serverResponseLength, receiveLength, readResult, receiveResult;
   int receivedPlayerCount, noOfPlayersJoined, maxPlayers;
   String serverResponse, lobbyId, selfName, selfId, selfMessage, alertMessage, receivedMessage;
-  Boolean continueReceiving;
+  Boolean continueReceiving, gameHasStarted;
 
   PlayerProtos.Player.Builder playerSelf = PlayerProtos.Player.newBuilder();
 
@@ -49,7 +49,8 @@ public class ChatResource implements Runnable {
   TcpPacket.PlayerListPacket.Builder playerListPacket = TcpPacket.PlayerListPacket.newBuilder();
   TcpPacket.PlayerListPacket receivedPlayerListPacket;
 
-  ChatSendHandler sendHandler;
+  ChatHandler sendHandler;
+  MapFrame mapFrame;
   Thread gameThread = new Thread(this);
   Thread sendingThread;
 
@@ -125,8 +126,9 @@ public class ChatResource implements Runnable {
 
       // Thread send and receive
       continueReceiving = true;
-      sendHandler = new ChatSendHandler(this);
-      sendingThread = new Thread(sendHandler);
+      gameHasStarted = false;
+      sendHandler = new ChatHandler(this);
+      // sendingThread = new Thread(sendHandler);
 
     } catch(Exception e) { 
       System.err.println("[Server ERR] main: " + e.toString());
@@ -204,12 +206,10 @@ public class ChatResource implements Runnable {
       noOfPlayersJoined = receivedPlayerListPacket.getPlayerListCount();
       System.out.println("\nTotal Connected Players: " + noOfPlayersJoined);
 
-
-
-
       continueReceiving = true;
-      sendHandler = new ChatSendHandler(this);
-      sendingThread = new Thread(sendHandler);
+      gameHasStarted = false;
+      sendHandler = new ChatHandler(this);
+      // sendingThread = new Thread(sendHandler);
 
     } catch(Exception e) { 
       System.err.println("[Client ERR]: " + e.toString());
@@ -223,21 +223,15 @@ public class ChatResource implements Runnable {
     try {
 
       gameThread.start();
-      sendingThread.start();
+      // sendingThread.start();
 
-      sendingThread.join();
+      // sendingThread.join();
       gameThread.join();
       
     } catch (Exception e) {
       System.err.println("Method [startSendAndReceive] ERR: " + e.toString());
     }
 
-
-  }
-
-
-  public synchronized void stopReceiving() {
-    this.continueReceiving = false;
   }
 
 
@@ -254,7 +248,7 @@ public class ChatResource implements Runnable {
         toReceiveChat = new byte[receiveLength];
         receiveResult = in.read(toReceiveChat);
 
-        /* Skip if CONNECT PACKET */
+        /* Add player count if CONNECT PACKET */
         if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CONNECT) {
           alertMessage = TcpPacket.ConnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " connected!"; 
           System.out.println("\n[!] " + alertMessage);
@@ -262,7 +256,7 @@ public class ChatResource implements Runnable {
           continue;
         }
 
-        /* Notify if DISCONNECT PACKET */
+        /* Decrease player count if DISCONNECT PACKET */
         if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.DISCONNECT) {
           alertMessage = TcpPacket.DisconnectPacket.parseFrom(toReceiveChat).getPlayer().getName() + " disconnected.";
           System.out.println("\n[!] " + alertMessage);
@@ -274,8 +268,9 @@ public class ChatResource implements Runnable {
         /* Parse message if CHAT PACKET */
         else if (TcpPacket.parseFrom(toReceiveChat).getType() == TcpPacket.PacketType.CHAT) {
           receivedChatPacket = TcpPacket.ChatPacket.parseFrom(toReceiveChat);
-          receivedMessage = receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage();
-          System.out.println(receivedMessage);
+          receivedMessage = receivedChatPacket.getMessage();
+          handleMessageReceived();
+
         }
 
       }
@@ -285,6 +280,44 @@ public class ChatResource implements Runnable {
     }
   } 
 
+
+
+
+  public void handleMessageReceived() {
+
+    switch(receivedMessage) {
+
+      // the server has started the game
+      case "\\s game_start":
+        this.setGameStart();
+        break;
+
+      // last case, print the message.
+      default:
+        // System.out.println(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
+        mapFrame.addToChatLogs(receivedChatPacket.getPlayer().getName() + ": " + receivedChatPacket.getMessage());
+        break;
+
+
+    }
+
+
+  }
+
+
+  public void handleMessageSend(String message) {
+
+
+    sendHandler.sendToAll(message);
+
+  }
+
+
+
+
+  public synchronized void stopReceiving() {
+    this.continueReceiving = false;
+  }
 
   public synchronized String getLobbyId() {
     return this.lobbyId;
@@ -306,38 +339,24 @@ public class ChatResource implements Runnable {
     return this.noOfPlayersJoined;
   }
 
-  // public synchronized void getNumberOfPlayers() {
+  public synchronized Boolean checkIfGameStarted() {
+    return this.gameHasStarted;
+  }
 
-  //   try {
+  // For server only
+  public synchronized void setAndBroadcastStart() {
+    this.gameHasStarted = true;
+    sendHandler.sendToAll("\\s game_start");
+  }
 
-  //     toSendPlayersList = playerListPacket.build().toByteArray();
-  //     os.write(toSendPlayersList);
-        
-  //     Boolean continueReceivingCount = true;
-  //     while(continueReceivingCount) {
+  // For client only
+  public synchronized void setGameStart() {
+    this.gameHasStarted = true;
+  }
 
-  //       System.out.println("Receiving..");
-  //       if ((receiveLength = in.available()) == 0) { continue; }
-
-  //       System.out.println("Receivelength: " + receiveLength);
-  //       toReceivePlayersList = new byte[receiveLength];
-  //       System.out.println("Checkpoint1");
-  //       receivedPlayerCount = in.read(toReceivePlayersList);
-  //       System.out.println("Checkpoint2");
-
-  //       if (TcpPacket.parseFrom(toReceivePlayersList).getType() == TcpPacket.PacketType.PLAYER_LIST) {
-  //         System.out.print("\n[!] NO OF PLAYERS: ");
-  //         System.out.println(TcpPacket.PlayerListPacket.parseFrom(toReceivePlayersList).getPlayerListCount());
-  //         continueReceivingCount = false;
-  //       }
-
-  //     }
-
-  //   } catch (Exception e) {
-  //     System.err.println("[Get player list]: " + e.toString());
-  //   }
-
-  // }
+  public void instantiateMapFrame(MapFrame mapFrame) {
+    this.mapFrame = mapFrame;
+  }
 
 
 
@@ -352,11 +371,13 @@ public class ChatResource implements Runnable {
       System.exit(1);
     }
 
-
+    // Instantiate server
     if (Integer.parseInt(args[0]) == 1) {
       ChatResource main = new ChatResource(args[1], Integer.parseInt(args[2]));
       main.startSendAndReceive();
     } 
+
+    // Instantiate Client
     else if (Integer.parseInt(args[0]) == 2) {
       ChatResource main = new ChatResource(args[1], args[2]);
       main.startSendAndReceive();

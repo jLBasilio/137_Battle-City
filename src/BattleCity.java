@@ -3,7 +3,7 @@ package com.main.app;
 import java.awt.image.BufferStrategy;
 import java.awt.Graphics;
 
-public class BattleCity implements Runnable, Constants{
+public class BattleCity implements Runnable, Constants {
 	private String mapName;
 	private int width, height;
 
@@ -22,10 +22,13 @@ public class BattleCity implements Runnable, Constants{
 
 	private KeyHandler keyHandler;
 
-	public BattleCity(String mapName, int width, int height) {
+	public Main main;
+
+	public BattleCity(String mapName, int width, int height, Main main) {
 		this.mapName = mapName;
 		this.width = width;
 		this.height = height;
+		this.main = main;
 
 		mapThread.start();
 
@@ -33,7 +36,7 @@ public class BattleCity implements Runnable, Constants{
 	}
 
 	private void initialize() {
-		mapFrame = new MapFrame(this.mapName, this.width, this.height);
+		mapFrame = new MapFrame(this.mapName, this.width, this.height, main);
 		mapFrame.getFrame().addKeyListener(keyHandler);
 		running = true;
 		Assets.initialize();
