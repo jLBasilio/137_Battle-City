@@ -47,7 +47,8 @@ public class Main implements Runnable {
   // ====== CLIENT JOIN LOBBY PANEL ====== //
   JPanel clientJoinLobbyPanel;
   JLabel clientJoinLobbyLobbyId, clientJoinLobbyName, inputserverLobbyLobbyId, errorLabel;
-  JTextField clientJoinLobbyLobbyIdField, clientJoinLobbyNameField;
+  JLabel udpLobbyLabel;
+  JTextField clientJoinLobbyLobbyIdField, clientJoinLobbyNameField, udpLobbyField;
   JButton clientJoinLobbyConfirm, clientJoinLobbyBack;
 
 
@@ -140,6 +141,8 @@ public class Main implements Runnable {
     clientJoinLobbyBack = new JButton("BACK");
     clientJoinLobbyBack.setPreferredSize(cancelDimension);
     clientJoinLobbyLobbyIdField = new JTextField(20);
+    udpLobbyLabel = new JLabel("SERVER IP");
+    udpLobbyField = new JTextField(20);
 
 
     // ====== CLIENT LOBBY PANEL ====== //
@@ -254,6 +257,12 @@ public class Main implements Runnable {
 
     gbc.gridx = 0;
     gbc.gridy = 2;
+    clientJoinLobbyPanel.add(udpLobbyLabel, gbc);
+    gbc.gridx = 1;
+    clientJoinLobbyPanel.add(udpLobbyField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 3;
     clientJoinLobbyPanel.add(clientJoinLobbyBack, gbc);
     gbc.gridx = 1;
     clientJoinLobbyPanel.add(clientJoinLobbyConfirm, gbc);
