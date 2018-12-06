@@ -4,73 +4,85 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class GameState extends State{
-	private GameMap gameMap;
-	private Player player;
-	private List<Coordinates> spawnAreas;
-	
-	public GameState(Handler handler){
-		super(handler);
+public class GameState {
+  // private List<Coordinates> spawnAreas;
+  private HashMap<String, Player> players = new HashMap<String, Player>();
+  
+  public GameState(){
+    // Coordinates spawnLoc = setSpawnLocation();
 
-		gameMap =  new GameMap("map/city1.map");
-		handler.setGameMap(gameMap);
+    // player = new Player(handler,spawnLoc.getX(),spawnLoc.getY(),30,30);
+  }
 
-		Coordinates spawnLoc = setSpawnLocation();
+  // private Coordinates setSpawnLocation(){
+  //  boolean state = false;
 
-		player = new Player(handler,spawnLoc.getX(),spawnLoc.getY(),30,30);
-	}
+  //  spawnAreas = gameMap.getSpawnAreas();
 
-	private Coordinates setSpawnLocation(){
-		boolean state = false;
+  //  Coordinates spawnLoc = new Coordinates(0,0,true);
 
-		spawnAreas = gameMap.getSpawnAreas();
+  //  while(!state){
+  //    Random r = new Random();
+  //    int x = r.nextInt(30)*30;
+  //    int y = r.nextInt(20)*30;
 
-		Coordinates spawnLoc = new Coordinates(0,0,true);
+  //    System.out.println("random coodinate => " + x + ":" + y);
 
-		while(!state){
-			Random r = new Random();
-			int x = r.nextInt(30)*30;
-			int y = r.nextInt(20)*30;
+  //    for(Coordinates spawnArea: spawnAreas){
+  //      if(spawnArea.compare(x,y)){
+  //        spawnLoc = spawnArea;
+  //        state = true;
 
-			System.out.println("random coodinate => " + x + ":" + y);
+  //        System.out.println("final spawn location => " + x + ":" + y);
+  //      }
+  //    }
+  //  }
 
-			for(Coordinates spawnArea: spawnAreas){
-				if(spawnArea.compare(x,y)){
-					spawnLoc = spawnArea;
-					state = true;
+  //  return spawnLoc;
+  // }
 
-					System.out.println("final spawn location => " + x + ":" + y);
-				}
-			}
-		}
+  public void update(String name, Player player){
+    players.put(name, player);
 
-		return spawnLoc;
-	}
+    // List<Bullet> bullets = player.getBullets();
 
-	public void update(){
-		gameMap.update();
-		player.update();
+    // for(int i = 0; i < bullets.size(); i++){
+    //  Bullet bullet = bullets.get(i);
 
-		List<Bullet> bullets = player.getBullets();
+    //  if(bullet.isVisible())
+    //    bullet.update();
+    // }
+  }
 
-		for(int i = 0; i < bullets.size(); i++){
-			Bullet bullet = bullets.get(i);
+  // public void render(Graphics g){
+  //  gameMap.render(g);
+  //  player.render(g);
 
-			if(bullet.isVisible())
-				bullet.update();
-		}
-	}
+  //  List<Bullet> bullets = player.getBullets();
 
-	public void render(Graphics g){
-		gameMap.render(g);
-		player.render(g);
+  //  for(Bullet bullet: bullets){
+  //    if(bullet.isVisible())
+  //      bullet.render(g);
+  //  }
+  // }
 
-		List<Bullet> bullets = player.getBullets();
+  public String getGameData(){
+    String gameData = "";
 
-		for(Bullet bullet: bullets){
-			if(bullet.isVisible())
-				bullet.render(g);
-		}
-	}
+    for(Iterator i = players.keySet().iterator(); i.hasNext(); ){
+      String name = (String) i.next();
+      Player player = (Player) players.get(name);
+      gameData += player.getPlayerData() + ":";
+    }
+
+    return gameData;
+  }
+
+  public Map getPlayers(){
+    return players;
+  }
 }

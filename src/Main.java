@@ -11,6 +11,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.net.InetAddress;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -33,8 +35,8 @@ public class Main implements Runnable {
 
   // ====== SERVER SET PANEL ====== //
   JPanel serverPanel;
-  JLabel playerNameLabel, maxPlayersLabel;
-  JTextField playerNameInput, maxPlayersInput;
+  JLabel playerNameLabel, serverIPLabel, maxPlayersLabel;
+  JTextField playerNameInput, serverIPInput, maxPlayersInput;
   JButton confirmButton, serverBackButton;
 
   // ====== SERVER LOBBY PANEL ====== //
@@ -68,14 +70,21 @@ public class Main implements Runnable {
 
   ChatResource chatResource;
   Launcher gameLauncher;
-  String lobbyId, playerName;
+  String lobbyId, playerName, serverIP;
   Thread chatResourceThread;
 
 
   JButton testButton, testButton2, testButton3, testButton4, testButton5;
   int maxPlayers, connectedPlayers;
 
+
+
   public Main() {
+
+    try {
+
+      System.out.println(InetAddress.getLocalHost().getHostAddress());
+    } catch (Exception e){}
 
     backgroundImage = "assets/mainBackground.png";
     lobbyId = "";
@@ -105,9 +114,11 @@ public class Main implements Runnable {
     joinLobbyButton.setPreferredSize(defaultDimension);
 
     // ====== SERVER SET PANEL ====== //
-    playerNameInput = new JTextField(18);
-    maxPlayersInput = new JTextField(18);
+    playerNameInput = new JTextField(20);
+    serverIPInput = new JTextField(20);
+    maxPlayersInput = new JTextField(20);
     playerNameLabel = new JLabel("Your Name");
+    serverIPLabel = new JLabel("Your IP");
     maxPlayersLabel = new JLabel("Max Players");
     confirmButton = new JButton("CONFIRM");
     confirmButton.setPreferredSize(cancelDimension);
@@ -225,12 +236,18 @@ public class Main implements Runnable {
 
     gbc.gridx = 0;
     gbc.gridy = 1;
+    serverPanel.add(serverIPLabel, gbc);
+    gbc.gridx = 1;
+    serverPanel.add(serverIPInput, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
     serverPanel.add(maxPlayersLabel, gbc);
     gbc.gridx = 1;
     serverPanel.add(maxPlayersInput, gbc);
 
     gbc.gridx = 0;
-    gbc.gridy = 2;
+    gbc.gridy = 3;
     serverPanel.add(serverBackButton, gbc);
     gbc.gridx = 1;
     serverPanel.add(confirmButton, gbc);
@@ -574,5 +591,5 @@ public class Main implements Runnable {
 [CLIENT]
   - Check if lobby exists in lobby id
 [SERVER]
-  - 
+  - Check if server exists
 */
