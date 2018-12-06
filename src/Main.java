@@ -417,6 +417,9 @@ public class Main implements Runnable {
         playerName = playerNameInput.getText();
         maxPlayers = Integer.parseInt(maxPlayersInput.getText());
 
+        serverIP = serverIPInput.getText();
+
+
         // Instantiate a chat server resource
         chatResource = new ChatResource(playerName, maxPlayers);
         lobbyId = chatResource.getLobbyId();
@@ -461,6 +464,8 @@ public class Main implements Runnable {
         chatResource = new ChatResource(playerName, lobbyId);
         connectedPlayers = chatResource.getCountPlayers();
         maxPlayers = chatResource.getMaxPlayers();
+
+        serverIP = udpLobbyField.getText();
 
         Thread crThread = new Thread(chatResource);
         crThread.start();

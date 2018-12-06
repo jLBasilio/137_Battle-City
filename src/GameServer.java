@@ -18,7 +18,7 @@ public class GameServer implements Runnable, Constants{
     this.numOfPlayers = numOfPlayers;
     try{
       serverSocket = new DatagramSocket(PORT);
-      serverSocket.setSoTimeout(100);
+      serverSocket.setSoTimeout(1000000);
     } catch (IOException e) {
             System.err.println("Could not listen on port: " + PORT);
             System.exit(-1);
@@ -32,6 +32,7 @@ public class GameServer implements Runnable, Constants{
   }
 
   public void broadcast(String msg){
+    System.out.println("Server Broadcasting . . .");
     for(Iterator i = game.getPlayers().keySet().iterator(); i.hasNext();){
       String name = (String) i.next();
       Player player = (Player) game.getPlayers().get(name);
@@ -51,6 +52,7 @@ public class GameServer implements Runnable, Constants{
   }
 
   public void run(){
+    System.out.println("Server Running . . .");
     while(true){
       byte[] buf = new byte[256];
       DatagramPacket packet = new DatagramPacket(buf, buf.length);

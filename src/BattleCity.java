@@ -62,64 +62,64 @@ public class BattleCity implements Runnable, Constants{
 		gameMap.update();
 
 		if(keyHandler.isKeyPressed()){
-			switch(keyHandler.getDirection()){
-				case 0:
-					dir = 0;
+			// switch(keyHandler.getDirection()){
+			// 	case 0:
+			// 		dir = 0;
 
-					if((y-moveSpeed) >= 0){
-						if(!collision()){
-							y-=moveSpeed;
-							send("PLAYER" + name + " " + x + " " + y + " " + dir);
-						}
-						else{
-							System.out.println("Collision detected @ top!");
-						}
-					}
-					break;
-				case 1:
-					dir = 1;
+			// 		if((y-moveSpeed) >= 0){
+			// 			if(!collision()){
+			// 				y-=moveSpeed;
+			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
+			// 			}
+			// 			else{
+			// 				System.out.println("Collision detected @ top!");
+			// 			}
+			// 		}
+			// 		break;
+			// 	case 1:
+			// 		dir = 1;
 
-					if((x+moveSpeed) <= 870){
-						if(!collision()){
-							x+=moveSpeed;
-							send("PLAYER" + name + " " + x + " " + y + " " + dir);
-						}
-						else{
-							System.out.println("Collision detected @ right!");
-						}
-					}
-					break;
-				case 2:
+			// 		if((x+moveSpeed) <= 870){
+			// 			if(!collision()){
+			// 				x+=moveSpeed;
+			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
+			// 			}
+			// 			else{
+			// 				System.out.println("Collision detected @ right!");
+			// 			}
+			// 		}
+			// 		break;
+			// 	case 2:
 
-					if((y+moveSpeed) <= 570){
-						if(!collision()){
-							y+=moveSpeed;
-							send("PLAYER" + name + " " + x + " " + y + " " + dir);
-						}
-						else{
-							System.out.println("Collision detected @ bottom!");
-						}
-					}
-					dir = 2;
-					break;
-				case 3:
+			// 		if((y+moveSpeed) <= 570){
+			// 			if(!collision()){
+			// 				y+=moveSpeed;
+			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
+			// 			}
+			// 			else{
+			// 				System.out.println("Collision detected @ bottom!");
+			// 			}
+			// 		}
+			// 		dir = 2;
+			// 		break;
+			// 	case 3:
 
-					if((x-moveSpeed) >= 0){
-						if(!collision()){
-							x-=moveSpeed;
-							send("PLAYER" + name + " " + x + " " + y + " " + dir);
-						}
-						else{
-							System.out.println("Collision detected @ left!");
-						}
-					}
-					dir = 3;
-					break;
-			}
+			// 		if((x-moveSpeed) >= 0){
+			// 			if(!collision()){
+			// 				x-=moveSpeed;
+			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
+			// 			}
+			// 			else{
+			// 				System.out.println("Collision detected @ left!");
+			// 			}
+			// 		}
+			// 		dir = 3;
+			// 		break;
+			// }
 		}
 	}
 
-	private void render(String object,int px, int py,int pdir) {
+	private void render() {
 		bs = mapFrame.getCanvas().getBufferStrategy();
 		if(bs == null) {
 			mapFrame.getCanvas().createBufferStrategy(3);
@@ -131,17 +131,17 @@ public class BattleCity implements Runnable, Constants{
 		//draw here
 		// stateManager.getState().render(g);
 		
-		if(object.equals("map")){
+		// if(object.equals("map")){
 			gameMap.render(g);
-		}
-		else if(object.equals("player")){
-			switch(pdir){
-				case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-			}
-		}
+		// }
+		// else if(object.equals("player")){
+		// 	switch(pdir){
+		// 		case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+		// 		case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+		// 		case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+		// 		case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+		// 	}
+		// }
 		//draw here
 
 		bs.show();
@@ -165,6 +165,9 @@ public class BattleCity implements Runnable, Constants{
 			lastTime = now;
 
 			if(delta >= 1){
+				update();
+				render();
+
 				serverData = receive().trim();
 
 				if(!connected && serverData.startsWith("CONNECTED")){
@@ -176,7 +179,6 @@ public class BattleCity implements Runnable, Constants{
 					send("CONNECT " + name);
 				}
 				else if(connected){
-					render("map",0,0,0);
 					if(serverData.startsWith("PLAYER")){
 						String[] playersInfo = serverData.split(":");
 						for(int i=0; i<playersInfo.length; i++){
@@ -185,10 +187,9 @@ public class BattleCity implements Runnable, Constants{
 							int px = Integer.parseInt(playerData[2]);
 							int py = Integer.parseInt(playerData[3]);
 							int pdir = Integer.parseInt(playerData[4]);
-							render("player",px,py,pdir);
+							// render("player",px,py,pdir);
 						}
 					}
-					update();
 				}
 				delta--;
 			}
