@@ -73,8 +73,9 @@ public class GameServer implements Runnable, Constants{
             Player player = new Player(tokens[1],packet.getAddress(),packet.getPort());
             
             //setting spawn location
-            player.setX(0);
-            player.setY(0);
+            Coordinates spawnLoc = game.getSpawnLocation();
+            player.setX(spawnLoc.getX());
+            player.setY(spawnLoc.getY());
             player.setDir(0);
 
             game.update(tokens[1],player);

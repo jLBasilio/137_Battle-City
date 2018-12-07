@@ -9,39 +9,41 @@ import java.util.Iterator;
 import java.util.Map;
 
 public class GameState {
-  // private List<Coordinates> spawnAreas;
+  private List<Coordinates> spawnAreas;
   private HashMap<String, Player> players = new HashMap<String, Player>();
+  private GameMap gameMap;
   
   public GameState(){
-    // Coordinates spawnLoc = setSpawnLocation();
+    gameMap = new GameMap("map/city1.map");
+
+    spawnAreas = gameMap.getSpawnAreas();
   }
 
-  // private Coordinates setSpawnLocation(){
-  //  boolean state = false;
+  public Coordinates getSpawnLocation(){
+   boolean state = false;
 
-  //  spawnAreas = gameMap.getSpawnAreas();
+   Coordinates spawnLoc = new Coordinates(0,0,true);
 
-  //  Coordinates spawnLoc = new Coordinates(0,0,true);
+   while(!state){
+     Random r = new Random();
+     int x = r.nextInt(30)*30;
+     int y = r.nextInt(20)*30;
 
-  //  while(!state){
-  //    Random r = new Random();
-  //    int x = r.nextInt(30)*30;
-  //    int y = r.nextInt(20)*30;
+     System.out.println("random coodinate => " + x + ":" + y);
 
-  //    System.out.println("random coodinate => " + x + ":" + y);
+     for(Coordinates spawnArea: spawnAreas){
+       if(spawnArea.compare(x,y)){
+         spawnLoc = spawnArea;
+         state = true;
+         spawnArea.setClose();
 
-  //    for(Coordinates spawnArea: spawnAreas){
-  //      if(spawnArea.compare(x,y)){
-  //        spawnLoc = spawnArea;
-  //        state = true;
+         System.out.println("final spawn location => " + x + ":" + y);
+       }
+     }
+   }
 
-  //        System.out.println("final spawn location => " + x + ":" + y);
-  //      }
-  //    }
-  //  }
-
-  //  return spawnLoc;
-  // }
+   return spawnLoc;
+  }
 
   public void update(String name, Player player){
     players.put(name, player);
