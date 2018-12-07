@@ -70,8 +70,9 @@ public class GameServer implements Runnable, Constants{
         case WAITING_FOR_PLAYERS:
           if(playerData.startsWith("CONNECT")){
             String tokens[] = playerData.split(" ");
-            Player player = new Player(tokens[1],packet.getAddress(),packet.getPort());
-            
+            Player player = new Player(tokens[1]);
+            player.setAddress(packet.getAddress());
+            player.setPort(packet.getPort());
             //setting spawn location
             Coordinates spawnLoc = game.getSpawnLocation();
             player.setX(spawnLoc.getX());

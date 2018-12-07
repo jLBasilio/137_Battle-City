@@ -8,10 +8,8 @@ public class Player implements Constants{
   private int x,y,dir,port;
   private InetAddress address;
 
-  public Player(String name, InetAddress address, int port){
+  public Player(String name){
     this.name = name;
-    this.address = address;
-    this.port = port;
   }
 
   public void setX(int x){
@@ -24,6 +22,14 @@ public class Player implements Constants{
 
   public void setDir(int dir){
     this.dir = dir;
+  }
+
+  public void setAddress(InetAddress address){
+    this.address = address;
+  }
+
+  public void setPort(int port){
+    this.port = port;
   }
 
   public String getName(){

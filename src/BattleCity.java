@@ -9,23 +9,23 @@ import java.io.IOException;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class BattleCity implements Runnable, Constants{
 	private String mapName,name,server;
-	private int width, height, dir, x, y ,moveSpeed = 5,prevX,prevY;
+	private int width, height, dir, x, y , moveSpeed = 5;
 	private MapFrame mapFrame;
 	private boolean running = false,connected = false;
 	private Thread bcThread = new Thread(this);
 	private BufferStrategy bs;
 	private Graphics g;
-	private Handler handler;
-	private State gameState;
-	private StateManager stateManager;
 	private GameMap gameMap;
 	private KeyHandler keyHandler;
 	private DatagramSocket socket;
 	private String serverData;
-
+  private HashMap<String, Player> players;
 
   Main main;
 
@@ -54,15 +54,16 @@ public class BattleCity implements Runnable, Constants{
 		mapFrame.getCanvas().addKeyListener(keyHandler);
 		running = true;
 		Assets.initialize();
-
 		gameMap =  new GameMap("map/city1.map");
+		players = new HashMap<String, Player>();
 	}
 
 	private void update() {
-		gameMap.update();
+		//update client game map
+		// gameMap.update();
 
+		//update x or y position of this player
 		if (keyHandler.isKeyPressed()) {
-			// int tx=x,ty=y;
       switch(keyHandler.getDirection()){
         case 0: // move up
         	dir=0;
@@ -94,9 +95,21 @@ public class BattleCity implements Runnable, Constants{
 
 		g = bs.getDrawGraphics();
 
-		//draw here
+		//render map before rendering all players
 		gameMap.render(g);
-		//draw here
+		for(Iterator i = players.keySet().iterator(); i.hasNext(); ){
+      String pname = (String) i.next();
+      Player player = (Player) players.get(pname);
+      int px = player.getX();
+      int py = player.getY();
+      int pdir = player.getDir();
+      switch(pdir){
+				case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+				case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+				case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+				case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+			}
+    }
 
 		bs.show();
 		g.dispose();
@@ -108,34 +121,31 @@ public class BattleCity implements Runnable, Constants{
 				Thread.sleep(1);
 			}catch(Exception ioe){}
 
+			//get data from server
 			byte[] buf = new byte[256];
 			DatagramPacket packet = new DatagramPacket(buf, buf.length);
 			try{
 				socket.receive(packet);
 				System.out.println("receiving from server...");
-			}catch(Exception ioe){
-				// ioe.printStackTrace();
-			}
+			}catch(Exception ioe){}
 
 			serverData = new String(buf);
 			serverData = serverData.trim();
 
-			if (!serverData.equals("")){
-				System.out.println("Server Data:" +serverData);
-			}
+			// if (!serverData.equals("")){
+			// 	System.out.println("Server Data:" +serverData);
+			// }
 
-			if(!connected && serverData.startsWith("CONNECTED")){
+			if(!connected && serverData.startsWith("CONNECTED")){ //checks if server confirms connection request
 				connected=true;
 				System.out.println("Connected!");
 			}
-			else if(!connected){
+			else if(!connected){	//client ask for connection
 				System.out.println("Connecting...");
 				send("CONNECT " + name);
 			}
-			else if(connected){
+			else if(connected){ //retrieves broadcasted players data from server
 				System.out.println("Connected and Receiving...");
-				render();
-				update();
 				if(serverData.startsWith("PLAYER")){
 					String[] playersInfo = serverData.split(":");
 					for(int i=0; i<playersInfo.length; i++){
@@ -145,14 +155,18 @@ public class BattleCity implements Runnable, Constants{
 						int py = Integer.parseInt(playerData[3]);
 						int pdir = Integer.parseInt(playerData[4]);
 						System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+						Player player = new Player(pname);
+						player.setX(px);
+						player.setY(py);
+						player.setDir(pdir);
+						players.put(pname,player); //adds player to map or updates player details saved in map.
 					}
 				}
+				// render current state before sending update to server
+				render();
+				update();
 			}
 		}
-	}
-
-	public KeyHandler getKeyHandler(){
-		return keyHandler;
 	}
 
 	private void send(String msg){
