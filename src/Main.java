@@ -78,8 +78,9 @@ public class Main implements Runnable {
   int maxPlayers, connectedPlayers;
 
 
-
   public Main() {
+
+    
 
     try {
 

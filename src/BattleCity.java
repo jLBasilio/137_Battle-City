@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BattleCity implements Runnable, Constants{
 	private String mapName,name,server;
-	private int width, height, dir, x, y ,moveSpeed = 5;
+	private int width, height, dir, x, y ,moveSpeed = 5,prevX,prevY;
 	private MapFrame mapFrame;
 	private boolean running = false,connected = false;
 	private Thread bcThread = new Thread(this);
@@ -24,6 +24,8 @@ public class BattleCity implements Runnable, Constants{
 	private GameMap gameMap;
 	private KeyHandler keyHandler;
 	private DatagramSocket socket;
+	private String serverData;
+
 
   Main main;
 
@@ -37,11 +39,14 @@ public class BattleCity implements Runnable, Constants{
 
 		try{
 				socket = new DatagramSocket();
+				socket.setSoTimeout(1000);
 		}catch(IOException ioe){}
 
-		bcThread.start();
-
 		keyHandler = new KeyHandler();
+
+		initialize();
+
+		bcThread.start();
 	}
 
 	private void initialize() {
@@ -51,71 +56,32 @@ public class BattleCity implements Runnable, Constants{
 		Assets.initialize();
 
 		gameMap =  new GameMap("map/city1.map");
-		// handler = new Handler(this);
-		// handler.setGameMap(gameMap);
-		// gameState = new GameState(handler);
-		// stateManager = new StateManager(gameState);
 	}
 
 	private void update() {
-		// stateManager.getState().update();
 		gameMap.update();
 
-		if(keyHandler.isKeyPressed()){
-			// switch(keyHandler.getDirection()){
-			// 	case 0:
-			// 		dir = 0;
-
-			// 		if((y-moveSpeed) >= 0){
-			// 			if(!collision()){
-			// 				y-=moveSpeed;
-			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
-			// 			}
-			// 			else{
-			// 				System.out.println("Collision detected @ top!");
-			// 			}
-			// 		}
-			// 		break;
-			// 	case 1:
-			// 		dir = 1;
-
-			// 		if((x+moveSpeed) <= 870){
-			// 			if(!collision()){
-			// 				x+=moveSpeed;
-			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
-			// 			}
-			// 			else{
-			// 				System.out.println("Collision detected @ right!");
-			// 			}
-			// 		}
-			// 		break;
-			// 	case 2:
-
-			// 		if((y+moveSpeed) <= 570){
-			// 			if(!collision()){
-			// 				y+=moveSpeed;
-			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
-			// 			}
-			// 			else{
-			// 				System.out.println("Collision detected @ bottom!");
-			// 			}
-			// 		}
-			// 		dir = 2;
-			// 		break;
-			// 	case 3:
-
-			// 		if((x-moveSpeed) >= 0){
-			// 			if(!collision()){
-			// 				x-=moveSpeed;
-			// 				send("PLAYER" + name + " " + x + " " + y + " " + dir);
-			// 			}
-			// 			else{
-			// 				System.out.println("Collision detected @ left!");
-			// 			}
-			// 		}
-			// 		dir = 3;
-			// 		break;
-			// }
+		if (keyHandler.isKeyPressed()) {
+			// int tx=x,ty=y;
+      switch(keyHandler.getDirection()){
+        case 0: // move up
+        	dir=0;
+        	y-=moveSpeed;
+          break;
+        case 1: // move right
+        	dir=1;
+        	x+=moveSpeed;
+          break;
+        case 2: // move down
+        	dir=2;
+        	y+=moveSpeed;
+          break;
+        case 3: // move left
+        	dir=3;
+        	x-=moveSpeed;
+          break;
+      }
+      send("PLAYER " + name + " " + x + " " + y + " " + dir);
 		}
 	}
 
@@ -129,19 +95,7 @@ public class BattleCity implements Runnable, Constants{
 		g = bs.getDrawGraphics();
 
 		//draw here
-		// stateManager.getState().render(g);
-		
-		// if(object.equals("map")){
-			gameMap.render(g);
-		// }
-		// else if(object.equals("player")){
-		// 	switch(pdir){
-		// 		case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-		// 		case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-		// 		case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-		// 		case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-		// 	}
-		// }
+		gameMap.render(g);
 		//draw here
 
 		bs.show();
@@ -149,49 +103,50 @@ public class BattleCity implements Runnable, Constants{
 	}
 
 	public void run(){
-		initialize();
-
-		int fps = 60;
-		double timePerUpdate = 1000000000 / fps;
-		double delta = 0;
-		long now;
-		long lastTime = System.nanoTime();
-
-		String serverData;
-
 		while(running){
-			now = System.nanoTime();
-			delta += (now - lastTime) / timePerUpdate;
-			lastTime = now;
+			try{
+				Thread.sleep(1);
+			}catch(Exception ioe){}
 
-			if(delta >= 1){
-				update();
+			byte[] buf = new byte[256];
+			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+			try{
+				socket.receive(packet);
+				System.out.println("receiving from server...");
+			}catch(Exception ioe){
+				// ioe.printStackTrace();
+			}
+
+			serverData = new String(buf);
+			serverData = serverData.trim();
+
+			if (!serverData.equals("")){
+				System.out.println("Server Data:" +serverData);
+			}
+
+			if(!connected && serverData.startsWith("CONNECTED")){
+				connected=true;
+				System.out.println("Connected!");
+			}
+			else if(!connected){
+				System.out.println("Connecting...");
+				send("CONNECT " + name);
+			}
+			else if(connected){
+				System.out.println("Connected and Receiving...");
 				render();
-
-				serverData = receive().trim();
-
-				if(!connected && serverData.startsWith("CONNECTED")){
-					connected=true;
-					System.out.println("Connected.");
-				}
-				else if(!connected){
-					System.out.println("Connecting..");
-					send("CONNECT " + name);
-				}
-				else if(connected){
-					if(serverData.startsWith("PLAYER")){
-						String[] playersInfo = serverData.split(":");
-						for(int i=0; i<playersInfo.length; i++){
-							String[] playerData = playersInfo[i].split(" ");
-							String pname = playerData[1];
-							int px = Integer.parseInt(playerData[2]);
-							int py = Integer.parseInt(playerData[3]);
-							int pdir = Integer.parseInt(playerData[4]);
-							// render("player",px,py,pdir);
-						}
+				update();
+				if(serverData.startsWith("PLAYER")){
+					String[] playersInfo = serverData.split(":");
+					for(int i=0; i<playersInfo.length; i++){
+						String[] playerData = playersInfo[i].split(" ");
+						String pname = playerData[1];
+						int px = Integer.parseInt(playerData[2]);
+						int py = Integer.parseInt(playerData[3]);
+						int pdir = Integer.parseInt(playerData[4]);
+						System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
 					}
 				}
-				delta--;
 			}
 		}
 	}
@@ -206,61 +161,7 @@ public class BattleCity implements Runnable, Constants{
 			InetAddress address = InetAddress.getByName(server);
 			DatagramPacket packet = new DatagramPacket(buf, buf.length, address, PORT);
 			socket.send(packet);
+			System.out.println("Sending packet to server...");
 		}catch(Exception e){}
-	}
-
-	private String receive(){
-		byte[] buf = new byte[256];
-		DatagramPacket packet = new DatagramPacket(buf, buf.length);
-		try{
-			socket.receive(packet);
-		}catch(Exception ioe){}
-
-		String serverData = new String(buf);
-
-		return serverData;
-	}
-
-	public boolean collision(){
-		System.out.println("Detecting collision.");
-
-		Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
-
-    List<Tile> tiles = gameMap.getTiles();
-
-    for(Tile tile : tiles){
-      Rectangle r2 = tile.getBounds();
-      if (r.intersects(r2)) {
-        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
-        System.out.println(dir);
-
-        if(dir == 0){
-          if(r.y > r2.y)
-            return true;
-          else
-            return false;
-        }
-        else if(dir == 1){
-          if(r.x < r2.x)
-            return true;
-          else
-            return false;
-        }
-        else if(dir == 2){
-          if(r.y < r2.y)
-            return true;
-          else
-            return false;
-        }
-        else if(dir == 3){
-          if(r.x > r2.x)
-            return true;
-          else
-            return false;
-        }
-      }
-    }
-
-    return false;
 	}
 }

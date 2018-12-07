@@ -14,8 +14,6 @@ public class GameState {
   
   public GameState(){
     // Coordinates spawnLoc = setSpawnLocation();
-
-    // player = new Player(handler,spawnLoc.getX(),spawnLoc.getY(),30,30);
   }
 
   // private Coordinates setSpawnLocation(){
@@ -47,28 +45,7 @@ public class GameState {
 
   public void update(String name, Player player){
     players.put(name, player);
-
-    // List<Bullet> bullets = player.getBullets();
-
-    // for(int i = 0; i < bullets.size(); i++){
-    //  Bullet bullet = bullets.get(i);
-
-    //  if(bullet.isVisible())
-    //    bullet.update();
-    // }
   }
-
-  // public void render(Graphics g){
-  //  gameMap.render(g);
-  //  player.render(g);
-
-  //  List<Bullet> bullets = player.getBullets();
-
-  //  for(Bullet bullet: bullets){
-  //    if(bullet.isVisible())
-  //      bullet.render(g);
-  //  }
-  // }
 
   public String getGameData(){
     String gameData = "";

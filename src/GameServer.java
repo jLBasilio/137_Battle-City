@@ -58,6 +58,7 @@ public class GameServer implements Runnable, Constants{
       DatagramPacket packet = new DatagramPacket(buf, buf.length);
       try{
           serverSocket.receive(packet);
+          System.out.println("receiving from players");
       }catch(Exception e){
         e.printStackTrace();
       }
@@ -70,6 +71,12 @@ public class GameServer implements Runnable, Constants{
           if(playerData.startsWith("CONNECT")){
             String tokens[] = playerData.split(" ");
             Player player = new Player(tokens[1],packet.getAddress(),packet.getPort());
+            
+            //setting spawn location
+            player.setX(0);
+            player.setY(0);
+            player.setDir(0);
+
             game.update(tokens[1],player);
             broadcast("CONNECTED" + tokens[1]);
             playerCount++;
