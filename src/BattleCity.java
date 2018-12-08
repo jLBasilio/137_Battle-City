@@ -125,37 +125,53 @@ public class BattleCity implements Runnable, Constants{
 
 		currentTime = System.nanoTime();
 		if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
-			shootingTime = System.nanoTime();
-			send("BULLET " + name + " " + x + " " + y + " " + dir);
-		}
-	}
-
-	private void render() {
-		bs = mapFrame.getCanvas().getBufferStrategy();
-		if(bs == null) {
-			mapFrame.getCanvas().createBufferStrategy(3);
-			return;
-		}
-
-		g = bs.getDrawGraphics();
-
-		//render map before rendering all players
-		gameMap.render(g);
-		for(Iterator i = players.keySet().iterator(); i.hasNext(); ){
-      String pname = (String) i.next();
-      Player player = (Player) players.get(pname);
-      int px = player.getX();
-      int py = player.getY();
-      int pdir = player.getDir();
-      switch(pdir){
-				case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-				case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-			}
-			// render bullet
-			// g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
+      shootingTime = System.nanoTime();
+      send("BULLET " + name + " " + x + " " + y + " " + dir);
     }
+  }
+
+  private void render() {
+    bs = mapFrame.getCanvas().getBufferStrategy();
+    if(bs == null) {
+      mapFrame.getCanvas().createBufferStrategy(3);
+      return;
+    }
+
+    g = bs.getDrawGraphics();
+    System.out.println("ENTERED RENDER");
+
+    //render map before rendering all players
+    gameMap.render(g);
+    // for(Iterator i = players.keySet().iterator(); i.hasNext(); ){
+  //     String pname = (String) i.next();
+  //     Player player = (Player) players.get(pname);
+  //     int px = player.getX();
+  //     int py = player.getY();
+  //     int pdir = player.getDir();
+  //     switch(pdir){
+    //    case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //    case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //    case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //    case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //  }
+    //  // render bullet
+    //  // g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
+  //   }
+    // for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+    //     String pname = entry.getKey();
+    //     Player player = entry.getValue();
+        
+    //     int px = player.getX();
+    //     int py = player.getY();
+    //     int pdir = player.getDir();
+    //     switch(pdir){
+    //       case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //       case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //       case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //       case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+    //     }
+    // }
+
 
 		bs.show();
 		g.dispose();
@@ -175,6 +191,7 @@ public class BattleCity implements Runnable, Constants{
 
 			try{
 				
+        // Holy trinity for receiving packets
         socket.receive(toReceivePacket);
         toParse = new byte[toReceivePacket.getLength()];
         System.arraycopy(toReceivePacket.getData(), toReceivePacket.getOffset(), toParse, 0, toReceivePacket.getLength());
@@ -193,7 +210,7 @@ public class BattleCity implements Runnable, Constants{
 
         }
 
-
+        render();
 
 			} catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
 		}

@@ -117,7 +117,7 @@ public class GameServer implements Runnable, Constants{
             serverSocket.send(toSendPacket);
           }
 
-          // Send all player list to all
+          // Send all player list to all when playercountis reached
           if (playerCount == numOfPlayers) {
 
             playerInfoToSend.setInfo(game.getGameData());
@@ -129,12 +129,8 @@ public class GameServer implements Runnable, Constants{
               toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
               serverSocket.send(toSendPacket);
             } 
-
           }
-
         }
-
-
         else 
           continue;
 
