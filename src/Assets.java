@@ -5,16 +5,23 @@ import java.awt.image.BufferedImage;
 public class Assets{
 	private static final int tileWidth = 168, tileHeight = 166;
 	private static final int tankWidth = 182, tankHeight = 182;
-	private static final int powUpWidth = 108, powUpHeight = 108;
+	private static final int defPowUpWidth = 108, defPowUpHeight = 108;
+	private static final int atkPowUpWidth = 107, atkPowUpHeight = 108;
+	private static final int msPowUpWidth = 111, msPowUpHeight = 108;
+	private static final int bulletWidth = 64, bulletHeight = 64;
 	public static BufferedImage brick, road, grass, water, steel;
 	public static BufferedImage tankU, tankR, tankD, tankL;
 	public static BufferedImage wallDestroyer, powerArmor, timeSkip;
+	public static BufferedImage bullet;
 
 	public static void initialize(){
 		
 		SpriteSheet tileSprites = new SpriteSheet(ImageLoader.loadImage("assets/tileSprites.png"));
 		SpriteSheet tankSprites = new SpriteSheet(ImageLoader.loadImage("assets/tankSprites.png"));
-		SpriteSheet powUpSprites = new SpriteSheet(ImageLoader.loadImage("assets/powerArmor.png"));
+		SpriteSheet powUpDefSprite = new SpriteSheet(ImageLoader.loadImage("assets/powerArmor.png"));
+		SpriteSheet powUpAtkSprite = new SpriteSheet(ImageLoader.loadImage("assets/wallDestroyer.PNG"));
+		SpriteSheet powUpMsSprite = new SpriteSheet(ImageLoader.loadImage("assets/timeSkip.PNG"));
+		SpriteSheet bulletSprite = new SpriteSheet(ImageLoader.loadImage("assets/bullet.png"));
 
 		brick = tileSprites.cropImg(0,0,tileWidth,tileHeight);
 		road = tileSprites.cropImg(tileWidth,0,tileWidth,tileHeight);
@@ -27,8 +34,10 @@ public class Assets{
 		tankD = tankSprites.cropImg(0,tankHeight,tankWidth,tankHeight);
 		tankL = tankSprites.cropImg(tankWidth,tankHeight,tankWidth,tankHeight);
 
-		wallDestroyer = powUpSprites.cropImg(0,0,powUpWidth,powUpHeight);
-		powerArmor = powUpSprites.cropImg(0,0,powUpWidth,powUpHeight);
-		timeSkip = powUpSprites.cropImg(0,0,powUpWidth,powUpHeight);
+		wallDestroyer = powUpDefSprite.cropImg(0,0,defPowUpWidth,defPowUpHeight);
+		powerArmor = powUpAtkSprite.cropImg(0,0,atkPowUpWidth,atkPowUpHeight);
+		timeSkip = powUpMsSprite.cropImg(0,0,msPowUpWidth,msPowUpHeight);
+
+		bullet = powUpMsSprite.cropImg(0,0,bulletWidth,bulletHeight);
 	}
 }
