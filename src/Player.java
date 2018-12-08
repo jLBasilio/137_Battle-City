@@ -40,11 +40,28 @@ public class Player implements Constants{
     return this.moveSpeed;
   }
 
+  public void moveRight() {
+    if((this.x + this.moveSpeed) <= 870) {
+      this.x += this.moveSpeed;
+    }
+  }
 
+  public void moveLeft() {
+    if((this.x - this.moveSpeed) >= 0) {
+      this.x -= this.moveSpeed;
+    }
+  }
 
-  public void incrementX() {
+  public void moveUp() {
+    if((this.y - this.moveSpeed) >= 0) {
+      this.y -= this.moveSpeed;
+    }
+  }
 
-
+  public void moveDown() {
+    if((this.y + this.moveSpeed) <= 570) {
+      this.y += this.moveSpeed;
+    }
   }
 
 

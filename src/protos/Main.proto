@@ -2,26 +2,51 @@ syntax = "proto2";
 
 package app;
 
-import "player.proto";
 option java_package = "com.main.app";
 option java_outer_classname = "Mainprotos";
 
-message Person {
-  required string name = 1;
-  required int32 age = 2;
+message UDPPacket {
 
-}
-
-// Protoc ver: libprotoc 3.6.1
-
-
-message ConnectPacket {
-  enum Update {
-    SELF = 0;
-    NEW = 1;
+  enum PacketType {
+    CONNECT = 0;
+    MOVEUP = 1;
+    MOVEDOWN = 2;
+    MOVERIGHT = 3;
+    MOVELEFT = 4;
+    CUSTOM = 5;
+    PLAYER_INFO = 6;
   }
 
-  required Player player = 2;
-  optional string lobby_id  = 3;
-  optional ConnectPacket.Update update = 4;
+  required PacketType type = 1;
+
+  message Move {
+    required PacketType type = 1;
+    required string name = 2;
+    required int32 x = 3;
+    required int32 y = 4;
+    required int32 direction = 5;
+  }
+
+  message Connect {
+    required PacketType type = 1;
+    required string name = 2;
+    optional int32 x = 3;
+    optional int32 y = 4;
+    optional int32 dir = 5;
+  }
+
+  message Playerinfo {
+    required PacketType type = 1;
+    optional string info = 2;
+  }
+
+  message Custom {
+    required PacketType type = 1;
+    required string message = 2;
+  }
+
 }
+
+
+
+// Protoc ver: libprotoc 3.6.1

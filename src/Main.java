@@ -184,6 +184,11 @@ public class Main implements Runnable {
     testButton5 = new JButton("TEST");
     testButton5.setPreferredSize(defaultDimension);
 
+    playerNameInput.setText("1");
+    serverIPInput.setText("0.0.0.0");
+    maxPlayersInput.setText("3");
+
+    udpLobbyField.setText("0.0.0.0");
 
     /* ========== START PANEL =========== */    
 
@@ -525,7 +530,7 @@ public class Main implements Runnable {
       try{
         
         connectedPlayers = chatResource.getCountPlayers();
-        System.out.println("Connected PLAYERS => " + connectedPlayers);
+        // System.out.println("Connected PLAYERS => " + connectedPlayers);
         
         // For server only
         serverLobbyLobbyIdField.setText(lobbyId);

@@ -6,6 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +14,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.main.app.Mainprotos.*;
+
 public class BattleCity implements Runnable, Constants{
-	private String mapName,name,server;
+	private String mapName, name, server;
 	private int width, height, dir, x, y , moveSpeed = 5;
 	private MapFrame mapFrame;
 	private boolean running = false,connected = false;
@@ -27,7 +30,13 @@ public class BattleCity implements Runnable, Constants{
 	private String serverData;
   private HashMap<String, Player> players;
 
+  UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
+
+  InetAddress inetaddress;
+  DatagramPacket toServerPacket, toReceivePacket;
   Main main;
+
+  byte[] toReceive, toParse;
 
   private long bulletSpawnDelay = 250000000;
   private long currentTime;
@@ -41,13 +50,18 @@ public class BattleCity implements Runnable, Constants{
     this.name = main.playerName;
 		this.server = main.serverIP;
 
-		try{
-				socket = new DatagramSocket();
-				socket.setSoTimeout(1000);
-		}catch(IOException ioe){}
+    connectPacket.setType(UDPPacket.PacketType.CONNECT);
 
-		initialize();
-		bcThread.start();
+    try{
+      inetaddress = InetAddress.getByName(this.server);
+      socket = new DatagramSocket();
+      socket.setSoTimeout(1000000);
+    } catch(IOException ioe){}
+
+    initialize();
+    connectToServer(this.name);
+    bcThread.start();
+
 	}
 
 	private void initialize() {
@@ -69,19 +83,10 @@ public class BattleCity implements Runnable, Constants{
       switch(keyHandler.getDirection()){
         case 0: // move up
         	dir=0;
-        	if((y-moveSpeed) >= 0){
-            if(!collision()){
-              y-=moveSpeed;
-              send("PLAYER " + name + " " + x + " " + y + " " + dir);
-            }
-            else{
-              System.out.println("Collision detected @ top!");
-            }
-          }
           break;
         case 1: // move right
         	dir=1;
-        	if((x+moveSpeed) <= 870){
+        	if((x+moveSpeed) <= 870) {
             if(!collision()){
               x+=moveSpeed;
               send("PLAYER " + name + " " + x + " " + y + " " + dir);
@@ -117,6 +122,7 @@ public class BattleCity implements Runnable, Constants{
           break;
       }
 		}
+
 		currentTime = System.nanoTime();
 		if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
 			shootingTime = System.nanoTime();
@@ -159,51 +165,76 @@ public class BattleCity implements Runnable, Constants{
 		while(running) {
 			try {
 				Thread.sleep(1);
-			} catch(Exception ioe){}
+			} catch(Exception ioe){
+
+      }
 
 			//get data from server
-			byte[] buf = new byte[256];
-			DatagramPacket packet = new DatagramPacket(buf, buf.length);
+			toReceive = new byte[1024];
+			toReceivePacket = new DatagramPacket(toReceive, toReceive.length);
+
 			try{
-				socket.receive(packet);
-				System.out.println("receiving from server...");
-			}catch(Exception ioe){}
+				
+        socket.receive(toReceivePacket);
+        toParse = new byte[toReceivePacket.getLength()];
+        System.arraycopy(toReceivePacket.getData(), toReceivePacket.getOffset(), toParse, 0, toReceivePacket.getLength());
 
-			serverData = new String(buf);
-			serverData = serverData.trim();
+        // Fetch all players
+        if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.PLAYER_INFO) {
+          String playerInfos = UDPPacket.Playerinfo.parseFrom(toParse).getInfo();
+          System.out.println(playerInfos);
+          parseAllPlayers(playerInfos);
 
-			if(!connected && serverData.startsWith("CONNECTED")){ //checks if server confirms connection request
-				connected=true;
-				System.out.println("Connected!");
-			}
-			else if(!connected){	//client ask for connection
-				System.out.println("Connecting...");
-				send("CONNECT " + name);
-			}
-			else if(connected){ //retrieves broadcasted players data from server
-				System.out.println("Connected and Receiving...");
-				if(serverData.startsWith("PLAYER")){
-					String[] playersInfo = serverData.split(":");
-					for(int i=0; i<playersInfo.length; i++){
-						String[] playerData = playersInfo[i].split(" ");
-						String pname = playerData[1];
-						int px = Integer.parseInt(playerData[2]);
-						int py = Integer.parseInt(playerData[3]);
-						int pdir = Integer.parseInt(playerData[4]);
-						System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
-						Player player = new Player(pname);
-						player.setX(px);
-						player.setY(py);
-						player.setDir(pdir);
-						players.put(pname,player); //adds player to map or updates player details saved in map.
-					}
-				}
-				// render current state before sending update to server
-				render();
-				update();
-			}
+        }
+
+        // For custom messages from server
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.CUSTOM) {
+          System.out.println(UDPPacket.Custom.parseFrom(toParse).getMessage());
+
+        }
+
+
+
+			} catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
 		}
 	}
+
+  private void connectToServer(String name) {
+    try{
+      connectPacket.setName(name);
+      System.out.println("To send name: " + connectPacket.getName());
+      System.out.println("To send type: " + connectPacket.getType());
+      byte[] buf = connectPacket.build().toByteArray();
+      toServerPacket = new DatagramPacket(buf, buf.length, inetaddress, PORT);      
+      socket.send(toServerPacket);
+      System.out.println(this.name + " has sent connect packet to server.\n");
+    }catch(Exception e){}
+
+  }
+
+
+
+  private void parseAllPlayers(String info) {
+
+    if(info.startsWith("PLAYER")){
+      String[] playersInfo = info.split(":");
+      for(int i=0; i<playersInfo.length; i++){
+        String[] playerData = playersInfo[i].split(" ");
+        String pname = playerData[1];
+        int px = Integer.parseInt(playerData[2]);
+        int py = Integer.parseInt(playerData[3]);
+        int pdir = Integer.parseInt(playerData[4]);
+        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        Player player = new Player(pname);
+        player.setX(px);
+        player.setY(py);
+        player.setDir(pdir);
+        players.put(pname,player); //adds player to map or updates player details saved in map.
+      }
+    }
+  }
+
+
 
 	private void send(String msg){
 		try{

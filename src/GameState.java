@@ -61,7 +61,27 @@ public class GameState {
     return gameData;
   }
 
-  public Map getPlayers(){
-    return players;
+  public void addPlayer(String name, Player player) {
+    players.put(name, player);
+    printAllPlayers();
+
   }
+
+  public HashMap<String, Player> getPlayers(){
+    return this.players;
+  }
+
+  private void printAllPlayers() {
+
+    System.out.println("=========== CURRENT PLAYERS IN SERVER ============");
+
+    for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+        String key = entry.getKey();
+        Player value = entry.getValue();
+        
+        System.out.println(key);
+
+    }
+  }
+
 }

@@ -14,48 +14,33 @@ public final class Mainprotos {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
-  public interface PersonOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:app.Person)
+  public interface UDPPacketOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:app.UDPPacket)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>required string name = 1;</code>
+     * <code>required .app.UDPPacket.PacketType type = 1;</code>
      */
-    boolean hasName();
+    boolean hasType();
     /**
-     * <code>required string name = 1;</code>
+     * <code>required .app.UDPPacket.PacketType type = 1;</code>
      */
-    java.lang.String getName();
-    /**
-     * <code>required string name = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getNameBytes();
-
-    /**
-     * <code>required int32 age = 2;</code>
-     */
-    boolean hasAge();
-    /**
-     * <code>required int32 age = 2;</code>
-     */
-    int getAge();
+    com.main.app.Mainprotos.UDPPacket.PacketType getType();
   }
   /**
-   * Protobuf type {@code app.Person}
+   * Protobuf type {@code app.UDPPacket}
    */
-  public  static final class Person extends
+  public  static final class UDPPacket extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:app.Person)
-      PersonOrBuilder {
+      // @@protoc_insertion_point(message_implements:app.UDPPacket)
+      UDPPacketOrBuilder {
   private static final long serialVersionUID = 0L;
-    // Use Person.newBuilder() to construct.
-    private Person(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+    // Use UDPPacket.newBuilder() to construct.
+    private UDPPacket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
-    private Person() {
-      name_ = "";
-      age_ = 0;
+    private UDPPacket() {
+      type_ = 0;
     }
 
     @java.lang.Override
@@ -63,7 +48,7 @@ public final class Mainprotos {
     getUnknownFields() {
       return this.unknownFields;
     }
-    private Person(
+    private UDPPacket(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -82,731 +67,15 @@ public final class Mainprotos {
             case 0:
               done = true;
               break;
-            case 10: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000001;
-              name_ = bs;
-              break;
-            }
-            case 16: {
-              bitField0_ |= 0x00000002;
-              age_ = input.readInt32();
-              break;
-            }
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        this.unknownFields = unknownFields.build();
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return com.main.app.Mainprotos.internal_static_app_Person_descriptor;
-    }
-
-    @java.lang.Override
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return com.main.app.Mainprotos.internal_static_app_Person_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              com.main.app.Mainprotos.Person.class, com.main.app.Mainprotos.Person.Builder.class);
-    }
-
-    private int bitField0_;
-    public static final int NAME_FIELD_NUMBER = 1;
-    private volatile java.lang.Object name_;
-    /**
-     * <code>required string name = 1;</code>
-     */
-    public boolean hasName() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
-    }
-    /**
-     * <code>required string name = 1;</code>
-     */
-    public java.lang.String getName() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          name_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>required string name = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getNameBytes() {
-      java.lang.Object ref = name_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        name_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int AGE_FIELD_NUMBER = 2;
-    private int age_;
-    /**
-     * <code>required int32 age = 2;</code>
-     */
-    public boolean hasAge() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>required int32 age = 2;</code>
-     */
-    public int getAge() {
-      return age_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    @java.lang.Override
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      if (!hasName()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!hasAge()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    @java.lang.Override
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, age_);
-      }
-      unknownFields.writeTo(output);
-    }
-
-    @java.lang.Override
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, age_);
-      }
-      size += unknownFields.getSerializedSize();
-      memoizedSize = size;
-      return size;
-    }
-
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof com.main.app.Mainprotos.Person)) {
-        return super.equals(obj);
-      }
-      com.main.app.Mainprotos.Person other = (com.main.app.Mainprotos.Person) obj;
-
-      boolean result = true;
-      result = result && (hasName() == other.hasName());
-      if (hasName()) {
-        result = result && getName()
-            .equals(other.getName());
-      }
-      result = result && (hasAge() == other.hasAge());
-      if (hasAge()) {
-        result = result && (getAge()
-            == other.getAge());
-      }
-      result = result && unknownFields.equals(other.unknownFields);
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasName()) {
-        hash = (37 * hash) + NAME_FIELD_NUMBER;
-        hash = (53 * hash) + getName().hashCode();
-      }
-      if (hasAge()) {
-        hash = (37 * hash) + AGE_FIELD_NUMBER;
-        hash = (53 * hash) + getAge();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static com.main.app.Mainprotos.Person parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.main.app.Mainprotos.Person parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static com.main.app.Mainprotos.Person parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static com.main.app.Mainprotos.Person parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    @java.lang.Override
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(com.main.app.Mainprotos.Person prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    @java.lang.Override
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code app.Person}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:app.Person)
-        com.main.app.Mainprotos.PersonOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return com.main.app.Mainprotos.internal_static_app_Person_descriptor;
-      }
-
-      @java.lang.Override
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return com.main.app.Mainprotos.internal_static_app_Person_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                com.main.app.Mainprotos.Person.class, com.main.app.Mainprotos.Person.Builder.class);
-      }
-
-      // Construct using com.main.app.Mainprotos.Person.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      @java.lang.Override
-      public Builder clear() {
-        super.clear();
-        name_ = "";
-        bitField0_ = (bitField0_ & ~0x00000001);
-        age_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        return this;
-      }
-
-      @java.lang.Override
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return com.main.app.Mainprotos.internal_static_app_Person_descriptor;
-      }
-
-      @java.lang.Override
-      public com.main.app.Mainprotos.Person getDefaultInstanceForType() {
-        return com.main.app.Mainprotos.Person.getDefaultInstance();
-      }
-
-      @java.lang.Override
-      public com.main.app.Mainprotos.Person build() {
-        com.main.app.Mainprotos.Person result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      @java.lang.Override
-      public com.main.app.Mainprotos.Person buildPartial() {
-        com.main.app.Mainprotos.Person result = new com.main.app.Mainprotos.Person(this);
-        int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
-        result.name_ = name_;
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.age_ = age_;
-        result.bitField0_ = to_bitField0_;
-        onBuilt();
-        return result;
-      }
-
-      @java.lang.Override
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      @java.lang.Override
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      @java.lang.Override
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      @java.lang.Override
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      @java.lang.Override
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      @java.lang.Override
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      @java.lang.Override
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.main.app.Mainprotos.Person) {
-          return mergeFrom((com.main.app.Mainprotos.Person)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(com.main.app.Mainprotos.Person other) {
-        if (other == com.main.app.Mainprotos.Person.getDefaultInstance()) return this;
-        if (other.hasName()) {
-          bitField0_ |= 0x00000001;
-          name_ = other.name_;
-          onChanged();
-        }
-        if (other.hasAge()) {
-          setAge(other.getAge());
-        }
-        this.mergeUnknownFields(other.unknownFields);
-        onChanged();
-        return this;
-      }
-
-      @java.lang.Override
-      public final boolean isInitialized() {
-        if (!hasName()) {
-          return false;
-        }
-        if (!hasAge()) {
-          return false;
-        }
-        return true;
-      }
-
-      @java.lang.Override
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        com.main.app.Mainprotos.Person parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.main.app.Mainprotos.Person) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.lang.Object name_ = "";
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public boolean hasName() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            name_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          name_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public Builder setName(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        name_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public Builder clearName() {
-        bitField0_ = (bitField0_ & ~0x00000001);
-        name_ = getDefaultInstance().getName();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required string name = 1;</code>
-       */
-      public Builder setNameBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000001;
-        name_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int age_ ;
-      /**
-       * <code>required int32 age = 2;</code>
-       */
-      public boolean hasAge() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>required int32 age = 2;</code>
-       */
-      public int getAge() {
-        return age_;
-      }
-      /**
-       * <code>required int32 age = 2;</code>
-       */
-      public Builder setAge(int value) {
-        bitField0_ |= 0x00000002;
-        age_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>required int32 age = 2;</code>
-       */
-      public Builder clearAge() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        age_ = 0;
-        onChanged();
-        return this;
-      }
-      @java.lang.Override
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.setUnknownFields(unknownFields);
-      }
-
-      @java.lang.Override
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return super.mergeUnknownFields(unknownFields);
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:app.Person)
-    }
-
-    // @@protoc_insertion_point(class_scope:app.Person)
-    private static final com.main.app.Mainprotos.Person DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new com.main.app.Mainprotos.Person();
-    }
-
-    public static com.main.app.Mainprotos.Person getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<Person>
-        PARSER = new com.google.protobuf.AbstractParser<Person>() {
-      @java.lang.Override
-      public Person parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        return new Person(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<Person> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<Person> getParserForType() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.main.app.Mainprotos.Person getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface ConnectPacketOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:app.ConnectPacket)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>required .app.Player player = 2;</code>
-     */
-    boolean hasPlayer();
-    /**
-     * <code>required .app.Player player = 2;</code>
-     */
-    com.main.app.PlayerProtos.Player getPlayer();
-    /**
-     * <code>required .app.Player player = 2;</code>
-     */
-    com.main.app.PlayerProtos.PlayerOrBuilder getPlayerOrBuilder();
-
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    boolean hasLobbyId();
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    java.lang.String getLobbyId();
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    com.google.protobuf.ByteString
-        getLobbyIdBytes();
-
-    /**
-     * <code>optional .app.ConnectPacket.Update update = 4;</code>
-     */
-    boolean hasUpdate();
-    /**
-     * <code>optional .app.ConnectPacket.Update update = 4;</code>
-     */
-    com.main.app.Mainprotos.ConnectPacket.Update getUpdate();
-  }
-  /**
-   * Protobuf type {@code app.ConnectPacket}
-   */
-  public  static final class ConnectPacket extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:app.ConnectPacket)
-      ConnectPacketOrBuilder {
-  private static final long serialVersionUID = 0L;
-    // Use ConnectPacket.newBuilder() to construct.
-    private ConnectPacket(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private ConnectPacket() {
-      lobbyId_ = "";
-      update_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return this.unknownFields;
-    }
-    private ConnectPacket(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
-      int mutable_bitField0_ = 0;
-      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
-          com.google.protobuf.UnknownFieldSet.newBuilder();
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            case 18: {
-              com.main.app.PlayerProtos.Player.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = player_.toBuilder();
-              }
-              player_ = input.readMessage(com.main.app.PlayerProtos.Player.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(player_);
-                player_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
-              break;
-            }
-            case 26: {
-              com.google.protobuf.ByteString bs = input.readBytes();
-              bitField0_ |= 0x00000002;
-              lobbyId_ = bs;
-              break;
-            }
-            case 32: {
+            case 8: {
               int rawValue = input.readEnum();
                 @SuppressWarnings("deprecation")
-              com.main.app.Mainprotos.ConnectPacket.Update value = com.main.app.Mainprotos.ConnectPacket.Update.valueOf(rawValue);
+              com.main.app.Mainprotos.UDPPacket.PacketType value = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(rawValue);
               if (value == null) {
-                unknownFields.mergeVarintField(4, rawValue);
+                unknownFields.mergeVarintField(1, rawValue);
               } else {
-                bitField0_ |= 0x00000004;
-                update_ = rawValue;
+                bitField0_ |= 0x00000001;
+                type_ = rawValue;
               }
               break;
             }
@@ -831,40 +100,80 @@ public final class Mainprotos {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.main.app.Mainprotos.internal_static_app_ConnectPacket_descriptor;
+      return com.main.app.Mainprotos.internal_static_app_UDPPacket_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.main.app.Mainprotos.internal_static_app_ConnectPacket_fieldAccessorTable
+      return com.main.app.Mainprotos.internal_static_app_UDPPacket_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              com.main.app.Mainprotos.ConnectPacket.class, com.main.app.Mainprotos.ConnectPacket.Builder.class);
+              com.main.app.Mainprotos.UDPPacket.class, com.main.app.Mainprotos.UDPPacket.Builder.class);
     }
 
     /**
-     * Protobuf enum {@code app.ConnectPacket.Update}
+     * Protobuf enum {@code app.UDPPacket.PacketType}
      */
-    public enum Update
+    public enum PacketType
         implements com.google.protobuf.ProtocolMessageEnum {
       /**
-       * <code>SELF = 0;</code>
+       * <code>CONNECT = 0;</code>
        */
-      SELF(0),
+      CONNECT(0),
       /**
-       * <code>NEW = 1;</code>
+       * <code>MOVEUP = 1;</code>
        */
-      NEW(1),
+      MOVEUP(1),
+      /**
+       * <code>MOVEDOWN = 2;</code>
+       */
+      MOVEDOWN(2),
+      /**
+       * <code>MOVERIGHT = 3;</code>
+       */
+      MOVERIGHT(3),
+      /**
+       * <code>MOVELEFT = 4;</code>
+       */
+      MOVELEFT(4),
+      /**
+       * <code>CUSTOM = 5;</code>
+       */
+      CUSTOM(5),
+      /**
+       * <code>PLAYER_INFO = 6;</code>
+       */
+      PLAYER_INFO(6),
       ;
 
       /**
-       * <code>SELF = 0;</code>
+       * <code>CONNECT = 0;</code>
        */
-      public static final int SELF_VALUE = 0;
+      public static final int CONNECT_VALUE = 0;
       /**
-       * <code>NEW = 1;</code>
+       * <code>MOVEUP = 1;</code>
        */
-      public static final int NEW_VALUE = 1;
+      public static final int MOVEUP_VALUE = 1;
+      /**
+       * <code>MOVEDOWN = 2;</code>
+       */
+      public static final int MOVEDOWN_VALUE = 2;
+      /**
+       * <code>MOVERIGHT = 3;</code>
+       */
+      public static final int MOVERIGHT_VALUE = 3;
+      /**
+       * <code>MOVELEFT = 4;</code>
+       */
+      public static final int MOVELEFT_VALUE = 4;
+      /**
+       * <code>CUSTOM = 5;</code>
+       */
+      public static final int CUSTOM_VALUE = 5;
+      /**
+       * <code>PLAYER_INFO = 6;</code>
+       */
+      public static final int PLAYER_INFO_VALUE = 6;
 
 
       public final int getNumber() {
@@ -875,27 +184,32 @@ public final class Mainprotos {
        * @deprecated Use {@link #forNumber(int)} instead.
        */
       @java.lang.Deprecated
-      public static Update valueOf(int value) {
+      public static PacketType valueOf(int value) {
         return forNumber(value);
       }
 
-      public static Update forNumber(int value) {
+      public static PacketType forNumber(int value) {
         switch (value) {
-          case 0: return SELF;
-          case 1: return NEW;
+          case 0: return CONNECT;
+          case 1: return MOVEUP;
+          case 2: return MOVEDOWN;
+          case 3: return MOVERIGHT;
+          case 4: return MOVELEFT;
+          case 5: return CUSTOM;
+          case 6: return PLAYER_INFO;
           default: return null;
         }
       }
 
-      public static com.google.protobuf.Internal.EnumLiteMap<Update>
+      public static com.google.protobuf.Internal.EnumLiteMap<PacketType>
           internalGetValueMap() {
         return internalValueMap;
       }
       private static final com.google.protobuf.Internal.EnumLiteMap<
-          Update> internalValueMap =
-            new com.google.protobuf.Internal.EnumLiteMap<Update>() {
-              public Update findValueByNumber(int number) {
-                return Update.forNumber(number);
+          PacketType> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<PacketType>() {
+              public PacketType findValueByNumber(int number) {
+                return PacketType.forNumber(number);
               }
             };
 
@@ -909,12 +223,12 @@ public final class Mainprotos {
       }
       public static final com.google.protobuf.Descriptors.EnumDescriptor
           getDescriptor() {
-        return com.main.app.Mainprotos.ConnectPacket.getDescriptor().getEnumTypes().get(0);
+        return com.main.app.Mainprotos.UDPPacket.getDescriptor().getEnumTypes().get(0);
       }
 
-      private static final Update[] VALUES = values();
+      private static final PacketType[] VALUES = values();
 
-      public static Update valueOf(
+      public static PacketType valueOf(
           com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
         if (desc.getType() != getDescriptor()) {
           throw new java.lang.IllegalArgumentException(
@@ -925,92 +239,3353 @@ public final class Mainprotos {
 
       private final int value;
 
-      private Update(int value) {
+      private PacketType(int value) {
         this.value = value;
       }
 
-      // @@protoc_insertion_point(enum_scope:app.ConnectPacket.Update)
+      // @@protoc_insertion_point(enum_scope:app.UDPPacket.PacketType)
+    }
+
+    public interface MoveOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Move)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      boolean hasType();
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      com.main.app.Mainprotos.UDPPacket.PacketType getType();
+
+      /**
+       * <code>required string name = 2;</code>
+       */
+      boolean hasName();
+      /**
+       * <code>required string name = 2;</code>
+       */
+      java.lang.String getName();
+      /**
+       * <code>required string name = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getNameBytes();
+
+      /**
+       * <code>required int32 x = 3;</code>
+       */
+      boolean hasX();
+      /**
+       * <code>required int32 x = 3;</code>
+       */
+      int getX();
+
+      /**
+       * <code>required int32 y = 4;</code>
+       */
+      boolean hasY();
+      /**
+       * <code>required int32 y = 4;</code>
+       */
+      int getY();
+
+      /**
+       * <code>required int32 direction = 5;</code>
+       */
+      boolean hasDirection();
+      /**
+       * <code>required int32 direction = 5;</code>
+       */
+      int getDirection();
+    }
+    /**
+     * Protobuf type {@code app.UDPPacket.Move}
+     */
+    public  static final class Move extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:app.UDPPacket.Move)
+        MoveOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Move.newBuilder() to construct.
+      private Move(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Move() {
+        type_ = 0;
+        name_ = "";
+        x_ = 0;
+        y_ = 0;
+        direction_ = 0;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Move(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                int rawValue = input.readEnum();
+                  @SuppressWarnings("deprecation")
+                com.main.app.Mainprotos.UDPPacket.PacketType value = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(rawValue);
+                if (value == null) {
+                  unknownFields.mergeVarintField(1, rawValue);
+                } else {
+                  bitField0_ |= 0x00000001;
+                  type_ = rawValue;
+                }
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                name_ = bs;
+                break;
+              }
+              case 24: {
+                bitField0_ |= 0x00000004;
+                x_ = input.readInt32();
+                break;
+              }
+              case 32: {
+                bitField0_ |= 0x00000008;
+                y_ = input.readInt32();
+                break;
+              }
+              case 40: {
+                bitField0_ |= 0x00000010;
+                direction_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.main.app.Mainprotos.UDPPacket.Move.class, com.main.app.Mainprotos.UDPPacket.Move.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int TYPE_FIELD_NUMBER = 1;
+      private int type_;
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+        @SuppressWarnings("deprecation")
+        com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+        return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+      }
+
+      public static final int NAME_FIELD_NUMBER = 2;
+      private volatile java.lang.Object name_;
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int X_FIELD_NUMBER = 3;
+      private int x_;
+      /**
+       * <code>required int32 x = 3;</code>
+       */
+      public boolean hasX() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>required int32 x = 3;</code>
+       */
+      public int getX() {
+        return x_;
+      }
+
+      public static final int Y_FIELD_NUMBER = 4;
+      private int y_;
+      /**
+       * <code>required int32 y = 4;</code>
+       */
+      public boolean hasY() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>required int32 y = 4;</code>
+       */
+      public int getY() {
+        return y_;
+      }
+
+      public static final int DIRECTION_FIELD_NUMBER = 5;
+      private int direction_;
+      /**
+       * <code>required int32 direction = 5;</code>
+       */
+      public boolean hasDirection() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>required int32 direction = 5;</code>
+       */
+      public int getDirection() {
+        return direction_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasType()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasName()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasX()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasY()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasDirection()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeEnum(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeInt32(3, x_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeInt32(4, y_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          output.writeInt32(5, direction_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(3, x_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(4, y_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(5, direction_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Move)) {
+          return super.equals(obj);
+        }
+        com.main.app.Mainprotos.UDPPacket.Move other = (com.main.app.Mainprotos.UDPPacket.Move) obj;
+
+        boolean result = true;
+        result = result && (hasType() == other.hasType());
+        if (hasType()) {
+          result = result && type_ == other.type_;
+        }
+        result = result && (hasName() == other.hasName());
+        if (hasName()) {
+          result = result && getName()
+              .equals(other.getName());
+        }
+        result = result && (hasX() == other.hasX());
+        if (hasX()) {
+          result = result && (getX()
+              == other.getX());
+        }
+        result = result && (hasY() == other.hasY());
+        if (hasY()) {
+          result = result && (getY()
+              == other.getY());
+        }
+        result = result && (hasDirection() == other.hasDirection());
+        if (hasDirection()) {
+          result = result && (getDirection()
+              == other.getDirection());
+        }
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasType()) {
+          hash = (37 * hash) + TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + type_;
+        }
+        if (hasName()) {
+          hash = (37 * hash) + NAME_FIELD_NUMBER;
+          hash = (53 * hash) + getName().hashCode();
+        }
+        if (hasX()) {
+          hash = (37 * hash) + X_FIELD_NUMBER;
+          hash = (53 * hash) + getX();
+        }
+        if (hasY()) {
+          hash = (37 * hash) + Y_FIELD_NUMBER;
+          hash = (53 * hash) + getY();
+        }
+        if (hasDirection()) {
+          hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
+          hash = (53 * hash) + getDirection();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Move prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code app.UDPPacket.Move}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Move)
+          com.main.app.Mainprotos.UDPPacket.MoveOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.main.app.Mainprotos.UDPPacket.Move.class, com.main.app.Mainprotos.UDPPacket.Move.Builder.class);
+        }
+
+        // Construct using com.main.app.Mainprotos.UDPPacket.Move.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          type_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          name_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          x_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000004);
+          y_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          direction_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000010);
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Move getDefaultInstanceForType() {
+          return com.main.app.Mainprotos.UDPPacket.Move.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Move build() {
+          com.main.app.Mainprotos.UDPPacket.Move result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Move buildPartial() {
+          com.main.app.Mainprotos.UDPPacket.Move result = new com.main.app.Mainprotos.UDPPacket.Move(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.type_ = type_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.name_ = name_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.x_ = x_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.y_ = y_;
+          if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+            to_bitField0_ |= 0x00000010;
+          }
+          result.direction_ = direction_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.main.app.Mainprotos.UDPPacket.Move) {
+            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Move)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Move other) {
+          if (other == com.main.app.Mainprotos.UDPPacket.Move.getDefaultInstance()) return this;
+          if (other.hasType()) {
+            setType(other.getType());
+          }
+          if (other.hasName()) {
+            bitField0_ |= 0x00000002;
+            name_ = other.name_;
+            onChanged();
+          }
+          if (other.hasX()) {
+            setX(other.getX());
+          }
+          if (other.hasY()) {
+            setY(other.getY());
+          }
+          if (other.hasDirection()) {
+            setDirection(other.getDirection());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          if (!hasType()) {
+            return false;
+          }
+          if (!hasName()) {
+            return false;
+          }
+          if (!hasX()) {
+            return false;
+          }
+          if (!hasY()) {
+            return false;
+          }
+          if (!hasDirection()) {
+            return false;
+          }
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.main.app.Mainprotos.UDPPacket.Move parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Move) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int type_ = 0;
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public boolean hasType() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+          @SuppressWarnings("deprecation")
+          com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+          return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder setType(com.main.app.Mainprotos.UDPPacket.PacketType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000001;
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder clearType() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          type_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object name_ = "";
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public boolean hasName() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public java.lang.String getName() {
+          java.lang.Object ref = name_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              name_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getNameBytes() {
+          java.lang.Object ref = name_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            name_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder setName(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          name_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder clearName() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          name_ = getDefaultInstance().getName();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder setNameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          name_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int x_ ;
+        /**
+         * <code>required int32 x = 3;</code>
+         */
+        public boolean hasX() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>required int32 x = 3;</code>
+         */
+        public int getX() {
+          return x_;
+        }
+        /**
+         * <code>required int32 x = 3;</code>
+         */
+        public Builder setX(int value) {
+          bitField0_ |= 0x00000004;
+          x_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required int32 x = 3;</code>
+         */
+        public Builder clearX() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          x_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int y_ ;
+        /**
+         * <code>required int32 y = 4;</code>
+         */
+        public boolean hasY() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>required int32 y = 4;</code>
+         */
+        public int getY() {
+          return y_;
+        }
+        /**
+         * <code>required int32 y = 4;</code>
+         */
+        public Builder setY(int value) {
+          bitField0_ |= 0x00000008;
+          y_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required int32 y = 4;</code>
+         */
+        public Builder clearY() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          y_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int direction_ ;
+        /**
+         * <code>required int32 direction = 5;</code>
+         */
+        public boolean hasDirection() {
+          return ((bitField0_ & 0x00000010) == 0x00000010);
+        }
+        /**
+         * <code>required int32 direction = 5;</code>
+         */
+        public int getDirection() {
+          return direction_;
+        }
+        /**
+         * <code>required int32 direction = 5;</code>
+         */
+        public Builder setDirection(int value) {
+          bitField0_ |= 0x00000010;
+          direction_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required int32 direction = 5;</code>
+         */
+        public Builder clearDirection() {
+          bitField0_ = (bitField0_ & ~0x00000010);
+          direction_ = 0;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Move)
+      }
+
+      // @@protoc_insertion_point(class_scope:app.UDPPacket.Move)
+      private static final com.main.app.Mainprotos.UDPPacket.Move DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Move();
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Move getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<Move>
+          PARSER = new com.google.protobuf.AbstractParser<Move>() {
+        @java.lang.Override
+        public Move parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Move(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Move> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Move> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.main.app.Mainprotos.UDPPacket.Move getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface ConnectOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Connect)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      boolean hasType();
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      com.main.app.Mainprotos.UDPPacket.PacketType getType();
+
+      /**
+       * <code>required string name = 2;</code>
+       */
+      boolean hasName();
+      /**
+       * <code>required string name = 2;</code>
+       */
+      java.lang.String getName();
+      /**
+       * <code>required string name = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getNameBytes();
+
+      /**
+       * <code>optional int32 x = 3;</code>
+       */
+      boolean hasX();
+      /**
+       * <code>optional int32 x = 3;</code>
+       */
+      int getX();
+
+      /**
+       * <code>optional int32 y = 4;</code>
+       */
+      boolean hasY();
+      /**
+       * <code>optional int32 y = 4;</code>
+       */
+      int getY();
+
+      /**
+       * <code>optional int32 dir = 5;</code>
+       */
+      boolean hasDir();
+      /**
+       * <code>optional int32 dir = 5;</code>
+       */
+      int getDir();
+    }
+    /**
+     * Protobuf type {@code app.UDPPacket.Connect}
+     */
+    public  static final class Connect extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:app.UDPPacket.Connect)
+        ConnectOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Connect.newBuilder() to construct.
+      private Connect(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Connect() {
+        type_ = 0;
+        name_ = "";
+        x_ = 0;
+        y_ = 0;
+        dir_ = 0;
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Connect(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                int rawValue = input.readEnum();
+                  @SuppressWarnings("deprecation")
+                com.main.app.Mainprotos.UDPPacket.PacketType value = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(rawValue);
+                if (value == null) {
+                  unknownFields.mergeVarintField(1, rawValue);
+                } else {
+                  bitField0_ |= 0x00000001;
+                  type_ = rawValue;
+                }
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                name_ = bs;
+                break;
+              }
+              case 24: {
+                bitField0_ |= 0x00000004;
+                x_ = input.readInt32();
+                break;
+              }
+              case 32: {
+                bitField0_ |= 0x00000008;
+                y_ = input.readInt32();
+                break;
+              }
+              case 40: {
+                bitField0_ |= 0x00000010;
+                dir_ = input.readInt32();
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Connect_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Connect_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.main.app.Mainprotos.UDPPacket.Connect.class, com.main.app.Mainprotos.UDPPacket.Connect.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int TYPE_FIELD_NUMBER = 1;
+      private int type_;
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+        @SuppressWarnings("deprecation")
+        com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+        return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+      }
+
+      public static final int NAME_FIELD_NUMBER = 2;
+      private volatile java.lang.Object name_;
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            name_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      public static final int X_FIELD_NUMBER = 3;
+      private int x_;
+      /**
+       * <code>optional int32 x = 3;</code>
+       */
+      public boolean hasX() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <code>optional int32 x = 3;</code>
+       */
+      public int getX() {
+        return x_;
+      }
+
+      public static final int Y_FIELD_NUMBER = 4;
+      private int y_;
+      /**
+       * <code>optional int32 y = 4;</code>
+       */
+      public boolean hasY() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional int32 y = 4;</code>
+       */
+      public int getY() {
+        return y_;
+      }
+
+      public static final int DIR_FIELD_NUMBER = 5;
+      private int dir_;
+      /**
+       * <code>optional int32 dir = 5;</code>
+       */
+      public boolean hasDir() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional int32 dir = 5;</code>
+       */
+      public int getDir() {
+        return dir_;
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasType()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasName()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeEnum(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          output.writeInt32(3, x_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeInt32(4, y_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          output.writeInt32(5, dir_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+        }
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(3, x_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(4, y_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(5, dir_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Connect)) {
+          return super.equals(obj);
+        }
+        com.main.app.Mainprotos.UDPPacket.Connect other = (com.main.app.Mainprotos.UDPPacket.Connect) obj;
+
+        boolean result = true;
+        result = result && (hasType() == other.hasType());
+        if (hasType()) {
+          result = result && type_ == other.type_;
+        }
+        result = result && (hasName() == other.hasName());
+        if (hasName()) {
+          result = result && getName()
+              .equals(other.getName());
+        }
+        result = result && (hasX() == other.hasX());
+        if (hasX()) {
+          result = result && (getX()
+              == other.getX());
+        }
+        result = result && (hasY() == other.hasY());
+        if (hasY()) {
+          result = result && (getY()
+              == other.getY());
+        }
+        result = result && (hasDir() == other.hasDir());
+        if (hasDir()) {
+          result = result && (getDir()
+              == other.getDir());
+        }
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasType()) {
+          hash = (37 * hash) + TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + type_;
+        }
+        if (hasName()) {
+          hash = (37 * hash) + NAME_FIELD_NUMBER;
+          hash = (53 * hash) + getName().hashCode();
+        }
+        if (hasX()) {
+          hash = (37 * hash) + X_FIELD_NUMBER;
+          hash = (53 * hash) + getX();
+        }
+        if (hasY()) {
+          hash = (37 * hash) + Y_FIELD_NUMBER;
+          hash = (53 * hash) + getY();
+        }
+        if (hasDir()) {
+          hash = (37 * hash) + DIR_FIELD_NUMBER;
+          hash = (53 * hash) + getDir();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Connect parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Connect prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code app.UDPPacket.Connect}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Connect)
+          com.main.app.Mainprotos.UDPPacket.ConnectOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Connect_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Connect_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.main.app.Mainprotos.UDPPacket.Connect.class, com.main.app.Mainprotos.UDPPacket.Connect.Builder.class);
+        }
+
+        // Construct using com.main.app.Mainprotos.UDPPacket.Connect.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          type_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          name_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          x_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000004);
+          y_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          dir_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000010);
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Connect_descriptor;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Connect getDefaultInstanceForType() {
+          return com.main.app.Mainprotos.UDPPacket.Connect.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Connect build() {
+          com.main.app.Mainprotos.UDPPacket.Connect result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Connect buildPartial() {
+          com.main.app.Mainprotos.UDPPacket.Connect result = new com.main.app.Mainprotos.UDPPacket.Connect(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.type_ = type_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.name_ = name_;
+          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+            to_bitField0_ |= 0x00000004;
+          }
+          result.x_ = x_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.y_ = y_;
+          if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+            to_bitField0_ |= 0x00000010;
+          }
+          result.dir_ = dir_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.main.app.Mainprotos.UDPPacket.Connect) {
+            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Connect)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Connect other) {
+          if (other == com.main.app.Mainprotos.UDPPacket.Connect.getDefaultInstance()) return this;
+          if (other.hasType()) {
+            setType(other.getType());
+          }
+          if (other.hasName()) {
+            bitField0_ |= 0x00000002;
+            name_ = other.name_;
+            onChanged();
+          }
+          if (other.hasX()) {
+            setX(other.getX());
+          }
+          if (other.hasY()) {
+            setY(other.getY());
+          }
+          if (other.hasDir()) {
+            setDir(other.getDir());
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          if (!hasType()) {
+            return false;
+          }
+          if (!hasName()) {
+            return false;
+          }
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.main.app.Mainprotos.UDPPacket.Connect parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Connect) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int type_ = 0;
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public boolean hasType() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+          @SuppressWarnings("deprecation")
+          com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+          return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder setType(com.main.app.Mainprotos.UDPPacket.PacketType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000001;
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder clearType() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          type_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object name_ = "";
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public boolean hasName() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public java.lang.String getName() {
+          java.lang.Object ref = name_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              name_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getNameBytes() {
+          java.lang.Object ref = name_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            name_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder setName(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          name_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder clearName() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          name_ = getDefaultInstance().getName();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string name = 2;</code>
+         */
+        public Builder setNameBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          name_ = value;
+          onChanged();
+          return this;
+        }
+
+        private int x_ ;
+        /**
+         * <code>optional int32 x = 3;</code>
+         */
+        public boolean hasX() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        /**
+         * <code>optional int32 x = 3;</code>
+         */
+        public int getX() {
+          return x_;
+        }
+        /**
+         * <code>optional int32 x = 3;</code>
+         */
+        public Builder setX(int value) {
+          bitField0_ |= 0x00000004;
+          x_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 x = 3;</code>
+         */
+        public Builder clearX() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          x_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int y_ ;
+        /**
+         * <code>optional int32 y = 4;</code>
+         */
+        public boolean hasY() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        /**
+         * <code>optional int32 y = 4;</code>
+         */
+        public int getY() {
+          return y_;
+        }
+        /**
+         * <code>optional int32 y = 4;</code>
+         */
+        public Builder setY(int value) {
+          bitField0_ |= 0x00000008;
+          y_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 y = 4;</code>
+         */
+        public Builder clearY() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          y_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private int dir_ ;
+        /**
+         * <code>optional int32 dir = 5;</code>
+         */
+        public boolean hasDir() {
+          return ((bitField0_ & 0x00000010) == 0x00000010);
+        }
+        /**
+         * <code>optional int32 dir = 5;</code>
+         */
+        public int getDir() {
+          return dir_;
+        }
+        /**
+         * <code>optional int32 dir = 5;</code>
+         */
+        public Builder setDir(int value) {
+          bitField0_ |= 0x00000010;
+          dir_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional int32 dir = 5;</code>
+         */
+        public Builder clearDir() {
+          bitField0_ = (bitField0_ & ~0x00000010);
+          dir_ = 0;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Connect)
+      }
+
+      // @@protoc_insertion_point(class_scope:app.UDPPacket.Connect)
+      private static final com.main.app.Mainprotos.UDPPacket.Connect DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Connect();
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Connect getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<Connect>
+          PARSER = new com.google.protobuf.AbstractParser<Connect>() {
+        @java.lang.Override
+        public Connect parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Connect(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Connect> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Connect> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.main.app.Mainprotos.UDPPacket.Connect getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface PlayerinfoOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Playerinfo)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      boolean hasType();
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      com.main.app.Mainprotos.UDPPacket.PacketType getType();
+
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      boolean hasInfo();
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      java.lang.String getInfo();
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getInfoBytes();
+    }
+    /**
+     * Protobuf type {@code app.UDPPacket.Playerinfo}
+     */
+    public  static final class Playerinfo extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:app.UDPPacket.Playerinfo)
+        PlayerinfoOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Playerinfo.newBuilder() to construct.
+      private Playerinfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Playerinfo() {
+        type_ = 0;
+        info_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Playerinfo(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                int rawValue = input.readEnum();
+                  @SuppressWarnings("deprecation")
+                com.main.app.Mainprotos.UDPPacket.PacketType value = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(rawValue);
+                if (value == null) {
+                  unknownFields.mergeVarintField(1, rawValue);
+                } else {
+                  bitField0_ |= 0x00000001;
+                  type_ = rawValue;
+                }
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                info_ = bs;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Playerinfo_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Playerinfo_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.main.app.Mainprotos.UDPPacket.Playerinfo.class, com.main.app.Mainprotos.UDPPacket.Playerinfo.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int TYPE_FIELD_NUMBER = 1;
+      private int type_;
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+        @SuppressWarnings("deprecation")
+        com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+        return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+      }
+
+      public static final int INFO_FIELD_NUMBER = 2;
+      private volatile java.lang.Object info_;
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      public boolean hasInfo() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      public java.lang.String getInfo() {
+        java.lang.Object ref = info_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            info_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>optional string info = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getInfoBytes() {
+        java.lang.Object ref = info_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          info_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasType()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeEnum(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, info_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, info_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Playerinfo)) {
+          return super.equals(obj);
+        }
+        com.main.app.Mainprotos.UDPPacket.Playerinfo other = (com.main.app.Mainprotos.UDPPacket.Playerinfo) obj;
+
+        boolean result = true;
+        result = result && (hasType() == other.hasType());
+        if (hasType()) {
+          result = result && type_ == other.type_;
+        }
+        result = result && (hasInfo() == other.hasInfo());
+        if (hasInfo()) {
+          result = result && getInfo()
+              .equals(other.getInfo());
+        }
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasType()) {
+          hash = (37 * hash) + TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + type_;
+        }
+        if (hasInfo()) {
+          hash = (37 * hash) + INFO_FIELD_NUMBER;
+          hash = (53 * hash) + getInfo().hashCode();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Playerinfo prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code app.UDPPacket.Playerinfo}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Playerinfo)
+          com.main.app.Mainprotos.UDPPacket.PlayerinfoOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Playerinfo_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Playerinfo_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.main.app.Mainprotos.UDPPacket.Playerinfo.class, com.main.app.Mainprotos.UDPPacket.Playerinfo.Builder.class);
+        }
+
+        // Construct using com.main.app.Mainprotos.UDPPacket.Playerinfo.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          type_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          info_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Playerinfo_descriptor;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Playerinfo getDefaultInstanceForType() {
+          return com.main.app.Mainprotos.UDPPacket.Playerinfo.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Playerinfo build() {
+          com.main.app.Mainprotos.UDPPacket.Playerinfo result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Playerinfo buildPartial() {
+          com.main.app.Mainprotos.UDPPacket.Playerinfo result = new com.main.app.Mainprotos.UDPPacket.Playerinfo(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.type_ = type_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.info_ = info_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.main.app.Mainprotos.UDPPacket.Playerinfo) {
+            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Playerinfo)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Playerinfo other) {
+          if (other == com.main.app.Mainprotos.UDPPacket.Playerinfo.getDefaultInstance()) return this;
+          if (other.hasType()) {
+            setType(other.getType());
+          }
+          if (other.hasInfo()) {
+            bitField0_ |= 0x00000002;
+            info_ = other.info_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          if (!hasType()) {
+            return false;
+          }
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.main.app.Mainprotos.UDPPacket.Playerinfo parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Playerinfo) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int type_ = 0;
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public boolean hasType() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+          @SuppressWarnings("deprecation")
+          com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+          return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder setType(com.main.app.Mainprotos.UDPPacket.PacketType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000001;
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder clearType() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          type_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object info_ = "";
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public boolean hasInfo() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public java.lang.String getInfo() {
+          java.lang.Object ref = info_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              info_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getInfoBytes() {
+          java.lang.Object ref = info_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            info_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public Builder setInfo(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          info_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public Builder clearInfo() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          info_ = getDefaultInstance().getInfo();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>optional string info = 2;</code>
+         */
+        public Builder setInfoBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          info_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Playerinfo)
+      }
+
+      // @@protoc_insertion_point(class_scope:app.UDPPacket.Playerinfo)
+      private static final com.main.app.Mainprotos.UDPPacket.Playerinfo DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Playerinfo();
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Playerinfo getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<Playerinfo>
+          PARSER = new com.google.protobuf.AbstractParser<Playerinfo>() {
+        @java.lang.Override
+        public Playerinfo parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Playerinfo(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Playerinfo> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Playerinfo> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.main.app.Mainprotos.UDPPacket.Playerinfo getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
+    }
+
+    public interface CustomOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Custom)
+        com.google.protobuf.MessageOrBuilder {
+
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      boolean hasType();
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      com.main.app.Mainprotos.UDPPacket.PacketType getType();
+
+      /**
+       * <code>required string message = 2;</code>
+       */
+      boolean hasMessage();
+      /**
+       * <code>required string message = 2;</code>
+       */
+      java.lang.String getMessage();
+      /**
+       * <code>required string message = 2;</code>
+       */
+      com.google.protobuf.ByteString
+          getMessageBytes();
+    }
+    /**
+     * Protobuf type {@code app.UDPPacket.Custom}
+     */
+    public  static final class Custom extends
+        com.google.protobuf.GeneratedMessageV3 implements
+        // @@protoc_insertion_point(message_implements:app.UDPPacket.Custom)
+        CustomOrBuilder {
+    private static final long serialVersionUID = 0L;
+      // Use Custom.newBuilder() to construct.
+      private Custom(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+      }
+      private Custom() {
+        type_ = 0;
+        message_ = "";
+      }
+
+      @java.lang.Override
+      public final com.google.protobuf.UnknownFieldSet
+      getUnknownFields() {
+        return this.unknownFields;
+      }
+      private Custom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        this();
+        if (extensionRegistry == null) {
+          throw new java.lang.NullPointerException();
+        }
+        int mutable_bitField0_ = 0;
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+            com.google.protobuf.UnknownFieldSet.newBuilder();
+        try {
+          boolean done = false;
+          while (!done) {
+            int tag = input.readTag();
+            switch (tag) {
+              case 0:
+                done = true;
+                break;
+              case 8: {
+                int rawValue = input.readEnum();
+                  @SuppressWarnings("deprecation")
+                com.main.app.Mainprotos.UDPPacket.PacketType value = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(rawValue);
+                if (value == null) {
+                  unknownFields.mergeVarintField(1, rawValue);
+                } else {
+                  bitField0_ |= 0x00000001;
+                  type_ = rawValue;
+                }
+                break;
+              }
+              case 18: {
+                com.google.protobuf.ByteString bs = input.readBytes();
+                bitField0_ |= 0x00000002;
+                message_ = bs;
+                break;
+              }
+              default: {
+                if (!parseUnknownField(
+                    input, unknownFields, extensionRegistry, tag)) {
+                  done = true;
+                }
+                break;
+              }
+            }
+          }
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          throw e.setUnfinishedMessage(this);
+        } catch (java.io.IOException e) {
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
+        } finally {
+          this.unknownFields = unknownFields.build();
+          makeExtensionsImmutable();
+        }
+      }
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Custom_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Custom_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.main.app.Mainprotos.UDPPacket.Custom.class, com.main.app.Mainprotos.UDPPacket.Custom.Builder.class);
+      }
+
+      private int bitField0_;
+      public static final int TYPE_FIELD_NUMBER = 1;
+      private int type_;
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      /**
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
+       */
+      public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+        @SuppressWarnings("deprecation")
+        com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+        return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+      }
+
+      public static final int MESSAGE_FIELD_NUMBER = 2;
+      private volatile java.lang.Object message_;
+      /**
+       * <code>required string message = 2;</code>
+       */
+      public boolean hasMessage() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>required string message = 2;</code>
+       */
+      public java.lang.String getMessage() {
+        java.lang.Object ref = message_;
+        if (ref instanceof java.lang.String) {
+          return (java.lang.String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            message_ = s;
+          }
+          return s;
+        }
+      }
+      /**
+       * <code>required string message = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMessageBytes() {
+        java.lang.Object ref = message_;
+        if (ref instanceof java.lang.String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          message_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+
+      private byte memoizedIsInitialized = -1;
+      @java.lang.Override
+      public final boolean isInitialized() {
+        byte isInitialized = memoizedIsInitialized;
+        if (isInitialized == 1) return true;
+        if (isInitialized == 0) return false;
+
+        if (!hasType()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasMessage()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        memoizedIsInitialized = 1;
+        return true;
+      }
+
+      @java.lang.Override
+      public void writeTo(com.google.protobuf.CodedOutputStream output)
+                          throws java.io.IOException {
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          output.writeEnum(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, message_);
+        }
+        unknownFields.writeTo(output);
+      }
+
+      @java.lang.Override
+      public int getSerializedSize() {
+        int size = memoizedSize;
+        if (size != -1) return size;
+
+        size = 0;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeEnumSize(1, type_);
+        }
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, message_);
+        }
+        size += unknownFields.getSerializedSize();
+        memoizedSize = size;
+        return size;
+      }
+
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Custom)) {
+          return super.equals(obj);
+        }
+        com.main.app.Mainprotos.UDPPacket.Custom other = (com.main.app.Mainprotos.UDPPacket.Custom) obj;
+
+        boolean result = true;
+        result = result && (hasType() == other.hasType());
+        if (hasType()) {
+          result = result && type_ == other.type_;
+        }
+        result = result && (hasMessage() == other.hasMessage());
+        if (hasMessage()) {
+          result = result && getMessage()
+              .equals(other.getMessage());
+        }
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptor().hashCode();
+        if (hasType()) {
+          hash = (37 * hash) + TYPE_FIELD_NUMBER;
+          hash = (53 * hash) + type_;
+        }
+        if (hasMessage()) {
+          hash = (37 * hash) + MESSAGE_FIELD_NUMBER;
+          hash = (53 * hash) + getMessage().hashCode();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return PARSER.parseFrom(data, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input);
+      }
+      public static com.main.app.Mainprotos.UDPPacket.Custom parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageV3
+            .parseWithIOException(PARSER, input, extensionRegistry);
+      }
+
+      @java.lang.Override
+      public Builder newBuilderForType() { return newBuilder(); }
+      public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.toBuilder();
+      }
+      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Custom prototype) {
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+      }
+      @java.lang.Override
+      public Builder toBuilder() {
+        return this == DEFAULT_INSTANCE
+            ? new Builder() : new Builder().mergeFrom(this);
+      }
+
+      @java.lang.Override
+      protected Builder newBuilderForType(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        Builder builder = new Builder(parent);
+        return builder;
+      }
+      /**
+       * Protobuf type {@code app.UDPPacket.Custom}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Custom)
+          com.main.app.Mainprotos.UDPPacket.CustomOrBuilder {
+        public static final com.google.protobuf.Descriptors.Descriptor
+            getDescriptor() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Custom_descriptor;
+        }
+
+        @java.lang.Override
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+            internalGetFieldAccessorTable() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Custom_fieldAccessorTable
+              .ensureFieldAccessorsInitialized(
+                  com.main.app.Mainprotos.UDPPacket.Custom.class, com.main.app.Mainprotos.UDPPacket.Custom.Builder.class);
+        }
+
+        // Construct using com.main.app.Mainprotos.UDPPacket.Custom.newBuilder()
+        private Builder() {
+          maybeForceBuilderInitialization();
+        }
+
+        private Builder(
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+          super(parent);
+          maybeForceBuilderInitialization();
+        }
+        private void maybeForceBuilderInitialization() {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
+          }
+        }
+        @java.lang.Override
+        public Builder clear() {
+          super.clear();
+          type_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000001);
+          message_ = "";
+          bitField0_ = (bitField0_ & ~0x00000002);
+          return this;
+        }
+
+        @java.lang.Override
+        public com.google.protobuf.Descriptors.Descriptor
+            getDescriptorForType() {
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Custom_descriptor;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Custom getDefaultInstanceForType() {
+          return com.main.app.Mainprotos.UDPPacket.Custom.getDefaultInstance();
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Custom build() {
+          com.main.app.Mainprotos.UDPPacket.Custom result = buildPartial();
+          if (!result.isInitialized()) {
+            throw newUninitializedMessageException(result);
+          }
+          return result;
+        }
+
+        @java.lang.Override
+        public com.main.app.Mainprotos.UDPPacket.Custom buildPartial() {
+          com.main.app.Mainprotos.UDPPacket.Custom result = new com.main.app.Mainprotos.UDPPacket.Custom(this);
+          int from_bitField0_ = bitField0_;
+          int to_bitField0_ = 0;
+          if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+            to_bitField0_ |= 0x00000001;
+          }
+          result.type_ = type_;
+          if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+            to_bitField0_ |= 0x00000002;
+          }
+          result.message_ = message_;
+          result.bitField0_ = to_bitField0_;
+          onBuilt();
+          return result;
+        }
+
+        @java.lang.Override
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        @java.lang.Override
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        @java.lang.Override
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        @java.lang.Override
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        @java.lang.Override
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, java.lang.Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        @java.lang.Override
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            java.lang.Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
+        @java.lang.Override
+        public Builder mergeFrom(com.google.protobuf.Message other) {
+          if (other instanceof com.main.app.Mainprotos.UDPPacket.Custom) {
+            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Custom)other);
+          } else {
+            super.mergeFrom(other);
+            return this;
+          }
+        }
+
+        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Custom other) {
+          if (other == com.main.app.Mainprotos.UDPPacket.Custom.getDefaultInstance()) return this;
+          if (other.hasType()) {
+            setType(other.getType());
+          }
+          if (other.hasMessage()) {
+            bitField0_ |= 0x00000002;
+            message_ = other.message_;
+            onChanged();
+          }
+          this.mergeUnknownFields(other.unknownFields);
+          onChanged();
+          return this;
+        }
+
+        @java.lang.Override
+        public final boolean isInitialized() {
+          if (!hasType()) {
+            return false;
+          }
+          if (!hasMessage()) {
+            return false;
+          }
+          return true;
+        }
+
+        @java.lang.Override
+        public Builder mergeFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws java.io.IOException {
+          com.main.app.Mainprotos.UDPPacket.Custom parsedMessage = null;
+          try {
+            parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+          } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Custom) e.getUnfinishedMessage();
+            throw e.unwrapIOException();
+          } finally {
+            if (parsedMessage != null) {
+              mergeFrom(parsedMessage);
+            }
+          }
+          return this;
+        }
+        private int bitField0_;
+
+        private int type_ = 0;
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public boolean hasType() {
+          return ((bitField0_ & 0x00000001) == 0x00000001);
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
+          @SuppressWarnings("deprecation")
+          com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+          return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder setType(com.main.app.Mainprotos.UDPPacket.PacketType value) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          bitField0_ |= 0x00000001;
+          type_ = value.getNumber();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required .app.UDPPacket.PacketType type = 1;</code>
+         */
+        public Builder clearType() {
+          bitField0_ = (bitField0_ & ~0x00000001);
+          type_ = 0;
+          onChanged();
+          return this;
+        }
+
+        private java.lang.Object message_ = "";
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public boolean hasMessage() {
+          return ((bitField0_ & 0x00000002) == 0x00000002);
+        }
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public java.lang.String getMessage() {
+          java.lang.Object ref = message_;
+          if (!(ref instanceof java.lang.String)) {
+            com.google.protobuf.ByteString bs =
+                (com.google.protobuf.ByteString) ref;
+            java.lang.String s = bs.toStringUtf8();
+            if (bs.isValidUtf8()) {
+              message_ = s;
+            }
+            return s;
+          } else {
+            return (java.lang.String) ref;
+          }
+        }
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public com.google.protobuf.ByteString
+            getMessageBytes() {
+          java.lang.Object ref = message_;
+          if (ref instanceof String) {
+            com.google.protobuf.ByteString b = 
+                com.google.protobuf.ByteString.copyFromUtf8(
+                    (java.lang.String) ref);
+            message_ = b;
+            return b;
+          } else {
+            return (com.google.protobuf.ByteString) ref;
+          }
+        }
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public Builder setMessage(
+            java.lang.String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          message_ = value;
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public Builder clearMessage() {
+          bitField0_ = (bitField0_ & ~0x00000002);
+          message_ = getDefaultInstance().getMessage();
+          onChanged();
+          return this;
+        }
+        /**
+         * <code>required string message = 2;</code>
+         */
+        public Builder setMessageBytes(
+            com.google.protobuf.ByteString value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+          message_ = value;
+          onChanged();
+          return this;
+        }
+        @java.lang.Override
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        @java.lang.Override
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
+
+        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Custom)
+      }
+
+      // @@protoc_insertion_point(class_scope:app.UDPPacket.Custom)
+      private static final com.main.app.Mainprotos.UDPPacket.Custom DEFAULT_INSTANCE;
+      static {
+        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Custom();
+      }
+
+      public static com.main.app.Mainprotos.UDPPacket.Custom getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<Custom>
+          PARSER = new com.google.protobuf.AbstractParser<Custom>() {
+        @java.lang.Override
+        public Custom parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          return new Custom(input, extensionRegistry);
+        }
+      };
+
+      public static com.google.protobuf.Parser<Custom> parser() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<Custom> getParserForType() {
+        return PARSER;
+      }
+
+      @java.lang.Override
+      public com.main.app.Mainprotos.UDPPacket.Custom getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+      }
+
     }
 
     private int bitField0_;
-    public static final int PLAYER_FIELD_NUMBER = 2;
-    private com.main.app.PlayerProtos.Player player_;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private int type_;
     /**
-     * <code>required .app.Player player = 2;</code>
+     * <code>required .app.UDPPacket.PacketType type = 1;</code>
      */
-    public boolean hasPlayer() {
+    public boolean hasType() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>required .app.Player player = 2;</code>
+     * <code>required .app.UDPPacket.PacketType type = 1;</code>
      */
-    public com.main.app.PlayerProtos.Player getPlayer() {
-      return player_ == null ? com.main.app.PlayerProtos.Player.getDefaultInstance() : player_;
-    }
-    /**
-     * <code>required .app.Player player = 2;</code>
-     */
-    public com.main.app.PlayerProtos.PlayerOrBuilder getPlayerOrBuilder() {
-      return player_ == null ? com.main.app.PlayerProtos.Player.getDefaultInstance() : player_;
-    }
-
-    public static final int LOBBY_ID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object lobbyId_;
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    public boolean hasLobbyId() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
-    }
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    public java.lang.String getLobbyId() {
-      java.lang.Object ref = lobbyId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        if (bs.isValidUtf8()) {
-          lobbyId_ = s;
-        }
-        return s;
-      }
-    }
-    /**
-     * <code>optional string lobby_id = 3;</code>
-     */
-    public com.google.protobuf.ByteString
-        getLobbyIdBytes() {
-      java.lang.Object ref = lobbyId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        lobbyId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int UPDATE_FIELD_NUMBER = 4;
-    private int update_;
-    /**
-     * <code>optional .app.ConnectPacket.Update update = 4;</code>
-     */
-    public boolean hasUpdate() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <code>optional .app.ConnectPacket.Update update = 4;</code>
-     */
-    public com.main.app.Mainprotos.ConnectPacket.Update getUpdate() {
+    public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
       @SuppressWarnings("deprecation")
-      com.main.app.Mainprotos.ConnectPacket.Update result = com.main.app.Mainprotos.ConnectPacket.Update.valueOf(update_);
-      return result == null ? com.main.app.Mainprotos.ConnectPacket.Update.SELF : result;
+      com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+      return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -1020,11 +3595,7 @@ public final class Mainprotos {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (!hasPlayer()) {
-        memoizedIsInitialized = 0;
-        return false;
-      }
-      if (!getPlayer().isInitialized()) {
+      if (!hasType()) {
         memoizedIsInitialized = 0;
         return false;
       }
@@ -1036,13 +3607,7 @@ public final class Mainprotos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(2, getPlayer());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, lobbyId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        output.writeEnum(4, update_);
+        output.writeEnum(1, type_);
       }
       unknownFields.writeTo(output);
     }
@@ -1055,14 +3620,7 @@ public final class Mainprotos {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getPlayer());
-      }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, lobbyId_);
-      }
-      if (((bitField0_ & 0x00000004) == 0x00000004)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(4, update_);
+          .computeEnumSize(1, type_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -1074,25 +3632,15 @@ public final class Mainprotos {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof com.main.app.Mainprotos.ConnectPacket)) {
+      if (!(obj instanceof com.main.app.Mainprotos.UDPPacket)) {
         return super.equals(obj);
       }
-      com.main.app.Mainprotos.ConnectPacket other = (com.main.app.Mainprotos.ConnectPacket) obj;
+      com.main.app.Mainprotos.UDPPacket other = (com.main.app.Mainprotos.UDPPacket) obj;
 
       boolean result = true;
-      result = result && (hasPlayer() == other.hasPlayer());
-      if (hasPlayer()) {
-        result = result && getPlayer()
-            .equals(other.getPlayer());
-      }
-      result = result && (hasLobbyId() == other.hasLobbyId());
-      if (hasLobbyId()) {
-        result = result && getLobbyId()
-            .equals(other.getLobbyId());
-      }
-      result = result && (hasUpdate() == other.hasUpdate());
-      if (hasUpdate()) {
-        result = result && update_ == other.update_;
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && type_ == other.type_;
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -1105,86 +3653,78 @@ public final class Mainprotos {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptor().hashCode();
-      if (hasPlayer()) {
-        hash = (37 * hash) + PLAYER_FIELD_NUMBER;
-        hash = (53 * hash) + getPlayer().hashCode();
-      }
-      if (hasLobbyId()) {
-        hash = (37 * hash) + LOBBY_ID_FIELD_NUMBER;
-        hash = (53 * hash) + getLobbyId().hashCode();
-      }
-      if (hasUpdate()) {
-        hash = (37 * hash) + UPDATE_FIELD_NUMBER;
-        hash = (53 * hash) + update_;
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + type_;
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         java.nio.ByteBuffer data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(byte[] data)
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(java.io.InputStream input)
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseDelimitedFrom(java.io.InputStream input)
+    public static com.main.app.Mainprotos.UDPPacket parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseDelimitedFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static com.main.app.Mainprotos.ConnectPacket parseFrom(
+    public static com.main.app.Mainprotos.UDPPacket parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -1197,7 +3737,7 @@ public final class Mainprotos {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(com.main.app.Mainprotos.ConnectPacket prototype) {
+    public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     @java.lang.Override
@@ -1213,26 +3753,26 @@ public final class Mainprotos {
       return builder;
     }
     /**
-     * Protobuf type {@code app.ConnectPacket}
+     * Protobuf type {@code app.UDPPacket}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:app.ConnectPacket)
-        com.main.app.Mainprotos.ConnectPacketOrBuilder {
+        // @@protoc_insertion_point(builder_implements:app.UDPPacket)
+        com.main.app.Mainprotos.UDPPacketOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.main.app.Mainprotos.internal_static_app_ConnectPacket_descriptor;
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.main.app.Mainprotos.internal_static_app_ConnectPacket_fieldAccessorTable
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.main.app.Mainprotos.ConnectPacket.class, com.main.app.Mainprotos.ConnectPacket.Builder.class);
+                com.main.app.Mainprotos.UDPPacket.class, com.main.app.Mainprotos.UDPPacket.Builder.class);
       }
 
-      // Construct using com.main.app.Mainprotos.ConnectPacket.newBuilder()
+      // Construct using com.main.app.Mainprotos.UDPPacket.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1245,39 +3785,30 @@ public final class Mainprotos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
-          getPlayerFieldBuilder();
         }
       }
       @java.lang.Override
       public Builder clear() {
         super.clear();
-        if (playerBuilder_ == null) {
-          player_ = null;
-        } else {
-          playerBuilder_.clear();
-        }
+        type_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        lobbyId_ = "";
-        bitField0_ = (bitField0_ & ~0x00000002);
-        update_ = 0;
-        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
       @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.main.app.Mainprotos.internal_static_app_ConnectPacket_descriptor;
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_descriptor;
       }
 
       @java.lang.Override
-      public com.main.app.Mainprotos.ConnectPacket getDefaultInstanceForType() {
-        return com.main.app.Mainprotos.ConnectPacket.getDefaultInstance();
+      public com.main.app.Mainprotos.UDPPacket getDefaultInstanceForType() {
+        return com.main.app.Mainprotos.UDPPacket.getDefaultInstance();
       }
 
       @java.lang.Override
-      public com.main.app.Mainprotos.ConnectPacket build() {
-        com.main.app.Mainprotos.ConnectPacket result = buildPartial();
+      public com.main.app.Mainprotos.UDPPacket build() {
+        com.main.app.Mainprotos.UDPPacket result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
@@ -1285,26 +3816,14 @@ public final class Mainprotos {
       }
 
       @java.lang.Override
-      public com.main.app.Mainprotos.ConnectPacket buildPartial() {
-        com.main.app.Mainprotos.ConnectPacket result = new com.main.app.Mainprotos.ConnectPacket(this);
+      public com.main.app.Mainprotos.UDPPacket buildPartial() {
+        com.main.app.Mainprotos.UDPPacket result = new com.main.app.Mainprotos.UDPPacket(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
           to_bitField0_ |= 0x00000001;
         }
-        if (playerBuilder_ == null) {
-          result.player_ = player_;
-        } else {
-          result.player_ = playerBuilder_.build();
-        }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
-        result.lobbyId_ = lobbyId_;
-        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-          to_bitField0_ |= 0x00000004;
-        }
-        result.update_ = update_;
+        result.type_ = type_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1344,26 +3863,18 @@ public final class Mainprotos {
       }
       @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.main.app.Mainprotos.ConnectPacket) {
-          return mergeFrom((com.main.app.Mainprotos.ConnectPacket)other);
+        if (other instanceof com.main.app.Mainprotos.UDPPacket) {
+          return mergeFrom((com.main.app.Mainprotos.UDPPacket)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(com.main.app.Mainprotos.ConnectPacket other) {
-        if (other == com.main.app.Mainprotos.ConnectPacket.getDefaultInstance()) return this;
-        if (other.hasPlayer()) {
-          mergePlayer(other.getPlayer());
-        }
-        if (other.hasLobbyId()) {
-          bitField0_ |= 0x00000002;
-          lobbyId_ = other.lobbyId_;
-          onChanged();
-        }
-        if (other.hasUpdate()) {
-          setUpdate(other.getUpdate());
+      public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket other) {
+        if (other == com.main.app.Mainprotos.UDPPacket.getDefaultInstance()) return this;
+        if (other.hasType()) {
+          setType(other.getType());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1372,10 +3883,7 @@ public final class Mainprotos {
 
       @java.lang.Override
       public final boolean isInitialized() {
-        if (!hasPlayer()) {
-          return false;
-        }
-        if (!getPlayer().isInitialized()) {
+        if (!hasType()) {
           return false;
         }
         return true;
@@ -1386,11 +3894,11 @@ public final class Mainprotos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        com.main.app.Mainprotos.ConnectPacket parsedMessage = null;
+        com.main.app.Mainprotos.UDPPacket parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (com.main.app.Mainprotos.ConnectPacket) e.getUnfinishedMessage();
+          parsedMessage = (com.main.app.Mainprotos.UDPPacket) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -1401,233 +3909,39 @@ public final class Mainprotos {
       }
       private int bitField0_;
 
-      private com.main.app.PlayerProtos.Player player_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          com.main.app.PlayerProtos.Player, com.main.app.PlayerProtos.Player.Builder, com.main.app.PlayerProtos.PlayerOrBuilder> playerBuilder_;
+      private int type_ = 0;
       /**
-       * <code>required .app.Player player = 2;</code>
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
        */
-      public boolean hasPlayer() {
+      public boolean hasType() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>required .app.Player player = 2;</code>
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
        */
-      public com.main.app.PlayerProtos.Player getPlayer() {
-        if (playerBuilder_ == null) {
-          return player_ == null ? com.main.app.PlayerProtos.Player.getDefaultInstance() : player_;
-        } else {
-          return playerBuilder_.getMessage();
-        }
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public Builder setPlayer(com.main.app.PlayerProtos.Player value) {
-        if (playerBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          player_ = value;
-          onChanged();
-        } else {
-          playerBuilder_.setMessage(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public Builder setPlayer(
-          com.main.app.PlayerProtos.Player.Builder builderForValue) {
-        if (playerBuilder_ == null) {
-          player_ = builderForValue.build();
-          onChanged();
-        } else {
-          playerBuilder_.setMessage(builderForValue.build());
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public Builder mergePlayer(com.main.app.PlayerProtos.Player value) {
-        if (playerBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              player_ != null &&
-              player_ != com.main.app.PlayerProtos.Player.getDefaultInstance()) {
-            player_ =
-              com.main.app.PlayerProtos.Player.newBuilder(player_).mergeFrom(value).buildPartial();
-          } else {
-            player_ = value;
-          }
-          onChanged();
-        } else {
-          playerBuilder_.mergeFrom(value);
-        }
-        bitField0_ |= 0x00000001;
-        return this;
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public Builder clearPlayer() {
-        if (playerBuilder_ == null) {
-          player_ = null;
-          onChanged();
-        } else {
-          playerBuilder_.clear();
-        }
-        bitField0_ = (bitField0_ & ~0x00000001);
-        return this;
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public com.main.app.PlayerProtos.Player.Builder getPlayerBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getPlayerFieldBuilder().getBuilder();
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      public com.main.app.PlayerProtos.PlayerOrBuilder getPlayerOrBuilder() {
-        if (playerBuilder_ != null) {
-          return playerBuilder_.getMessageOrBuilder();
-        } else {
-          return player_ == null ?
-              com.main.app.PlayerProtos.Player.getDefaultInstance() : player_;
-        }
-      }
-      /**
-       * <code>required .app.Player player = 2;</code>
-       */
-      private com.google.protobuf.SingleFieldBuilderV3<
-          com.main.app.PlayerProtos.Player, com.main.app.PlayerProtos.Player.Builder, com.main.app.PlayerProtos.PlayerOrBuilder> 
-          getPlayerFieldBuilder() {
-        if (playerBuilder_ == null) {
-          playerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-              com.main.app.PlayerProtos.Player, com.main.app.PlayerProtos.Player.Builder, com.main.app.PlayerProtos.PlayerOrBuilder>(
-                  getPlayer(),
-                  getParentForChildren(),
-                  isClean());
-          player_ = null;
-        }
-        return playerBuilder_;
-      }
-
-      private java.lang.Object lobbyId_ = "";
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public boolean hasLobbyId() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
-      }
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public java.lang.String getLobbyId() {
-        java.lang.Object ref = lobbyId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          if (bs.isValidUtf8()) {
-            lobbyId_ = s;
-          }
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public com.google.protobuf.ByteString
-          getLobbyIdBytes() {
-        java.lang.Object ref = lobbyId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          lobbyId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public Builder setLobbyId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        lobbyId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public Builder clearLobbyId() {
-        bitField0_ = (bitField0_ & ~0x00000002);
-        lobbyId_ = getDefaultInstance().getLobbyId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional string lobby_id = 3;</code>
-       */
-      public Builder setLobbyIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  bitField0_ |= 0x00000002;
-        lobbyId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int update_ = 0;
-      /**
-       * <code>optional .app.ConnectPacket.Update update = 4;</code>
-       */
-      public boolean hasUpdate() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>optional .app.ConnectPacket.Update update = 4;</code>
-       */
-      public com.main.app.Mainprotos.ConnectPacket.Update getUpdate() {
+      public com.main.app.Mainprotos.UDPPacket.PacketType getType() {
         @SuppressWarnings("deprecation")
-        com.main.app.Mainprotos.ConnectPacket.Update result = com.main.app.Mainprotos.ConnectPacket.Update.valueOf(update_);
-        return result == null ? com.main.app.Mainprotos.ConnectPacket.Update.SELF : result;
+        com.main.app.Mainprotos.UDPPacket.PacketType result = com.main.app.Mainprotos.UDPPacket.PacketType.valueOf(type_);
+        return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
       }
       /**
-       * <code>optional .app.ConnectPacket.Update update = 4;</code>
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
        */
-      public Builder setUpdate(com.main.app.Mainprotos.ConnectPacket.Update value) {
+      public Builder setType(com.main.app.Mainprotos.UDPPacket.PacketType value) {
         if (value == null) {
           throw new NullPointerException();
         }
-        bitField0_ |= 0x00000004;
-        update_ = value.getNumber();
+        bitField0_ |= 0x00000001;
+        type_ = value.getNumber();
         onChanged();
         return this;
       }
       /**
-       * <code>optional .app.ConnectPacket.Update update = 4;</code>
+       * <code>required .app.UDPPacket.PacketType type = 1;</code>
        */
-      public Builder clearUpdate() {
-        bitField0_ = (bitField0_ & ~0x00000004);
-        update_ = 0;
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        type_ = 0;
         onChanged();
         return this;
       }
@@ -1644,56 +3958,71 @@ public final class Mainprotos {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:app.ConnectPacket)
+      // @@protoc_insertion_point(builder_scope:app.UDPPacket)
     }
 
-    // @@protoc_insertion_point(class_scope:app.ConnectPacket)
-    private static final com.main.app.Mainprotos.ConnectPacket DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:app.UDPPacket)
+    private static final com.main.app.Mainprotos.UDPPacket DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new com.main.app.Mainprotos.ConnectPacket();
+      DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket();
     }
 
-    public static com.main.app.Mainprotos.ConnectPacket getDefaultInstance() {
+    public static com.main.app.Mainprotos.UDPPacket getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    @java.lang.Deprecated public static final com.google.protobuf.Parser<ConnectPacket>
-        PARSER = new com.google.protobuf.AbstractParser<ConnectPacket>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<UDPPacket>
+        PARSER = new com.google.protobuf.AbstractParser<UDPPacket>() {
       @java.lang.Override
-      public ConnectPacket parsePartialFrom(
+      public UDPPacket parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ConnectPacket(input, extensionRegistry);
+        return new UDPPacket(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<ConnectPacket> parser() {
+    public static com.google.protobuf.Parser<UDPPacket> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<ConnectPacket> getParserForType() {
+    public com.google.protobuf.Parser<UDPPacket> getParserForType() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.main.app.Mainprotos.ConnectPacket getDefaultInstanceForType() {
+    public com.main.app.Mainprotos.UDPPacket getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_app_Person_descriptor;
+    internal_static_app_UDPPacket_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_app_Person_fieldAccessorTable;
+      internal_static_app_UDPPacket_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_app_ConnectPacket_descriptor;
+    internal_static_app_UDPPacket_Move_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_app_ConnectPacket_fieldAccessorTable;
+      internal_static_app_UDPPacket_Move_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_app_UDPPacket_Connect_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_app_UDPPacket_Connect_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_app_UDPPacket_Playerinfo_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_app_UDPPacket_Playerinfo_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_app_UDPPacket_Custom_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_app_UDPPacket_Custom_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1703,12 +4032,20 @@ public final class Mainprotos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nMain.proto\022\003app\032\014player.proto\"#\n\006Perso" +
-      "n\022\014\n\004name\030\001 \002(\t\022\013\n\003age\030\002 \002(\005\"\206\001\n\rConnect" +
-      "Packet\022\033\n\006player\030\002 \002(\0132\013.app.Player\022\020\n\010l" +
-      "obby_id\030\003 \001(\t\022)\n\006update\030\004 \001(\0162\031.app.Conn" +
-      "ectPacket.Update\"\033\n\006Update\022\010\n\004SELF\020\000\022\007\n\003" +
-      "NEW\020\001B\032\n\014com.main.appB\nMainprotos"
+      "\n\nMain.proto\022\003app\"\371\003\n\tUDPPacket\022\'\n\004type\030" +
+      "\001 \002(\0162\031.app.UDPPacket.PacketType\032f\n\004Move" +
+      "\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.PacketTyp" +
+      "e\022\014\n\004name\030\002 \002(\t\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002(\005\022\021\n" +
+      "\tdirection\030\005 \002(\005\032c\n\007Connect\022\'\n\004type\030\001 \002(" +
+      "\0162\031.app.UDPPacket.PacketType\022\014\n\004name\030\002 \002" +
+      "(\t\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\032C\n" +
+      "\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacke" +
+      "t.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custom\022\'\n\004" +
+      "type\030\001 \002(\0162\031.app.UDPPacket.PacketType\022\017\n" +
+      "\007message\030\002 \002(\t\"m\n\nPacketType\022\013\n\007CONNECT\020" +
+      "\000\022\n\n\006MOVEUP\020\001\022\014\n\010MOVEDOWN\020\002\022\r\n\tMOVERIGHT" +
+      "\020\003\022\014\n\010MOVELEFT\020\004\022\n\n\006CUSTOM\020\005\022\017\n\013PLAYER_I" +
+      "NFO\020\006B\032\n\014com.main.appB\nMainprotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1721,21 +4058,37 @@ public final class Mainprotos {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
-          com.main.app.PlayerProtos.getDescriptor(),
         }, assigner);
-    internal_static_app_Person_descriptor =
+    internal_static_app_UDPPacket_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_app_Person_fieldAccessorTable = new
+    internal_static_app_UDPPacket_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_app_Person_descriptor,
-        new java.lang.String[] { "Name", "Age", });
-    internal_static_app_ConnectPacket_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_app_ConnectPacket_fieldAccessorTable = new
+        internal_static_app_UDPPacket_descriptor,
+        new java.lang.String[] { "Type", });
+    internal_static_app_UDPPacket_Move_descriptor =
+      internal_static_app_UDPPacket_descriptor.getNestedTypes().get(0);
+    internal_static_app_UDPPacket_Move_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_app_ConnectPacket_descriptor,
-        new java.lang.String[] { "Player", "LobbyId", "Update", });
-    com.main.app.PlayerProtos.getDescriptor();
+        internal_static_app_UDPPacket_Move_descriptor,
+        new java.lang.String[] { "Type", "Name", "X", "Y", "Direction", });
+    internal_static_app_UDPPacket_Connect_descriptor =
+      internal_static_app_UDPPacket_descriptor.getNestedTypes().get(1);
+    internal_static_app_UDPPacket_Connect_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_app_UDPPacket_Connect_descriptor,
+        new java.lang.String[] { "Type", "Name", "X", "Y", "Dir", });
+    internal_static_app_UDPPacket_Playerinfo_descriptor =
+      internal_static_app_UDPPacket_descriptor.getNestedTypes().get(2);
+    internal_static_app_UDPPacket_Playerinfo_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_app_UDPPacket_Playerinfo_descriptor,
+        new java.lang.String[] { "Type", "Info", });
+    internal_static_app_UDPPacket_Custom_descriptor =
+      internal_static_app_UDPPacket_descriptor.getNestedTypes().get(3);
+    internal_static_app_UDPPacket_Custom_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_app_UDPPacket_Custom_descriptor,
+        new java.lang.String[] { "Type", "Message", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

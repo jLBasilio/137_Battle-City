@@ -1,11 +1,14 @@
 package com.main.app;
 
 import java.io.IOException;
+import java.io.ByteArrayInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import com.main.app.Mainprotos.*;
 
 public class GameServer implements Runnable, Constants{
   private String playerData;
@@ -14,7 +17,23 @@ public class GameServer implements Runnable, Constants{
   private Thread gsThread = new Thread(this);
   private int numOfPlayers, playerCount=0, gameStage=WAITING_FOR_PLAYERS;
 
+
+  byte[] toReceive, toSend, toParse;
+  DatagramPacket packet, toSendPacket;
+  UDPPacket.Connect.Builder newPlayerToSend = UDPPacket.Connect.newBuilder();
+  UDPPacket.Custom.Builder customPacket = UDPPacket.Custom.newBuilder();
+
+  UDPPacket.Playerinfo.Builder playerInfoToSend = UDPPacket.Playerinfo.newBuilder();
+
   public GameServer(int numOfPlayers){
+
+    newPlayerToSend.setType(UDPPacket.PacketType.CONNECT);
+    customPacket.setType(UDPPacket.PacketType.CUSTOM);
+    playerInfoToSend.setType(UDPPacket.PacketType.PLAYER_INFO);
+
+    toReceive = new byte[1024];
+
+
     this.numOfPlayers = numOfPlayers;
     try{
       serverSocket = new DatagramSocket(PORT);
@@ -25,6 +44,7 @@ public class GameServer implements Runnable, Constants{
     }catch(Exception e) {
       e.printStackTrace();
     }
+
 
     game = new GameState();
     gsThread.start();
@@ -42,7 +62,7 @@ public class GameServer implements Runnable, Constants{
   public void send(Player player, String msg){
     DatagramPacket packet;  
     byte buf[] = msg.getBytes();    
-    packet = new DatagramPacket(buf, buf.length, player.getAddress(),player.getPort());
+    packet = new DatagramPacket(buf, buf.length, player.getAddress(), player.getPort());
     try{
       serverSocket.send(packet);
     }catch(IOException ioe){
@@ -51,62 +71,82 @@ public class GameServer implements Runnable, Constants{
   }
 
   public void run() {
-    System.out.println("Server Running . . .");
     while(true) {
-      byte[] buf = new byte[256];
-      DatagramPacket packet = new DatagramPacket(buf, buf.length);
+
+      packet = new DatagramPacket(toReceive, toReceive.length);
       try{
-        serverSocket.receive(packet);
-        System.out.println("receiving from players");
+
+      serverSocket.receive(packet);
+      toParse = new byte[packet.getLength()];
+      System.arraycopy(packet.getData(), packet.getOffset(), toParse, 0, packet.getLength());
+
+        // CONNECT - Give players the coordinates        
+        if(UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.CONNECT) {
+
+          System.out.println("Someone has connected.");
+          String newPlayerName = UDPPacket.Connect.parseFrom(toParse).getName();
+
+          Coordinates coord = game.getSpawnLocation();
+          Player newPlayer = new Player(newPlayerName);
+          newPlayer.setX(coord.getX());
+          newPlayer.setY(coord.getY());
+          newPlayer.setAddress(packet.getAddress());
+          newPlayer.setPort(packet.getPort());
+          newPlayer.setDir(0);
+          game.addPlayer(newPlayerName, newPlayer);
+
+          System.out.println(newPlayerName + " successfully connected to server.\n");
+          playerCount++;
+
+
+          // Broadcast a new player to all
+          newPlayerToSend.setName(newPlayerName);
+          newPlayerToSend.setX(newPlayer.getX());
+          newPlayerToSend.setY(newPlayer.getY());
+          newPlayerToSend.setDir(0);
+
+
+          // Broadcasting - loop through each existing player to notify a new player
+          customPacket.setMessage("New Player Connected: " + newPlayerName);
+          toSend = customPacket.build().toByteArray();
+          for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+            String key = entry.getKey();
+            Player currentPlayer = entry.getValue();
+            System.out.println("Broadcasting message to " + key);
+            toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+            serverSocket.send(toSendPacket);
+          }
+
+          // Send all player list to all
+          if (playerCount == numOfPlayers) {
+
+            playerInfoToSend.setInfo(game.getGameData());
+            toSend = playerInfoToSend.build().toByteArray();
+            for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+              String key = entry.getKey();
+              Player currentPlayer = entry.getValue();
+              System.out.println("Broadcasting list of players to " + key);
+              toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+              serverSocket.send(toSendPacket);
+            } 
+
+          }
+
+        }
+
+
+        else 
+          continue;
+
+
       } catch(Exception e) {
         e.printStackTrace();
       }
 
-      playerData = new String(buf);
-      playerData = playerData.trim();
 
-      switch(gameStage) {
-        case WAITING_FOR_PLAYERS:
-          if(playerData.startsWith("CONNECT")){
-            String tokens[] = playerData.split(" ");
-            Player player = new Player(tokens[1]);
-            player.setAddress(packet.getAddress());
-            player.setPort(packet.getPort());
-            //setting spawn location
-            Coordinates spawnLoc = game.getSpawnLocation();
-            player.setX(spawnLoc.getX());
-            player.setY(spawnLoc.getY());
-            player.setDir(0);
 
-            game.update(tokens[1],player);
-            broadcast("CONNECTED" + tokens[1]);
-            playerCount++;
-            if(playerCount == numOfPlayers)
-              gameStage = GAME_START;
-          }
-          break;
-        case GAME_START:
-          broadcast("START");
-          gameStage = IN_PROGRESS;
-          break;
-        case IN_PROGRESS:
-          if(playerData.startsWith("PLAYER")){
-            String[] playerInfo = playerData.split(" ");
-            String pname = playerInfo[1];
-            int px = Integer.parseInt(playerInfo[2]);
-            int py = Integer.parseInt(playerInfo[3]);
-            int pdir = Integer.parseInt(playerInfo[4]);
-            Player player=(Player)game.getPlayers().get(pname);
-            player.setX(px);
-            player.setY(py);
-            player.setDir(pdir);
-            game.update(pname,player);
-            broadcast(game.getGameData());
-          }
-          break;
-        case GAME_END:
-          break;
-      }
+
+
     }
   }
 
