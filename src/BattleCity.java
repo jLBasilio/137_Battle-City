@@ -42,10 +42,8 @@ public class BattleCity implements Runnable, Constants{
 				socket.setSoTimeout(1000);
 		}catch(IOException ioe){}
 
-		keyHandler = new KeyHandler();
 
 		initialize();
-
 		bcThread.start();
 	}
 
@@ -56,6 +54,8 @@ public class BattleCity implements Runnable, Constants{
 		Assets.initialize();
 		gameMap =  new GameMap("map/city1.map");
 		players = new HashMap<String, Player>();
+    keyHandler = new KeyHandler();
+
 	}
 
 	private void update() {
