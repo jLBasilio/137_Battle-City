@@ -42,20 +42,18 @@ public class BattleCity implements Runnable, Constants{
 				socket.setSoTimeout(1000);
 		}catch(IOException ioe){}
 
-
 		initialize();
 		bcThread.start();
 	}
 
 	private void initialize() {
 		mapFrame = new MapFrame(this.mapName, this.width, this.height, main);
-		mapFrame.getCanvas().addKeyListener(keyHandler);
-		running = true;
-		Assets.initialize();
-		gameMap =  new GameMap("map/city1.map");
-		players = new HashMap<String, Player>();
     keyHandler = new KeyHandler();
-
+    mapFrame.getCanvas().addKeyListener(keyHandler);
+    running = true;
+    Assets.initialize();
+    gameMap =  new GameMap("map/city1.map");
+    players = new HashMap<String, Player>();
 	}
 
 	private void update() {
@@ -115,11 +113,11 @@ public class BattleCity implements Runnable, Constants{
 		g.dispose();
 	}
 
-	public void run(){
-		while(running){
-			try{
+	public void run() {
+		while(running) {
+			try {
 				Thread.sleep(1);
-			}catch(Exception ioe){}
+			} catch(Exception ioe){}
 
 			//get data from server
 			byte[] buf = new byte[256];
@@ -131,10 +129,6 @@ public class BattleCity implements Runnable, Constants{
 
 			serverData = new String(buf);
 			serverData = serverData.trim();
-
-			// if (!serverData.equals("")){
-			// 	System.out.println("Server Data:" +serverData);
-			// }
 
 			if(!connected && serverData.startsWith("CONNECTED")){ //checks if server confirms connection request
 				connected=true;

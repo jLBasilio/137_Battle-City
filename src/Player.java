@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 public class Player implements Constants{
   private String name;
-  private int x,y,dir,port;
+  private int x, y, dir, port, moveSpeed;
   private InetAddress address;
 
   public Player(String name){
@@ -31,6 +31,22 @@ public class Player implements Constants{
   public void setPort(int port){
     this.port = port;
   }
+
+  public void setSpeed(int speed) {
+    this.moveSpeed = speed;
+  }
+
+  public int getSpeed() {
+    return this.moveSpeed;
+  }
+
+
+
+  public void incrementX() {
+
+
+  }
+
 
   public String getName(){
     return name;

@@ -11,8 +11,8 @@ public class GameServer implements Runnable, Constants{
   private String playerData;
   private DatagramSocket serverSocket = null;
   protected GameState game;
-  private int numOfPlayers, playerCount=0, gameStage=WAITING_FOR_PLAYERS;
   private Thread gsThread = new Thread(this);
+  private int numOfPlayers, playerCount=0, gameStage=WAITING_FOR_PLAYERS;
 
   public GameServer(int numOfPlayers){
     this.numOfPlayers = numOfPlayers;
@@ -22,12 +22,11 @@ public class GameServer implements Runnable, Constants{
     } catch (IOException e) {
             System.err.println("Could not listen on port: " + PORT);
             System.exit(-1);
-    }catch(Exception e){
+    }catch(Exception e) {
       e.printStackTrace();
     }
 
     game = new GameState();
-
     gsThread.start();
   }
 
@@ -51,22 +50,22 @@ public class GameServer implements Runnable, Constants{
     }
   }
 
-  public void run(){
+  public void run() {
     System.out.println("Server Running . . .");
-    while(true){
+    while(true) {
       byte[] buf = new byte[256];
       DatagramPacket packet = new DatagramPacket(buf, buf.length);
       try{
-          serverSocket.receive(packet);
-          System.out.println("receiving from players");
-      }catch(Exception e){
+        serverSocket.receive(packet);
+        System.out.println("receiving from players");
+      } catch(Exception e) {
         e.printStackTrace();
       }
 
       playerData = new String(buf);
       playerData = playerData.trim();
 
-      switch(gameStage){
+      switch(gameStage) {
         case WAITING_FOR_PLAYERS:
           if(playerData.startsWith("CONNECT")){
             String tokens[] = playerData.split(" ");
