@@ -31,12 +31,13 @@ public class BattleCity implements Runnable, Constants{
   private HashMap<String, Player> players;
 
   UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
+  UDPPacket.Move.Builder movementPacket = UDPPacket.Move.newBuilder();
 
   InetAddress inetaddress;
   DatagramPacket toServerPacket, toReceivePacket;
   Main main;
 
-  byte[] toReceive, toParse;
+  byte[] toReceive, toParse, toSend;
 
   private long bulletSpawnDelay = 250000000;
   private long currentTime;
@@ -51,6 +52,7 @@ public class BattleCity implements Runnable, Constants{
 		this.server = main.serverIP;
 
     connectPacket.setType(UDPPacket.PacketType.CONNECT);
+    movementPacket.setType(UDPPacket.PacketType.MOVE);
 
     try{
       inetaddress = InetAddress.getByName(this.server);
@@ -77,19 +79,33 @@ public class BattleCity implements Runnable, Constants{
 	private void update() {
 		//update client game map
 		// gameMap.update();
-
+    System.out.println("ENTERED UPDATE");
+    System.out.println(keyHandler.isKeyPressed());
+    System.out.println(keyHandler.getDirection());
 		//update x or y position of this player
 		if (keyHandler.isKeyPressed()) {
-      switch(keyHandler.getDirection()){
+      System.out.println("A KEY WAS PRESSED");
+      switch(keyHandler.getDirection()) {
         case 0: // move up
+          System.out.println("MOVING UP");
         	dir=0;
+          if((x-moveSpeed) >= 0) {
+            if(!collision()){
+              x-=moveSpeed;
+              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
+            }
+            else{
+              System.out.println("Collision detected @ right!");
+            }
+          }
           break;
         case 1: // move right
+          System.out.println("MOVING RIGHT");
         	dir=1;
         	if((x+moveSpeed) <= 870) {
             if(!collision()){
               x+=moveSpeed;
-              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
             }
             else{
               System.out.println("Collision detected @ right!");
@@ -97,11 +113,12 @@ public class BattleCity implements Runnable, Constants{
           }
           break;
         case 2: // move down
+          System.out.println("MOVING DOWN");
         	dir=2;
         	if((y+moveSpeed) <= 570){
             if(!collision()){
               y+=moveSpeed;
-              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
             }
             else{
               System.out.println("Collision detected @ bottom!");
@@ -109,11 +126,12 @@ public class BattleCity implements Runnable, Constants{
 					}
           break;
         case 3: // move left
+          System.out.println("MOVING LEFT");
         	dir=3;
         	if((x-moveSpeed) >= 0){
             if(!collision()){
               x-=moveSpeed;
-              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
             }
             else{
               System.out.println("Collision detected @ left!");
@@ -123,11 +141,11 @@ public class BattleCity implements Runnable, Constants{
       }
 		}
 
-		currentTime = System.nanoTime();
-		if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
-      shootingTime = System.nanoTime();
-      send("BULLET " + name + " " + x + " " + y + " " + dir);
-    }
+		// currentTime = System.nanoTime();
+		// if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
+  //     shootingTime = System.nanoTime();
+  //     send("BULLET " + name + " " + x + " " + y + " " + dir);
+  //   }
   }
 
   private void render() {
@@ -201,7 +219,7 @@ public class BattleCity implements Runnable, Constants{
           String playerInfos = UDPPacket.Playerinfo.parseFrom(toParse).getInfo();
           System.out.println(playerInfos);
           parseAllPlayers(playerInfos);
-
+          update();
         }
 
         // For custom messages from server
@@ -210,7 +228,15 @@ public class BattleCity implements Runnable, Constants{
 
         }
 
-        render();
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
+
+          String movement = UDPPacket.Move.parseFrom(toParse).getAction();
+          fetchMovement(movement);
+
+        }
+
+        update();
+        // render();
 
 			} catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
 		}
@@ -229,6 +255,27 @@ public class BattleCity implements Runnable, Constants{
 
   }
 
+
+  private void fetchMovement(String info) {
+
+    if(info.startsWith("PLAYERUPDATE")){
+      String[] playersInfo = info.split(" ");
+      for(int i=0; i<playersInfo.length; i++){
+        String pname = playersInfo[1];
+        int px = Integer.parseInt(playersInfo[2]);
+        int py = Integer.parseInt(playersInfo[3]);
+        int pdir = Integer.parseInt(playersInfo[4]);
+        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        Player player = new Player(pname);
+        player.setX(px);
+        player.setY(py);
+        player.setDir(pdir);
+        players.put(pname, player); //adds player to map or updates player details saved in map.
+      }
+    }
+
+
+  }
 
 
   private void parseAllPlayers(String info) {
@@ -253,13 +300,13 @@ public class BattleCity implements Runnable, Constants{
 
 
 
-	private void send(String msg){
-		try{
-			byte[] buf = msg.getBytes();
-			InetAddress address = InetAddress.getByName(server);
-			DatagramPacket packet = new DatagramPacket(buf, buf.length, address, PORT);
-			socket.send(packet);
-			System.out.println("Sending packet to server...");
+	private void sendUpdates(String msg){
+		try {
+      movementPacket.setAction(msg);
+			toSend = movementPacket.build().toByteArray();
+      toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
+      socket.send(toServerPacket);
+			System.out.println("Sending move to server...");
 		}catch(Exception e){}
 	}
 

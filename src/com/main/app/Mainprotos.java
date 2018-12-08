@@ -121,29 +121,17 @@ public final class Mainprotos {
        */
       CONNECT(0),
       /**
-       * <code>MOVEUP = 1;</code>
+       * <code>MOVE = 1;</code>
        */
-      MOVEUP(1),
+      MOVE(1),
       /**
-       * <code>MOVEDOWN = 2;</code>
+       * <code>PLAYER_INFO = 2;</code>
        */
-      MOVEDOWN(2),
+      PLAYER_INFO(2),
       /**
-       * <code>MOVERIGHT = 3;</code>
+       * <code>CUSTOM = 3;</code>
        */
-      MOVERIGHT(3),
-      /**
-       * <code>MOVELEFT = 4;</code>
-       */
-      MOVELEFT(4),
-      /**
-       * <code>CUSTOM = 5;</code>
-       */
-      CUSTOM(5),
-      /**
-       * <code>PLAYER_INFO = 6;</code>
-       */
-      PLAYER_INFO(6),
+      CUSTOM(3),
       ;
 
       /**
@@ -151,29 +139,17 @@ public final class Mainprotos {
        */
       public static final int CONNECT_VALUE = 0;
       /**
-       * <code>MOVEUP = 1;</code>
+       * <code>MOVE = 1;</code>
        */
-      public static final int MOVEUP_VALUE = 1;
+      public static final int MOVE_VALUE = 1;
       /**
-       * <code>MOVEDOWN = 2;</code>
+       * <code>PLAYER_INFO = 2;</code>
        */
-      public static final int MOVEDOWN_VALUE = 2;
+      public static final int PLAYER_INFO_VALUE = 2;
       /**
-       * <code>MOVERIGHT = 3;</code>
+       * <code>CUSTOM = 3;</code>
        */
-      public static final int MOVERIGHT_VALUE = 3;
-      /**
-       * <code>MOVELEFT = 4;</code>
-       */
-      public static final int MOVELEFT_VALUE = 4;
-      /**
-       * <code>CUSTOM = 5;</code>
-       */
-      public static final int CUSTOM_VALUE = 5;
-      /**
-       * <code>PLAYER_INFO = 6;</code>
-       */
-      public static final int PLAYER_INFO_VALUE = 6;
+      public static final int CUSTOM_VALUE = 3;
 
 
       public final int getNumber() {
@@ -191,12 +167,9 @@ public final class Mainprotos {
       public static PacketType forNumber(int value) {
         switch (value) {
           case 0: return CONNECT;
-          case 1: return MOVEUP;
-          case 2: return MOVEDOWN;
-          case 3: return MOVERIGHT;
-          case 4: return MOVELEFT;
-          case 5: return CUSTOM;
-          case 6: return PLAYER_INFO;
+          case 1: return MOVE;
+          case 2: return PLAYER_INFO;
+          case 3: return CUSTOM;
           default: return null;
         }
       }
@@ -260,45 +233,18 @@ public final class Mainprotos {
       com.main.app.Mainprotos.UDPPacket.PacketType getType();
 
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
-      boolean hasName();
+      boolean hasAction();
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
-      java.lang.String getName();
+      java.lang.String getAction();
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
       com.google.protobuf.ByteString
-          getNameBytes();
-
-      /**
-       * <code>required int32 x = 3;</code>
-       */
-      boolean hasX();
-      /**
-       * <code>required int32 x = 3;</code>
-       */
-      int getX();
-
-      /**
-       * <code>required int32 y = 4;</code>
-       */
-      boolean hasY();
-      /**
-       * <code>required int32 y = 4;</code>
-       */
-      int getY();
-
-      /**
-       * <code>required int32 direction = 5;</code>
-       */
-      boolean hasDirection();
-      /**
-       * <code>required int32 direction = 5;</code>
-       */
-      int getDirection();
+          getActionBytes();
     }
     /**
      * Protobuf type {@code app.UDPPacket.Move}
@@ -314,10 +260,7 @@ public final class Mainprotos {
       }
       private Move() {
         type_ = 0;
-        name_ = "";
-        x_ = 0;
-        y_ = 0;
-        direction_ = 0;
+        action_ = "";
       }
 
       @java.lang.Override
@@ -359,22 +302,7 @@ public final class Mainprotos {
               case 18: {
                 com.google.protobuf.ByteString bs = input.readBytes();
                 bitField0_ |= 0x00000002;
-                name_ = bs;
-                break;
-              }
-              case 24: {
-                bitField0_ |= 0x00000004;
-                x_ = input.readInt32();
-                break;
-              }
-              case 32: {
-                bitField0_ |= 0x00000008;
-                y_ = input.readInt32();
-                break;
-              }
-              case 40: {
-                bitField0_ |= 0x00000010;
-                direction_ = input.readInt32();
+                action_ = bs;
                 break;
               }
               default: {
@@ -427,19 +355,19 @@ public final class Mainprotos {
         return result == null ? com.main.app.Mainprotos.UDPPacket.PacketType.CONNECT : result;
       }
 
-      public static final int NAME_FIELD_NUMBER = 2;
-      private volatile java.lang.Object name_;
+      public static final int ACTION_FIELD_NUMBER = 2;
+      private volatile java.lang.Object action_;
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
-      public boolean hasName() {
+      public boolean hasAction() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
-      public java.lang.String getName() {
-        java.lang.Object ref = name_;
+      public java.lang.String getAction() {
+        java.lang.Object ref = action_;
         if (ref instanceof java.lang.String) {
           return (java.lang.String) ref;
         } else {
@@ -447,71 +375,26 @@ public final class Mainprotos {
               (com.google.protobuf.ByteString) ref;
           java.lang.String s = bs.toStringUtf8();
           if (bs.isValidUtf8()) {
-            name_ = s;
+            action_ = s;
           }
           return s;
         }
       }
       /**
-       * <code>required string name = 2;</code>
+       * <code>optional string action = 2;</code>
        */
       public com.google.protobuf.ByteString
-          getNameBytes() {
-        java.lang.Object ref = name_;
+          getActionBytes() {
+        java.lang.Object ref = action_;
         if (ref instanceof java.lang.String) {
           com.google.protobuf.ByteString b = 
               com.google.protobuf.ByteString.copyFromUtf8(
                   (java.lang.String) ref);
-          name_ = b;
+          action_ = b;
           return b;
         } else {
           return (com.google.protobuf.ByteString) ref;
         }
-      }
-
-      public static final int X_FIELD_NUMBER = 3;
-      private int x_;
-      /**
-       * <code>required int32 x = 3;</code>
-       */
-      public boolean hasX() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
-      }
-      /**
-       * <code>required int32 x = 3;</code>
-       */
-      public int getX() {
-        return x_;
-      }
-
-      public static final int Y_FIELD_NUMBER = 4;
-      private int y_;
-      /**
-       * <code>required int32 y = 4;</code>
-       */
-      public boolean hasY() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <code>required int32 y = 4;</code>
-       */
-      public int getY() {
-        return y_;
-      }
-
-      public static final int DIRECTION_FIELD_NUMBER = 5;
-      private int direction_;
-      /**
-       * <code>required int32 direction = 5;</code>
-       */
-      public boolean hasDirection() {
-        return ((bitField0_ & 0x00000010) == 0x00000010);
-      }
-      /**
-       * <code>required int32 direction = 5;</code>
-       */
-      public int getDirection() {
-        return direction_;
       }
 
       private byte memoizedIsInitialized = -1;
@@ -522,22 +405,6 @@ public final class Mainprotos {
         if (isInitialized == 0) return false;
 
         if (!hasType()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasName()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasX()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasY()) {
-          memoizedIsInitialized = 0;
-          return false;
-        }
-        if (!hasDirection()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -552,16 +419,7 @@ public final class Mainprotos {
           output.writeEnum(1, type_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeInt32(3, x_);
-        }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          output.writeInt32(4, y_);
-        }
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          output.writeInt32(5, direction_);
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, action_);
         }
         unknownFields.writeTo(output);
       }
@@ -577,19 +435,7 @@ public final class Mainprotos {
             .computeEnumSize(1, type_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
-        }
-        if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(3, x_);
-        }
-        if (((bitField0_ & 0x00000008) == 0x00000008)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(4, y_);
-        }
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(5, direction_);
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, action_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -611,25 +457,10 @@ public final class Mainprotos {
         if (hasType()) {
           result = result && type_ == other.type_;
         }
-        result = result && (hasName() == other.hasName());
-        if (hasName()) {
-          result = result && getName()
-              .equals(other.getName());
-        }
-        result = result && (hasX() == other.hasX());
-        if (hasX()) {
-          result = result && (getX()
-              == other.getX());
-        }
-        result = result && (hasY() == other.hasY());
-        if (hasY()) {
-          result = result && (getY()
-              == other.getY());
-        }
-        result = result && (hasDirection() == other.hasDirection());
-        if (hasDirection()) {
-          result = result && (getDirection()
-              == other.getDirection());
+        result = result && (hasAction() == other.hasAction());
+        if (hasAction()) {
+          result = result && getAction()
+              .equals(other.getAction());
         }
         result = result && unknownFields.equals(other.unknownFields);
         return result;
@@ -646,21 +477,9 @@ public final class Mainprotos {
           hash = (37 * hash) + TYPE_FIELD_NUMBER;
           hash = (53 * hash) + type_;
         }
-        if (hasName()) {
-          hash = (37 * hash) + NAME_FIELD_NUMBER;
-          hash = (53 * hash) + getName().hashCode();
-        }
-        if (hasX()) {
-          hash = (37 * hash) + X_FIELD_NUMBER;
-          hash = (53 * hash) + getX();
-        }
-        if (hasY()) {
-          hash = (37 * hash) + Y_FIELD_NUMBER;
-          hash = (53 * hash) + getY();
-        }
-        if (hasDirection()) {
-          hash = (37 * hash) + DIRECTION_FIELD_NUMBER;
-          hash = (53 * hash) + getDirection();
+        if (hasAction()) {
+          hash = (37 * hash) + ACTION_FIELD_NUMBER;
+          hash = (53 * hash) + getAction().hashCode();
         }
         hash = (29 * hash) + unknownFields.hashCode();
         memoizedHashCode = hash;
@@ -797,14 +616,8 @@ public final class Mainprotos {
           super.clear();
           type_ = 0;
           bitField0_ = (bitField0_ & ~0x00000001);
-          name_ = "";
+          action_ = "";
           bitField0_ = (bitField0_ & ~0x00000002);
-          x_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000004);
-          y_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000008);
-          direction_ = 0;
-          bitField0_ = (bitField0_ & ~0x00000010);
           return this;
         }
 
@@ -840,19 +653,7 @@ public final class Mainprotos {
           if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
             to_bitField0_ |= 0x00000002;
           }
-          result.name_ = name_;
-          if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
-            to_bitField0_ |= 0x00000004;
-          }
-          result.x_ = x_;
-          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
-            to_bitField0_ |= 0x00000008;
-          }
-          result.y_ = y_;
-          if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
-            to_bitField0_ |= 0x00000010;
-          }
-          result.direction_ = direction_;
+          result.action_ = action_;
           result.bitField0_ = to_bitField0_;
           onBuilt();
           return result;
@@ -905,19 +706,10 @@ public final class Mainprotos {
           if (other.hasType()) {
             setType(other.getType());
           }
-          if (other.hasName()) {
+          if (other.hasAction()) {
             bitField0_ |= 0x00000002;
-            name_ = other.name_;
+            action_ = other.action_;
             onChanged();
-          }
-          if (other.hasX()) {
-            setX(other.getX());
-          }
-          if (other.hasY()) {
-            setY(other.getY());
-          }
-          if (other.hasDirection()) {
-            setDirection(other.getDirection());
           }
           this.mergeUnknownFields(other.unknownFields);
           onChanged();
@@ -927,18 +719,6 @@ public final class Mainprotos {
         @java.lang.Override
         public final boolean isInitialized() {
           if (!hasType()) {
-            return false;
-          }
-          if (!hasName()) {
-            return false;
-          }
-          if (!hasX()) {
-            return false;
-          }
-          if (!hasY()) {
-            return false;
-          }
-          if (!hasDirection()) {
             return false;
           }
           return true;
@@ -1001,24 +781,24 @@ public final class Mainprotos {
           return this;
         }
 
-        private java.lang.Object name_ = "";
+        private java.lang.Object action_ = "";
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
-        public boolean hasName() {
+        public boolean hasAction() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
-        public java.lang.String getName() {
-          java.lang.Object ref = name_;
+        public java.lang.String getAction() {
+          java.lang.Object ref = action_;
           if (!(ref instanceof java.lang.String)) {
             com.google.protobuf.ByteString bs =
                 (com.google.protobuf.ByteString) ref;
             java.lang.String s = bs.toStringUtf8();
             if (bs.isValidUtf8()) {
-              name_ = s;
+              action_ = s;
             }
             return s;
           } else {
@@ -1026,149 +806,53 @@ public final class Mainprotos {
           }
         }
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
         public com.google.protobuf.ByteString
-            getNameBytes() {
-          java.lang.Object ref = name_;
+            getActionBytes() {
+          java.lang.Object ref = action_;
           if (ref instanceof String) {
             com.google.protobuf.ByteString b = 
                 com.google.protobuf.ByteString.copyFromUtf8(
                     (java.lang.String) ref);
-            name_ = b;
+            action_ = b;
             return b;
           } else {
             return (com.google.protobuf.ByteString) ref;
           }
         }
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
-        public Builder setName(
+        public Builder setAction(
             java.lang.String value) {
           if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-          name_ = value;
+          action_ = value;
           onChanged();
           return this;
         }
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
-        public Builder clearName() {
+        public Builder clearAction() {
           bitField0_ = (bitField0_ & ~0x00000002);
-          name_ = getDefaultInstance().getName();
+          action_ = getDefaultInstance().getAction();
           onChanged();
           return this;
         }
         /**
-         * <code>required string name = 2;</code>
+         * <code>optional string action = 2;</code>
          */
-        public Builder setNameBytes(
+        public Builder setActionBytes(
             com.google.protobuf.ByteString value) {
           if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000002;
-          name_ = value;
-          onChanged();
-          return this;
-        }
-
-        private int x_ ;
-        /**
-         * <code>required int32 x = 3;</code>
-         */
-        public boolean hasX() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
-        }
-        /**
-         * <code>required int32 x = 3;</code>
-         */
-        public int getX() {
-          return x_;
-        }
-        /**
-         * <code>required int32 x = 3;</code>
-         */
-        public Builder setX(int value) {
-          bitField0_ |= 0x00000004;
-          x_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>required int32 x = 3;</code>
-         */
-        public Builder clearX() {
-          bitField0_ = (bitField0_ & ~0x00000004);
-          x_ = 0;
-          onChanged();
-          return this;
-        }
-
-        private int y_ ;
-        /**
-         * <code>required int32 y = 4;</code>
-         */
-        public boolean hasY() {
-          return ((bitField0_ & 0x00000008) == 0x00000008);
-        }
-        /**
-         * <code>required int32 y = 4;</code>
-         */
-        public int getY() {
-          return y_;
-        }
-        /**
-         * <code>required int32 y = 4;</code>
-         */
-        public Builder setY(int value) {
-          bitField0_ |= 0x00000008;
-          y_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>required int32 y = 4;</code>
-         */
-        public Builder clearY() {
-          bitField0_ = (bitField0_ & ~0x00000008);
-          y_ = 0;
-          onChanged();
-          return this;
-        }
-
-        private int direction_ ;
-        /**
-         * <code>required int32 direction = 5;</code>
-         */
-        public boolean hasDirection() {
-          return ((bitField0_ & 0x00000010) == 0x00000010);
-        }
-        /**
-         * <code>required int32 direction = 5;</code>
-         */
-        public int getDirection() {
-          return direction_;
-        }
-        /**
-         * <code>required int32 direction = 5;</code>
-         */
-        public Builder setDirection(int value) {
-          bitField0_ |= 0x00000010;
-          direction_ = value;
-          onChanged();
-          return this;
-        }
-        /**
-         * <code>required int32 direction = 5;</code>
-         */
-        public Builder clearDirection() {
-          bitField0_ = (bitField0_ & ~0x00000010);
-          direction_ = 0;
+          action_ = value;
           onChanged();
           return this;
         }
@@ -4032,20 +3716,18 @@ public final class Mainprotos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nMain.proto\022\003app\"\371\003\n\tUDPPacket\022\'\n\004type\030" +
-      "\001 \002(\0162\031.app.UDPPacket.PacketType\032f\n\004Move" +
+      "\n\nMain.proto\022\003app\"\245\003\n\tUDPPacket\022\'\n\004type\030" +
+      "\001 \002(\0162\031.app.UDPPacket.PacketType\032?\n\004Move" +
       "\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.PacketTyp" +
-      "e\022\014\n\004name\030\002 \002(\t\022\t\n\001x\030\003 \002(\005\022\t\n\001y\030\004 \002(\005\022\021\n" +
-      "\tdirection\030\005 \002(\005\032c\n\007Connect\022\'\n\004type\030\001 \002(" +
-      "\0162\031.app.UDPPacket.PacketType\022\014\n\004name\030\002 \002" +
-      "(\t\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\032C\n" +
-      "\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacke" +
-      "t.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custom\022\'\n\004" +
-      "type\030\001 \002(\0162\031.app.UDPPacket.PacketType\022\017\n" +
-      "\007message\030\002 \002(\t\"m\n\nPacketType\022\013\n\007CONNECT\020" +
-      "\000\022\n\n\006MOVEUP\020\001\022\014\n\010MOVEDOWN\020\002\022\r\n\tMOVERIGHT" +
-      "\020\003\022\014\n\010MOVELEFT\020\004\022\n\n\006CUSTOM\020\005\022\017\n\013PLAYER_I" +
-      "NFO\020\006B\032\n\014com.main.appB\nMainprotos"
+      "e\022\016\n\006action\030\002 \001(\t\032c\n\007Connect\022\'\n\004type\030\001 \002" +
+      "(\0162\031.app.UDPPacket.PacketType\022\014\n\004name\030\002 " +
+      "\002(\t\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\032C" +
+      "\n\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDPPack" +
+      "et.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custom\022\'\n" +
+      "\004type\030\001 \002(\0162\031.app.UDPPacket.PacketType\022\017" +
+      "\n\007message\030\002 \002(\t\"@\n\nPacketType\022\013\n\007CONNECT" +
+      "\020\000\022\010\n\004MOVE\020\001\022\017\n\013PLAYER_INFO\020\002\022\n\n\006CUSTOM\020" +
+      "\003B\032\n\014com.main.appB\nMainprotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4070,7 +3752,7 @@ public final class Mainprotos {
     internal_static_app_UDPPacket_Move_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_app_UDPPacket_Move_descriptor,
-        new java.lang.String[] { "Type", "Name", "X", "Y", "Direction", });
+        new java.lang.String[] { "Type", "Action", });
     internal_static_app_UDPPacket_Connect_descriptor =
       internal_static_app_UDPPacket_descriptor.getNestedTypes().get(1);
     internal_static_app_UDPPacket_Connect_fieldAccessorTable = new

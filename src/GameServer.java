@@ -50,25 +50,6 @@ public class GameServer implements Runnable, Constants{
     gsThread.start();
   }
 
-  public void broadcast(String msg){
-    System.out.println("Server Broadcasting . . .");
-    for(Iterator i = game.getPlayers().keySet().iterator(); i.hasNext();){
-      String name = (String) i.next();
-      Player player = (Player) game.getPlayers().get(name);
-      send(player,msg);
-    }
-  }
-
-  public void send(Player player, String msg){
-    DatagramPacket packet;  
-    byte buf[] = msg.getBytes();    
-    packet = new DatagramPacket(buf, buf.length, player.getAddress(), player.getPort());
-    try{
-      serverSocket.send(packet);
-    }catch(IOException ioe){
-      ioe.printStackTrace();
-    }
-  }
 
   public void run() {
     while(true) {
@@ -81,7 +62,7 @@ public class GameServer implements Runnable, Constants{
       System.arraycopy(packet.getData(), packet.getOffset(), toParse, 0, packet.getLength());
 
         // CONNECT - Give players the coordinates        
-        if(UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.CONNECT) {
+        if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.CONNECT) {
 
           System.out.println("Someone has connected.");
           String newPlayerName = UDPPacket.Connect.parseFrom(toParse).getName();
@@ -119,20 +100,18 @@ public class GameServer implements Runnable, Constants{
 
           // Send all player list to all when playercountis reached
           if (playerCount == numOfPlayers) {
-
-            playerInfoToSend.setInfo(game.getGameData());
-            toSend = playerInfoToSend.build().toByteArray();
-            for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
-              String key = entry.getKey();
-              Player currentPlayer = entry.getValue();
-              System.out.println("Broadcasting list of players to " + key);
-              toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
-              serverSocket.send(toSendPacket);
-            } 
+            broadcastInformation(game.getGameData());     // All data of all players
           }
         }
-        else 
-          continue;
+
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
+
+          String movement = UDPPacket.Move.parseFrom(toParse).getAction();
+          broadcastInformation(movement);     // All data of single player
+
+
+        }
+
 
 
       } catch(Exception e) {
@@ -145,6 +124,46 @@ public class GameServer implements Runnable, Constants{
 
     }
   }
+
+
+  private void parseMovement(String info) {
+
+    if(info.startsWith("PLAYER")){
+      String[] playersInfo = info.split(" ");
+      for(int i=0; i<playersInfo.length; i++){
+        String pname = playersInfo[1];
+        int px = Integer.parseInt(playersInfo[2]);
+        int py = Integer.parseInt(playersInfo[3]);
+        int pdir = Integer.parseInt(playersInfo[4]);
+        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        Player player = new Player(pname);
+        player.setX(px);
+        player.setY(py);
+        player.setDir(pdir);
+        game.update(pname,player); //adds player to map or updates player details saved in map.
+        broadcastInformation(player.getPlayerData());
+      }
+    }
+  }
+
+
+  public void broadcastInformation(String message) {
+
+    try {
+      playerInfoToSend.setInfo(message);
+      toSend = playerInfoToSend.build().toByteArray();
+      for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+        String key = entry.getKey();
+        Player currentPlayer = entry.getValue();
+        System.out.println("Broadcasting list of players to " + key);
+        toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+        serverSocket.send(toSendPacket);
+      }
+
+    } catch (Exception e) { System.err.println("Error broadcast info: " + e.toString()); }
+
+  }
+
 
   public static void main(String[] args) {
     if(args.length !=1){
