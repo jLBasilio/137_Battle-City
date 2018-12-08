@@ -29,6 +29,10 @@ public class BattleCity implements Runnable, Constants{
 
   Main main;
 
+  private long bulletSpawnDelay = 250000000;
+  private long currentTime;
+	private long shootingTime = 0;
+
 	public BattleCity(String mapName, int width, int height, Main main) {
 		this.mapName = mapName;
 		this.width = width;
@@ -65,22 +69,58 @@ public class BattleCity implements Runnable, Constants{
       switch(keyHandler.getDirection()){
         case 0: // move up
         	dir=0;
-        	y-=moveSpeed;
+        	if((y-moveSpeed) >= 0){
+            if(!collision()){
+              y-=moveSpeed;
+              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+            }
+            else{
+              System.out.println("Collision detected @ top!");
+            }
+          }
           break;
         case 1: // move right
         	dir=1;
-        	x+=moveSpeed;
+        	if((x+moveSpeed) <= 870){
+            if(!collision()){
+              x+=moveSpeed;
+              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+            }
+            else{
+              System.out.println("Collision detected @ right!");
+            }
+          }
           break;
         case 2: // move down
         	dir=2;
-        	y+=moveSpeed;
+        	if((y+moveSpeed) <= 570){
+            if(!collision()){
+              y+=moveSpeed;
+              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+            }
+            else{
+              System.out.println("Collision detected @ bottom!");
+            }
+					}
           break;
         case 3: // move left
         	dir=3;
-        	x-=moveSpeed;
+        	if((x-moveSpeed) >= 0){
+            if(!collision()){
+              x-=moveSpeed;
+              send("PLAYER " + name + " " + x + " " + y + " " + dir);
+            }
+            else{
+              System.out.println("Collision detected @ left!");
+            }
+					}
           break;
       }
-      send("PLAYER " + name + " " + x + " " + y + " " + dir);
+		}
+		currentTime = System.nanoTime();
+		if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
+			shootingTime = System.nanoTime();
+			send("BULLET " + name + " " + x + " " + y + " " + dir);
 		}
 	}
 
@@ -107,6 +147,8 @@ public class BattleCity implements Runnable, Constants{
 				case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
 				case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
 			}
+			// render bullet
+			// g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
     }
 
 		bs.show();
@@ -171,5 +213,46 @@ public class BattleCity implements Runnable, Constants{
 			socket.send(packet);
 			System.out.println("Sending packet to server...");
 		}catch(Exception e){}
+	}
+
+	public boolean collision(){
+		System.out.println("Detecting collision.");
+
+		Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
+    List<Tile> tiles = gameMap.getTiles();
+
+    for(Tile tile : tiles){
+      Rectangle r2 = tile.getBounds();
+      if (r.intersects(r2)) {
+        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        System.out.println(dir);
+
+        if(dir == 0){
+          if(r.y > r2.y)
+            return true;
+          else
+            return false;
+        }
+        else if(dir == 1){
+          if(r.x < r2.x)
+            return true;
+          else
+            return false;
+        }
+        else if(dir == 2){
+          if(r.y < r2.y)
+            return true;
+          else
+            return false;
+        }
+        else if(dir == 3){
+          if(r.x > r2.x)
+            return true;
+          else
+            return false;
+        }
+      }
+    }
+    return false;
 	}
 }

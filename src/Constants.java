@@ -8,7 +8,7 @@ public interface Constants{
 	public final int GAME_END=2;
 	public final int WAITING_FOR_PLAYERS=3;
 
-	public static final int PORT=4444;
+	public static final int PORT=4445;
 
 	public static final int TILE_WIDTH = 30;
 	public static final int TILE_HEIGHT = 30;
