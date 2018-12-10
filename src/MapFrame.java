@@ -13,7 +13,7 @@ import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class MapFrame {
+public class MapFrame implements KeyListener {
 	private JFrame frame;
 	private Canvas canvas;
 	private JPanel wrapperPanel;
@@ -58,7 +58,6 @@ public class MapFrame {
 
 		canvas = new Canvas();
 		canvas.setPreferredSize(new Dimension(900, 600));
-		// canvas.setFocusable(false);
 
 		chatLogs = new JTextArea(30, 25);
 		chatLogs.append(" === BEGIN CHAT === \n");
@@ -76,7 +75,6 @@ public class MapFrame {
 		chatPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		chatPanel.add(chatLogsScroll);
 		chatPanel.add(chatInputScroll);
-
 
 		wrapperPanel.add(canvas,BorderLayout.WEST);
 		wrapperPanel.add(chatPanel,BorderLayout.EAST);
@@ -114,7 +112,6 @@ public class MapFrame {
 		return this.canvas;
 	}
 
-
 	public void addToChatLogs(String message) {
 
 		chatLogs.append(message + "\n");
@@ -134,6 +131,42 @@ public class MapFrame {
 		chatResource.instantiateMapFrame(this);
 
 	}
+
+
+
+  public void keyPressed(KeyEvent ke){
+    switch(ke.getKeyCode()){
+      case KeyEvent.VK_UP:
+        System.out.println("Moved up");
+        break;
+      case KeyEvent.VK_RIGHT:
+        System.out.println("Moved right");
+        break;
+      case KeyEvent.VK_DOWN:
+        System.out.println("Moved down");
+        break;
+      case KeyEvent.VK_LEFT:
+        System.out.println("Moved left");
+        break;
+      case KeyEvent.VK_SPACE:
+        System.out.println("Moved fired");
+        break;
+    }
+  }
+
+
+  public void keyTyped(KeyEvent ke) {
+    
+  }
+
+  public void keyReleased(KeyEvent ke){
+    // pressed = false;
+    // firing = false;
+  }
+
+
+
+
 
 
 }

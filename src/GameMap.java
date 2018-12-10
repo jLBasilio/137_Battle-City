@@ -26,7 +26,7 @@ public class GameMap implements Constants{
 			roadTile.render(g);
 	}
 
-	private void loadMap(String path,int col, int row){
+	private void loadMap(String path,int col, int row) {
 		String mapFile = MapUtils.loadMapFile(path);
 		String[] tokens = mapFile.split("\\s+");
 

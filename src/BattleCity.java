@@ -14,21 +14,25 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import com.main.app.Mainprotos.*;
 
-public class BattleCity implements Runnable, Constants{
-	private String mapName, name, server;
+public class BattleCity implements Runnable, Constants {
+	private String mapName, server;
+  public String name;
 	private int width, height, dir, x, y , moveSpeed = 5;
 	private MapFrame mapFrame;
 	private boolean running = false,connected = false;
-	private Thread bcThread = new Thread(this);
+	private Thread bcThread;
 	private BufferStrategy bs;
 	private Graphics g;
 	private GameMap gameMap;
 	private KeyHandler keyHandler;
 	private DatagramSocket socket;
 	private String serverData;
-  private HashMap<String, Player> players;
+  public HashMap<String, Player> players;
 
   UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
   UDPPacket.Move.Builder movementPacket = UDPPacket.Move.newBuilder();
@@ -61,85 +65,30 @@ public class BattleCity implements Runnable, Constants{
     } catch(IOException ioe){}
 
     initialize();
+    running = true;
     connectToServer(this.name);
-    bcThread.start();
 
+    bcThread = new Thread(this);
+    bcThread.start();
 	}
 
 	private void initialize() {
+
 		mapFrame = new MapFrame(this.mapName, this.width, this.height, main);
-    keyHandler = new KeyHandler();
+    keyHandler = new KeyHandler(this);
     mapFrame.getCanvas().addKeyListener(keyHandler);
-    running = true;
     Assets.initialize();
+
     gameMap =  new GameMap("map/city1.map");
     players = new HashMap<String, Player>();
+
 	}
 
 	private void update() {
 		//update client game map
 		// gameMap.update();
     System.out.println("ENTERED UPDATE");
-    System.out.println(keyHandler.isKeyPressed());
-    System.out.println(keyHandler.getDirection());
-		//update x or y position of this player
-		if (keyHandler.isKeyPressed()) {
-      System.out.println("A KEY WAS PRESSED");
-      switch(keyHandler.getDirection()) {
-        case 0: // move up
-          System.out.println("MOVING UP");
-        	dir=0;
-          if((x-moveSpeed) >= 0) {
-            if(!collision()){
-              x-=moveSpeed;
-              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
-            }
-            else{
-              System.out.println("Collision detected @ right!");
-            }
-          }
-          break;
-        case 1: // move right
-          System.out.println("MOVING RIGHT");
-        	dir=1;
-        	if((x+moveSpeed) <= 870) {
-            if(!collision()){
-              x+=moveSpeed;
-              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
-            }
-            else{
-              System.out.println("Collision detected @ right!");
-            }
-          }
-          break;
-        case 2: // move down
-          System.out.println("MOVING DOWN");
-        	dir=2;
-        	if((y+moveSpeed) <= 570){
-            if(!collision()){
-              y+=moveSpeed;
-              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
-            }
-            else{
-              System.out.println("Collision detected @ bottom!");
-            }
-					}
-          break;
-        case 3: // move left
-          System.out.println("MOVING LEFT");
-        	dir=3;
-        	if((x-moveSpeed) >= 0){
-            if(!collision()){
-              x-=moveSpeed;
-              sendUpdates("PLAYER " + name + " " + x + " " + y + " " + dir);
-            }
-            else{
-              System.out.println("Collision detected @ left!");
-            }
-					}
-          break;
-      }
-		}
+    System.out.println("Keypressed? " + keyHandler.isKeyPressed() + " " + keyHandler.getDirection());
 
 		// currentTime = System.nanoTime();
 		// if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
@@ -151,6 +100,7 @@ public class BattleCity implements Runnable, Constants{
   private void render() {
     bs = mapFrame.getCanvas().getBufferStrategy();
     if(bs == null) {
+      System.out.println("BS IS NULL");
       mapFrame.getCanvas().createBufferStrategy(3);
       return;
     }
@@ -160,50 +110,37 @@ public class BattleCity implements Runnable, Constants{
 
     //render map before rendering all players
     gameMap.render(g);
-    // for(Iterator i = players.keySet().iterator(); i.hasNext(); ){
-  //     String pname = (String) i.next();
-  //     Player player = (Player) players.get(pname);
-  //     int px = player.getX();
-  //     int py = player.getY();
-  //     int pdir = player.getDir();
-  //     switch(pdir){
-    //    case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //    case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //    case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //    case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //  }
-    //  // render bullet
-    //  // g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
-  //   }
-    // for (HashMap.Entry<String, Player> entry : players.entrySet()) {
-    //     String pname = entry.getKey();
-    //     Player player = entry.getValue();
-        
-    //     int px = player.getX();
-    //     int py = player.getY();
-    //     int pdir = player.getDir();
-    //     switch(pdir){
-    //       case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //       case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //       case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //       case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
-    //     }
-    // }
+     // render bullet
+     // g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
 
+
+    for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+      String pname = entry.getKey();
+      Player player = entry.getValue();
+      
+      int px = player.getX();
+      int py = player.getY();
+      int pdir = player.getDir();
+      switch(pdir){
+        case 0: g.drawImage(Assets.tankU ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+        case 1: g.drawImage(Assets.tankR ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+        case 2: g.drawImage(Assets.tankD ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+        case 3: g.drawImage(Assets.tankL ,px ,py ,TANK_WIDTH ,TANK_HEIGHT ,null);break;
+      }
+    }
 
 		bs.show();
 		g.dispose();
 	}
 
 	public void run() {
+
 		while(running) {
-			try {
-				Thread.sleep(1);
-			} catch(Exception ioe){
+      
+      update();
+      render();
 
-      }
-
-			//get data from server
+			// get data from server
 			toReceive = new byte[1024];
 			toReceivePacket = new DatagramPacket(toReceive, toReceive.length);
 
@@ -220,26 +157,27 @@ public class BattleCity implements Runnable, Constants{
           System.out.println(playerInfos);
           parseAllPlayers(playerInfos);
           update();
+          render();
         }
 
         // For custom messages from server
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.CUSTOM) {
-          System.out.println(UDPPacket.Custom.parseFrom(toParse).getMessage());
+          System.out.println("From Server => " + UDPPacket.Custom.parseFrom(toParse).getMessage());
 
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
-
           String movement = UDPPacket.Move.parseFrom(toParse).getAction();
           fetchMovement(movement);
-
         }
 
-        update();
-        // render();
 
-			} catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
-		}
+
+
+      } catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
+    
+    }
+
 	}
 
   private void connectToServer(String name) {
@@ -254,29 +192,6 @@ public class BattleCity implements Runnable, Constants{
     }catch(Exception e){}
 
   }
-
-
-  private void fetchMovement(String info) {
-
-    if(info.startsWith("PLAYERUPDATE")){
-      String[] playersInfo = info.split(" ");
-      for(int i=0; i<playersInfo.length; i++){
-        String pname = playersInfo[1];
-        int px = Integer.parseInt(playersInfo[2]);
-        int py = Integer.parseInt(playersInfo[3]);
-        int pdir = Integer.parseInt(playersInfo[4]);
-        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
-        Player player = new Player(pname);
-        player.setX(px);
-        player.setY(py);
-        player.setDir(pdir);
-        players.put(pname, player); //adds player to map or updates player details saved in map.
-      }
-    }
-
-
-  }
-
 
   private void parseAllPlayers(String info) {
 
@@ -299,8 +214,29 @@ public class BattleCity implements Runnable, Constants{
   }
 
 
+  private void fetchMovement(String info) {
 
-	private void sendUpdates(String msg){
+    if(info.startsWith("PLAYERUPDATE")){
+      String[] playersInfo = info.split(" ");
+      for(int i=0; i<playersInfo.length; i++){
+        String pname = playersInfo[1];
+        int px = Integer.parseInt(playersInfo[2]);
+        int py = Integer.parseInt(playersInfo[3]);
+        int pdir = Integer.parseInt(playersInfo[4]);
+        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        Player player = new Player(pname);
+        player.setX(px);
+        player.setY(py);
+        player.setDir(pdir);
+        players.put(pname, player); //adds player to map or updates player details saved in map.
+      }
+    }
+
+  }
+
+
+ 
+	public void sendUpdates(String msg){
 		try {
       movementPacket.setAction(msg);
 			toSend = movementPacket.build().toByteArray();
@@ -310,7 +246,7 @@ public class BattleCity implements Runnable, Constants{
 		}catch(Exception e){}
 	}
 
-	public boolean collision(){
+	public boolean collision(int x, int y){
 		System.out.println("Detecting collision.");
 
 		Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
@@ -350,4 +286,7 @@ public class BattleCity implements Runnable, Constants{
     }
     return false;
 	}
+
+
+
 }

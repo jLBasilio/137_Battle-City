@@ -4,36 +4,82 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyHandler extends KeyAdapter{
+public class KeyHandler implements KeyListener {
 	protected int dir;
-	protected boolean pressed,firing;
+	protected boolean pressed, firing;
 
-	public KeyHandler(){
+	int x, y, moveSpeed;
 
+	BattleCity bcGame;
+
+	public KeyHandler(BattleCity bcGame) {
+		this.bcGame = bcGame;
 	}
 
 	public void keyPressed(KeyEvent ke){
+		x = bcGame.players.get(bcGame.name).getX();
+		y = bcGame.players.get(bcGame.name).getY();
+		moveSpeed = bcGame.players.get(bcGame.name).getSpeed();
+
 		switch(ke.getKeyCode()){
+
 			case KeyEvent.VK_UP:
-				pressed = true;
+        System.out.println("Moved up");
 				dir=0;
+        if((y-moveSpeed) >= 0) {
+          if(!bcGame.collision(x, y)){
+            y -= moveSpeed;
+          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
 				break;
+
 			case KeyEvent.VK_RIGHT:
-				pressed = true;
+        System.out.println("Moved right");
 				dir=1;
+        if((x+moveSpeed) <= 870) {
+          if(!bcGame.collision(x, y)){
+            x += moveSpeed;
+          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
 				break;
+
 			case KeyEvent.VK_DOWN:
-				pressed = true;
+        System.out.println("Moved down");
 				dir=2;
+        if((y+moveSpeed) <= 570){
+          if(!bcGame.collision(x, y)){
+            y += moveSpeed;
+          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
 				break;
+
 			case KeyEvent.VK_LEFT:
-				pressed = true;
+        System.out.println("Moved left");
 				dir=3;
+        if((x-moveSpeed) >= 0){
+          if(!bcGame.collision(x, y)){
+            x -= moveSpeed;
+          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
+
 				break;
 			case KeyEvent.VK_SPACE:
+        System.out.println("Move: fired");
 				firing = true;
 				break;
 		}
+	}
+
+	public void keyTyped(KeyEvent ke) {
+		
 	}
 
 	public void keyReleased(KeyEvent ke){

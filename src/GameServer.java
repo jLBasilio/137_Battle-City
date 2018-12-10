@@ -52,6 +52,8 @@ public class GameServer implements Runnable, Constants{
 
 
   public void run() {
+
+    System.out.println("<=== Server Running ===> ");
     while(true) {
 
       packet = new DatagramPacket(toReceive, toReceive.length);
@@ -78,7 +80,6 @@ public class GameServer implements Runnable, Constants{
 
           System.out.println(newPlayerName + " successfully connected to server.\n");
           playerCount++;
-
 
           // Broadcast a new player to all
           newPlayerToSend.setName(newPlayerName);
@@ -108,7 +109,6 @@ public class GameServer implements Runnable, Constants{
 
           String movement = UDPPacket.Move.parseFrom(toParse).getAction();
           broadcastInformation(movement);     // All data of single player
-
 
         }
 

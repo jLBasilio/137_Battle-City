@@ -5,7 +5,7 @@ import java.net.InetAddress;
 
 public class Player implements Constants{
   private String name;
-  private int x, y, dir, port, moveSpeed;
+  private int x, y, dir, port, moveSpeed = 5;
   private InetAddress address;
 
   public Player(String name){
