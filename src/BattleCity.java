@@ -87,9 +87,7 @@ public class BattleCity implements Runnable, Constants {
 	private void update() {
 		//update client game map
 		// gameMap.update();
-    System.out.println("ENTERED UPDATE");
-    System.out.println("Keypressed? " + keyHandler.isKeyPressed() + " " + keyHandler.getDirection());
-
+    
 		// currentTime = System.nanoTime();
 		// if(keyHandler.isFiring() && currentTime - shootingTime > bulletSpawnDelay){
   //     shootingTime = System.nanoTime();
