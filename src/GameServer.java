@@ -28,7 +28,7 @@ public class GameServer implements Runnable, Constants{
   UDPPacket.Playerinfo.Builder playerInfoToSend = UDPPacket.Playerinfo.newBuilder();
   UDPPacket.Movement.Builder movementPacket = UDPPacket.Movement.newBuilder();
 
-  public GameServer(int numOfPlayers){
+  public GameServer(int numOfPlayers, String ipAddress){
 
     newPlayerToSend.setType(UDPPacket.PacketType.CONNECT);
     customPacket.setType(UDPPacket.PacketType.CUSTOM);
@@ -39,7 +39,7 @@ public class GameServer implements Runnable, Constants{
 
     this.numOfPlayers = numOfPlayers;
     try{
-      serverSocket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
+      serverSocket = new DatagramSocket(PORT, InetAddress.getByName(ipAddress));
       serverSocket.setSoTimeout(1000000);
     } catch (IOException e) {
         System.err.println("Could not listen on port: " + PORT);
