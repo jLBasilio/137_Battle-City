@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
 
@@ -60,6 +61,14 @@ public class Main implements Runnable {
   JTextField clientLobbyLobbyIdField, clientLobbyPlayersField;
   JButton clientLobbyBack, clientLobbyConfirm;
   
+
+  // ====== HELP PANEL ====== //
+  JPanel helpPanel;
+  JLabel moveLabel, fireLabel, instructionsLabel;
+  JTextField moveField, fireField;
+  JTextArea instructionsArea;
+  JButton helpBackButton;
+
 
   /* ====== Other Constants ====== */
   JFrame mainFrame;
@@ -184,11 +193,69 @@ public class Main implements Runnable {
     testButton5 = new JButton("TEST");
     testButton5.setPreferredSize(defaultDimension);
 
+    // ====== HELP PANEL ====== //
+    moveLabel = new JLabel("MOVE BUTTONS");
+    fireLabel = new JLabel("FIRE BUTTON");
+    instructionsLabel = new JLabel("INSTRUCTIONS");
+    moveField = new JTextField(25);
+    fireField = new JTextField(25);
+    moveField.setText("W - UP | A - LEFT | S - DOWN | D - RIGHT");
+    fireField.setText("SPACEBAR - FIRE");
+    moveField.setEditable(false);
+    fireField.setEditable(false);
+    instructionsLabel.setForeground(Color.WHITE);
+    instructionsArea = new JTextArea(5, 13);
+    instructionsArea.append("BATTLECITY\nThe goal of the game is to be the\n last tank standing per level. \nHit your opponents with bullets using spacebar.");
+    instructionsArea.setEditable(false);
+    helpBackButton = new JButton("BACK");
+    helpBackButton.setPreferredSize(defaultDimension);
+    
+
+    clientLobbyLobbyIdField.setEditable(false);
+    clientLobbyPlayersField = new JTextField(20);
+    clientLobbyPlayersField.setEditable(false);
+    clientLobbyBack = new JButton("BACK");
+    clientLobbyBack.setPreferredSize(cancelDimension);
+    clientLobbyConfirm = new JButton("WAITING FOR SERVER");
+    clientLobbyConfirm.setPreferredSize(defaultDimension);
+    clientLobbyConfirm.setEnabled(false);
+
     playerNameInput.setText("1");
     serverIPInput.setText("192.168.31.2");
     maxPlayersInput.setText("3");
-
     udpLobbyField.setText("192.168.31.2");
+
+
+
+
+    /* ========== HELP PANEL =========== */
+    helpPanel = new BackgroundPanel(backgroundImage);
+    helpPanel.setLayout(new GridBagLayout());
+
+    // Position buttons
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    helpPanel.add(moveLabel, gbc);
+    gbc.gridx = 1;
+    helpPanel.add(moveField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 1;
+    helpPanel.add(fireLabel, gbc);
+    gbc.gridx = 1;
+    helpPanel.add(fireField, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    helpPanel.add(instructionsLabel, gbc);
+    gbc.gridx = 1;
+    helpPanel.add(instructionsArea, gbc);
+
+    gbc.gridx = 0;
+    gbc.gridy = 3;
+    helpPanel.add(helpBackButton, gbc);
+
+
 
     /* ========== START PANEL =========== */    
 
@@ -355,6 +422,17 @@ public class Main implements Runnable {
 
     // ===================== BUTTON LISTENERS =================== //
 
+
+    helpBackButton.addActionListener(new ActionListener() {
+      public void actionPerformed(ActionEvent e) {
+
+        mainFrame.setContentPane(startPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
+
+      }
+    });
+
     /* ===================== START PANEL ===================== */
     startButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
@@ -369,7 +447,9 @@ public class Main implements Runnable {
     helpButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
 
-        // Display help panel
+        mainFrame.setContentPane(helpPanel);
+        mainFrame.invalidate();
+        mainFrame.validate();
 
       }
     });
