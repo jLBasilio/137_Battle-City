@@ -245,37 +245,74 @@ public class BattleCity implements Runnable, Constants {
 		}catch(Exception e){}
 	}
 
-	public boolean collision(int x, int y){
+	public boolean collision(int x, int y, int pdir){
 		System.out.println("Detecting collision.");
 
 		Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
     List<Tile> tiles = gameMap.getTiles();
 
+    for (Map.Entry<String, Player> entry : players.entrySet()) {
+      String pname = entry.getKey();
+      Player player = entry.getValue();
+      
+      int px = player.getX();
+      int py = player.getY();;
+      Rectangle playerRec = new Rectangle(px, py, TANK_WIDTH, TANK_HEIGHT);
+      if (r.intersects(playerRec)) {
+        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        System.out.println(pdir);
+        if(pdir == 0){
+          if(r.y > playerRec.y)
+            return true;
+          else
+            return false;
+        }
+        else if(pdir == 1){
+          if(r.x < playerRec.x)
+            return true;
+          else
+            return false;
+        }
+        else if(pdir == 2){
+          if(r.y < playerRec.y)
+            return true;
+          else
+            return false;
+        }
+        else if(pdir == 3){
+          if(r.x > playerRec.x)
+            return true;
+          else
+            return false;
+        }
+      }
+    }
+
     for(Tile tile : tiles){
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
         System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
-        System.out.println(dir);
+        System.out.println(pdir);
 
-        if(dir == 0){
+        if(pdir == 0){
           if(r.y > r2.y)
             return true;
           else
             return false;
         }
-        else if(dir == 1){
+        else if(pdir == 1){
           if(r.x < r2.x)
             return true;
           else
             return false;
         }
-        else if(dir == 2){
+        else if(pdir == 2){
           if(r.y < r2.y)
             return true;
           else
             return false;
         }
-        else if(dir == 3){
+        else if(pdir == 3){
           if(r.x > r2.x)
             return true;
           else
@@ -285,7 +322,5 @@ public class BattleCity implements Runnable, Constants {
     }
     return false;
 	}
-
-
 
 }

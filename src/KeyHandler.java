@@ -20,14 +20,13 @@ public class KeyHandler implements KeyListener {
 		x = bcGame.players.get(bcGame.name).getX();
 		y = bcGame.players.get(bcGame.name).getY();
 		moveSpeed = bcGame.players.get(bcGame.name).getSpeed();
-
 		switch(ke.getKeyCode()){
 
 			case KeyEvent.VK_UP:
         System.out.println("Moved up");
 				dir=0;
         if((y-moveSpeed) >= 0) {
-          if(!bcGame.collision(x, y)){
+          if(!bcGame.collision(x, y, dir)){
             y -= moveSpeed;
           	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
           }
@@ -39,7 +38,7 @@ public class KeyHandler implements KeyListener {
         System.out.println("Moved right");
 				dir=1;
         if((x+moveSpeed) <= 870) {
-          if(!bcGame.collision(x, y)){
+          if(!bcGame.collision(x, y, dir)){
             x += moveSpeed;
           	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
           }
@@ -51,7 +50,7 @@ public class KeyHandler implements KeyListener {
         System.out.println("Moved down");
 				dir=2;
         if((y+moveSpeed) <= 570){
-          if(!bcGame.collision(x, y)){
+          if(!bcGame.collision(x, y, dir)){
             y += moveSpeed;
           	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
           }
@@ -63,7 +62,7 @@ public class KeyHandler implements KeyListener {
         System.out.println("Moved left");
 				dir=3;
         if((x-moveSpeed) >= 0){
-          if(!bcGame.collision(x, y)){
+          if(!bcGame.collision(x, y, dir)){
             x -= moveSpeed;
           	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
           }

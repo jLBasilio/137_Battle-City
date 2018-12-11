@@ -185,10 +185,10 @@ public class Main implements Runnable {
     testButton5.setPreferredSize(defaultDimension);
 
     playerNameInput.setText("1");
-    serverIPInput.setText("0.0.0.0");
+    serverIPInput.setText("192.168.31.2");
     maxPlayersInput.setText("3");
 
-    udpLobbyField.setText("0.0.0.0");
+    udpLobbyField.setText("192.168.31.2");
 
     /* ========== START PANEL =========== */    
 
