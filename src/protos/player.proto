@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package app;
+option java_package = "com.main.app";
+option java_outer_classname = "PlayerProtos";
+
+
+message Player {
+  required string name = 1;
+  optional string id = 2;
+}
