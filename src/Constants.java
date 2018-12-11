@@ -22,6 +22,10 @@ public interface Constants{
 	public static final int TANK_CROP_WIDTH = 182;
 	public static final int TANK_CROP_HEIGHT = 182;
 
+	public static final int MAP_HEIGHT = 600;
+	public static final int MAP_WIDTH = 900;
+	
+
 	// public static final int DEFAULT_SPEED = 2;
 	// public static final int DEFAULT_HEALTH = 1;
 	// public static final int DEFAULT_ATKDMG = 1;
@@ -30,4 +34,5 @@ public interface Constants{
 	public static final int BULLET_SPEED = 5;
 	public static final int BULLET_WIDTH = 10;
 	public static final int BULLET_HEIGHT = 10;
+	
 }

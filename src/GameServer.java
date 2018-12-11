@@ -118,7 +118,8 @@ public class GameServer implements Runnable, Constants{
           System.out.println("BULLET RECEIVED => " + bulletMovement);
           
           // Broadcast initial bullet
-          broadcastBullet(calculateBulletSpawn(bulletMovement));    
+          String initialBullet = calculateBulletSpawn(bulletMovement);
+          broadcastBullet(initialBullet);
 
 
         }
@@ -184,7 +185,6 @@ public class GameServer implements Runnable, Constants{
     } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
   }
 
-
   public String calculateBulletSpawn(String info) {
 
     String toReturn = "";
@@ -235,6 +235,40 @@ public class GameServer implements Runnable, Constants{
 
     return toReturn;
   }
+
+  // public String sendContinuousBullets(String info) {
+  //   String toReturn = "";
+  //   int bx, by, incrementorX, incrementorY;
+    
+  //   if(info.startsWith("BULLET")){
+  //     String[] bulletInfo = info.split(" ");
+  //     String pname = bulletInfo[1];
+  //     int px = Integer.parseInt(bulletInfo[2]);
+  //     int py = Integer.parseInt(bulletInfo[3]);
+  //     int pdir = Integer.parseInt(bulletInfo[4]);
+
+  //     incrementorX = 0;
+  //     incrementorY = 0;
+  //     switch(pdir) {
+
+  //       case 0:
+  //         toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + py + " " + pdir; 
+  //         bx = px-5+TILE_WIDTH/2;
+  //         by = py;
+  //         game.getBullets().add(new Bullet(pname, bx, by, pdir));
+
+  //         while
+
+
+  //       case 1:
+
+
+
+  //     }
+
+
+  //   }
+  // }
 
 
   public static void main(String[] args) {
