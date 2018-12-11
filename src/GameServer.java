@@ -22,10 +22,11 @@ public class GameServer implements Runnable, Constants{
 
   byte[] toReceive, toSend, toParse;
   DatagramPacket packet, toSendPacket;
+
   UDPPacket.Connect.Builder newPlayerToSend = UDPPacket.Connect.newBuilder();
   UDPPacket.Custom.Builder customPacket = UDPPacket.Custom.newBuilder();
-
   UDPPacket.Playerinfo.Builder playerInfoToSend = UDPPacket.Playerinfo.newBuilder();
+  UDPPacket.Movement.Builder movementPacket = UDPPacket.Movement.newBuilder();
 
   public GameServer(int numOfPlayers){
 
@@ -108,9 +109,17 @@ public class GameServer implements Runnable, Constants{
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
-
-          String movement = UDPPacket.Move.parseFrom(toParse).getAction();
+          String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
           broadcastInformation(movement);     // All data of single player
+        }
+
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
+          String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
+          System.out.println("BULLET RECEIVED => " + bulletMovement);
+          
+          // Broadcast initial bullet
+          broadcastBullet(calculateBulletSpawn(bulletMovement));    
+
 
         }
 
@@ -119,11 +128,6 @@ public class GameServer implements Runnable, Constants{
       } catch(Exception e) {
         e.printStackTrace();
       }
-
-
-
-
-
     }
   }
 
@@ -148,9 +152,7 @@ public class GameServer implements Runnable, Constants{
     }
   }
 
-
   public void broadcastInformation(String message) {
-
     try {
       playerInfoToSend.setInfo(message);
       toSend = playerInfoToSend.build().toByteArray();
@@ -166,6 +168,74 @@ public class GameServer implements Runnable, Constants{
 
   }
 
+  public void broadcastBullet(String message) {
+    try {
+      movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
+      movementPacket.setAction(message);
+      toSend = movementPacket.build().toByteArray();
+      for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+        String key = entry.getKey();
+        Player currentPlayer = entry.getValue();
+        System.out.println("Broadcasting Bullet to " + key);
+        toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+        serverSocket.send(toSendPacket);
+      }
+
+    } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
+  }
+
+
+  public String calculateBulletSpawn(String info) {
+
+    String toReturn = "";
+    int bx, by;
+    if(info.startsWith("BULLET")){
+      String[] playersInfo = info.split(":");
+      for(int i=0; i<playersInfo.length; i++){
+
+        String[] playerData = playersInfo[i].split(" ");
+        String pname = playerData[1];
+        int px = Integer.parseInt(playerData[2]);
+        int py = Integer.parseInt(playerData[3]);
+        int pdir = Integer.parseInt(playerData[4]);
+
+        // Initial location of bullet
+        switch(pdir){
+          case 0: 
+            toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + py + " " + pdir; 
+            bx = px-5+TILE_WIDTH/2;
+            by = py;
+            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            break;
+
+          case 1: 
+            toReturn = "BULLET " + pname + " " + (px+20) + " " + (py-5+TILE_HEIGHT/2) + " " + pdir;
+            bx = px+20;
+            by = py-5+TILE_HEIGHT/2;
+            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            break;
+
+          case 2: 
+            toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + (py+20) + " " + pdir;
+            bx = px-5+TILE_WIDTH/2;
+            by = py+20;
+            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            break;
+
+          case 3: 
+            toReturn = "BULLET " + pname + " " + px + " " + (py-5+TILE_HEIGHT/2) + " " + pdir;
+            bx = px;
+            by = py-5+TILE_HEIGHT/2;
+            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            break;
+
+        }
+      }
+    }
+
+    return toReturn;
+  }
+
 
   public static void main(String[] args) {
     if(args.length !=1){
@@ -175,4 +245,6 @@ public class GameServer implements Runnable, Constants{
 
     new GameServer(Integer.parseInt(args[0]));
   }
+
+
 }

@@ -12,6 +12,7 @@ import java.util.Map;
 public class GameState {
   private List<Coordinates> spawnAreas;
   private Map<String, Player> players = new HashMap<String, Player>();
+  private ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
   private GameMap gameMap;
   
   public GameState(){
@@ -72,6 +73,20 @@ public class GameState {
     return this.players;
   }
 
+  public ArrayList<Bullet> getBullets() {
+    return this.bulletList;
+  }
+
+  public GameMap getGameMap() {
+    return this.gameMap;
+  }
+
+
+
+
+
+
+
   private void printAllPlayers() {
 
     System.out.println("=========== CURRENT PLAYERS IN SERVER ============");
@@ -84,5 +99,8 @@ public class GameState {
 
     }
   }
+
+
+
 
 }

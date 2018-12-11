@@ -60,12 +60,13 @@ public class MapFrame implements KeyListener {
 		canvas.setPreferredSize(new Dimension(900, 600));
 
 		chatLogs = new JTextArea(30, 25);
-		chatLogs.append(" === BEGIN CHAT === \n");
+    chatLogs.append(" ====== BEGIN ====== \n");
+		chatLogs.append(" Press <ENTER> to chat \n");
 		chatLogs.setFocusable(false);
 		chatLogs.setEditable(false);
 		chatLogsScroll = new JScrollPane(chatLogs, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-		chatInput = new JTextArea(8, 25);
+    chatInput = new JTextArea(8, 25);
 		chatInput.setLineWrap(true);
 		chatInput.setWrapStyleWord(true);
 		chatInputScroll = new JScrollPane(chatInput, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -111,6 +112,10 @@ public class MapFrame implements KeyListener {
 	public Canvas getCanvas(){
 		return this.canvas;
 	}
+
+  public JTextArea getTextArea() {
+    return this.chatInput;
+  }
 
 	public void addToChatLogs(String message) {
 

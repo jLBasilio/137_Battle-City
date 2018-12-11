@@ -129,9 +129,13 @@ public final class Mainprotos {
        */
       PLAYER_INFO(2),
       /**
-       * <code>CUSTOM = 3;</code>
+       * <code>FIRE_BULLET = 3;</code>
        */
-      CUSTOM(3),
+      FIRE_BULLET(3),
+      /**
+       * <code>CUSTOM = 9;</code>
+       */
+      CUSTOM(9),
       ;
 
       /**
@@ -147,9 +151,13 @@ public final class Mainprotos {
        */
       public static final int PLAYER_INFO_VALUE = 2;
       /**
-       * <code>CUSTOM = 3;</code>
+       * <code>FIRE_BULLET = 3;</code>
        */
-      public static final int CUSTOM_VALUE = 3;
+      public static final int FIRE_BULLET_VALUE = 3;
+      /**
+       * <code>CUSTOM = 9;</code>
+       */
+      public static final int CUSTOM_VALUE = 9;
 
 
       public final int getNumber() {
@@ -169,7 +177,8 @@ public final class Mainprotos {
           case 0: return CONNECT;
           case 1: return MOVE;
           case 2: return PLAYER_INFO;
-          case 3: return CUSTOM;
+          case 3: return FIRE_BULLET;
+          case 9: return CUSTOM;
           default: return null;
         }
       }
@@ -219,8 +228,8 @@ public final class Mainprotos {
       // @@protoc_insertion_point(enum_scope:app.UDPPacket.PacketType)
     }
 
-    public interface MoveOrBuilder extends
-        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Move)
+    public interface MovementOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:app.UDPPacket.Movement)
         com.google.protobuf.MessageOrBuilder {
 
       /**
@@ -247,18 +256,18 @@ public final class Mainprotos {
           getActionBytes();
     }
     /**
-     * Protobuf type {@code app.UDPPacket.Move}
+     * Protobuf type {@code app.UDPPacket.Movement}
      */
-    public  static final class Move extends
+    public  static final class Movement extends
         com.google.protobuf.GeneratedMessageV3 implements
-        // @@protoc_insertion_point(message_implements:app.UDPPacket.Move)
-        MoveOrBuilder {
+        // @@protoc_insertion_point(message_implements:app.UDPPacket.Movement)
+        MovementOrBuilder {
     private static final long serialVersionUID = 0L;
-      // Use Move.newBuilder() to construct.
-      private Move(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      // Use Movement.newBuilder() to construct.
+      private Movement(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
-      private Move() {
+      private Movement() {
         type_ = 0;
         action_ = "";
       }
@@ -268,7 +277,7 @@ public final class Mainprotos {
       getUnknownFields() {
         return this.unknownFields;
       }
-      private Move(
+      private Movement(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -326,15 +335,15 @@ public final class Mainprotos {
       }
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Movement_descriptor;
       }
 
       @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_fieldAccessorTable
+        return com.main.app.Mainprotos.internal_static_app_UDPPacket_Movement_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                com.main.app.Mainprotos.UDPPacket.Move.class, com.main.app.Mainprotos.UDPPacket.Move.Builder.class);
+                com.main.app.Mainprotos.UDPPacket.Movement.class, com.main.app.Mainprotos.UDPPacket.Movement.Builder.class);
       }
 
       private int bitField0_;
@@ -447,10 +456,10 @@ public final class Mainprotos {
         if (obj == this) {
          return true;
         }
-        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Move)) {
+        if (!(obj instanceof com.main.app.Mainprotos.UDPPacket.Movement)) {
           return super.equals(obj);
         }
-        com.main.app.Mainprotos.UDPPacket.Move other = (com.main.app.Mainprotos.UDPPacket.Move) obj;
+        com.main.app.Mainprotos.UDPPacket.Movement other = (com.main.app.Mainprotos.UDPPacket.Movement) obj;
 
         boolean result = true;
         result = result && (hasType() == other.hasType());
@@ -486,69 +495,69 @@ public final class Mainprotos {
         return hash;
       }
 
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           java.nio.ByteBuffer data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           java.nio.ByteBuffer data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(byte[] data)
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return PARSER.parseFrom(data, extensionRegistry);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(java.io.InputStream input)
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseDelimitedFrom(java.io.InputStream input)
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseDelimitedFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
-      public static com.main.app.Mainprotos.UDPPacket.Move parseFrom(
+      public static com.main.app.Mainprotos.UDPPacket.Movement parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -561,7 +570,7 @@ public final class Mainprotos {
       public static Builder newBuilder() {
         return DEFAULT_INSTANCE.toBuilder();
       }
-      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Move prototype) {
+      public static Builder newBuilder(com.main.app.Mainprotos.UDPPacket.Movement prototype) {
         return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       @java.lang.Override
@@ -577,26 +586,26 @@ public final class Mainprotos {
         return builder;
       }
       /**
-       * Protobuf type {@code app.UDPPacket.Move}
+       * Protobuf type {@code app.UDPPacket.Movement}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Move)
-          com.main.app.Mainprotos.UDPPacket.MoveOrBuilder {
+          // @@protoc_insertion_point(builder_implements:app.UDPPacket.Movement)
+          com.main.app.Mainprotos.UDPPacket.MovementOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Movement_descriptor;
         }
 
         @java.lang.Override
         protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_fieldAccessorTable
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Movement_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
-                  com.main.app.Mainprotos.UDPPacket.Move.class, com.main.app.Mainprotos.UDPPacket.Move.Builder.class);
+                  com.main.app.Mainprotos.UDPPacket.Movement.class, com.main.app.Mainprotos.UDPPacket.Movement.Builder.class);
         }
 
-        // Construct using com.main.app.Mainprotos.UDPPacket.Move.newBuilder()
+        // Construct using com.main.app.Mainprotos.UDPPacket.Movement.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -624,17 +633,17 @@ public final class Mainprotos {
         @java.lang.Override
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Move_descriptor;
+          return com.main.app.Mainprotos.internal_static_app_UDPPacket_Movement_descriptor;
         }
 
         @java.lang.Override
-        public com.main.app.Mainprotos.UDPPacket.Move getDefaultInstanceForType() {
-          return com.main.app.Mainprotos.UDPPacket.Move.getDefaultInstance();
+        public com.main.app.Mainprotos.UDPPacket.Movement getDefaultInstanceForType() {
+          return com.main.app.Mainprotos.UDPPacket.Movement.getDefaultInstance();
         }
 
         @java.lang.Override
-        public com.main.app.Mainprotos.UDPPacket.Move build() {
-          com.main.app.Mainprotos.UDPPacket.Move result = buildPartial();
+        public com.main.app.Mainprotos.UDPPacket.Movement build() {
+          com.main.app.Mainprotos.UDPPacket.Movement result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
@@ -642,8 +651,8 @@ public final class Mainprotos {
         }
 
         @java.lang.Override
-        public com.main.app.Mainprotos.UDPPacket.Move buildPartial() {
-          com.main.app.Mainprotos.UDPPacket.Move result = new com.main.app.Mainprotos.UDPPacket.Move(this);
+        public com.main.app.Mainprotos.UDPPacket.Movement buildPartial() {
+          com.main.app.Mainprotos.UDPPacket.Movement result = new com.main.app.Mainprotos.UDPPacket.Movement(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -693,16 +702,16 @@ public final class Mainprotos {
         }
         @java.lang.Override
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.main.app.Mainprotos.UDPPacket.Move) {
-            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Move)other);
+          if (other instanceof com.main.app.Mainprotos.UDPPacket.Movement) {
+            return mergeFrom((com.main.app.Mainprotos.UDPPacket.Movement)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
 
-        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Move other) {
-          if (other == com.main.app.Mainprotos.UDPPacket.Move.getDefaultInstance()) return this;
+        public Builder mergeFrom(com.main.app.Mainprotos.UDPPacket.Movement other) {
+          if (other == com.main.app.Mainprotos.UDPPacket.Movement.getDefaultInstance()) return this;
           if (other.hasType()) {
             setType(other.getType());
           }
@@ -729,11 +738,11 @@ public final class Mainprotos {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws java.io.IOException {
-          com.main.app.Mainprotos.UDPPacket.Move parsedMessage = null;
+          com.main.app.Mainprotos.UDPPacket.Movement parsedMessage = null;
           try {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Move) e.getUnfinishedMessage();
+            parsedMessage = (com.main.app.Mainprotos.UDPPacket.Movement) e.getUnfinishedMessage();
             throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
@@ -869,41 +878,41 @@ public final class Mainprotos {
         }
 
 
-        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Move)
+        // @@protoc_insertion_point(builder_scope:app.UDPPacket.Movement)
       }
 
-      // @@protoc_insertion_point(class_scope:app.UDPPacket.Move)
-      private static final com.main.app.Mainprotos.UDPPacket.Move DEFAULT_INSTANCE;
+      // @@protoc_insertion_point(class_scope:app.UDPPacket.Movement)
+      private static final com.main.app.Mainprotos.UDPPacket.Movement DEFAULT_INSTANCE;
       static {
-        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Move();
+        DEFAULT_INSTANCE = new com.main.app.Mainprotos.UDPPacket.Movement();
       }
 
-      public static com.main.app.Mainprotos.UDPPacket.Move getDefaultInstance() {
+      public static com.main.app.Mainprotos.UDPPacket.Movement getDefaultInstance() {
         return DEFAULT_INSTANCE;
       }
 
-      @java.lang.Deprecated public static final com.google.protobuf.Parser<Move>
-          PARSER = new com.google.protobuf.AbstractParser<Move>() {
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<Movement>
+          PARSER = new com.google.protobuf.AbstractParser<Movement>() {
         @java.lang.Override
-        public Move parsePartialFrom(
+        public Movement parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          return new Move(input, extensionRegistry);
+          return new Movement(input, extensionRegistry);
         }
       };
 
-      public static com.google.protobuf.Parser<Move> parser() {
+      public static com.google.protobuf.Parser<Movement> parser() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.google.protobuf.Parser<Move> getParserForType() {
+      public com.google.protobuf.Parser<Movement> getParserForType() {
         return PARSER;
       }
 
       @java.lang.Override
-      public com.main.app.Mainprotos.UDPPacket.Move getDefaultInstanceForType() {
+      public com.main.app.Mainprotos.UDPPacket.Movement getDefaultInstanceForType() {
         return DEFAULT_INSTANCE;
       }
 
@@ -3688,10 +3697,10 @@ public final class Mainprotos {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_app_UDPPacket_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_app_UDPPacket_Move_descriptor;
+    internal_static_app_UDPPacket_Movement_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_app_UDPPacket_Move_fieldAccessorTable;
+      internal_static_app_UDPPacket_Movement_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_app_UDPPacket_Connect_descriptor;
   private static final 
@@ -3716,18 +3725,19 @@ public final class Mainprotos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nMain.proto\022\003app\"\245\003\n\tUDPPacket\022\'\n\004type\030" +
-      "\001 \002(\0162\031.app.UDPPacket.PacketType\032?\n\004Move" +
-      "\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.PacketTyp" +
-      "e\022\016\n\006action\030\002 \001(\t\032c\n\007Connect\022\'\n\004type\030\001 \002" +
-      "(\0162\031.app.UDPPacket.PacketType\022\014\n\004name\030\002 " +
-      "\002(\t\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022\013\n\003dir\030\005 \001(\005\032C" +
-      "\n\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDPPack" +
-      "et.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custom\022\'\n" +
-      "\004type\030\001 \002(\0162\031.app.UDPPacket.PacketType\022\017" +
-      "\n\007message\030\002 \002(\t\"@\n\nPacketType\022\013\n\007CONNECT" +
-      "\020\000\022\010\n\004MOVE\020\001\022\017\n\013PLAYER_INFO\020\002\022\n\n\006CUSTOM\020" +
-      "\003B\032\n\014com.main.appB\nMainprotos"
+      "\n\nMain.proto\022\003app\"\272\003\n\tUDPPacket\022\'\n\004type\030" +
+      "\001 \002(\0162\031.app.UDPPacket.PacketType\032C\n\010Move" +
+      "ment\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.Packe" +
+      "tType\022\016\n\006action\030\002 \001(\t\032c\n\007Connect\022\'\n\004type" +
+      "\030\001 \002(\0162\031.app.UDPPacket.PacketType\022\014\n\004nam" +
+      "e\030\002 \002(\t\022\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022\013\n\003dir\030\005 \001" +
+      "(\005\032C\n\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDP" +
+      "Packet.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custo" +
+      "m\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.PacketTy" +
+      "pe\022\017\n\007message\030\002 \002(\t\"Q\n\nPacketType\022\013\n\007CON" +
+      "NECT\020\000\022\010\n\004MOVE\020\001\022\017\n\013PLAYER_INFO\020\002\022\017\n\013FIR" +
+      "E_BULLET\020\003\022\n\n\006CUSTOM\020\tB\032\n\014com.main.appB\n" +
+      "Mainprotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3747,11 +3757,11 @@ public final class Mainprotos {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_app_UDPPacket_descriptor,
         new java.lang.String[] { "Type", });
-    internal_static_app_UDPPacket_Move_descriptor =
+    internal_static_app_UDPPacket_Movement_descriptor =
       internal_static_app_UDPPacket_descriptor.getNestedTypes().get(0);
-    internal_static_app_UDPPacket_Move_fieldAccessorTable = new
+    internal_static_app_UDPPacket_Movement_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_app_UDPPacket_Move_descriptor,
+        internal_static_app_UDPPacket_Movement_descriptor,
         new java.lang.String[] { "Type", "Action", });
     internal_static_app_UDPPacket_Connect_descriptor =
       internal_static_app_UDPPacket_descriptor.getNestedTypes().get(1);

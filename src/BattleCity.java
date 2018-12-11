@@ -34,9 +34,10 @@ public class BattleCity implements Runnable, Constants {
 	private DatagramSocket socket;
 	private String serverData;
   public Map<String, Player> players;
+  public List<Bullet> bulletList = new ArrayList<Bullet>();
 
   UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
-  UDPPacket.Move.Builder movementPacket = UDPPacket.Move.newBuilder();
+  UDPPacket.Movement.Builder movementPacket = UDPPacket.Movement.newBuilder();
 
   InetAddress inetaddress;
   DatagramPacket toServerPacket, toReceivePacket;
@@ -57,7 +58,6 @@ public class BattleCity implements Runnable, Constants {
 		this.server = main.serverIP;
 
     connectPacket.setType(UDPPacket.PacketType.CONNECT);
-    movementPacket.setType(UDPPacket.PacketType.MOVE);
 
     try{
       inetaddress = InetAddress.getByName(this.server);
@@ -85,6 +85,10 @@ public class BattleCity implements Runnable, Constants {
 
 	}
 
+  public MapFrame getMapFrame(){
+    return this.mapFrame;
+  }
+
 	private void update() {
 		//update client game map
 		// gameMap.update();
@@ -99,18 +103,26 @@ public class BattleCity implements Runnable, Constants {
   private void render() {
     bs = mapFrame.getCanvas().getBufferStrategy();
     if(bs == null) {
-      System.out.println("BS IS NULL");
       mapFrame.getCanvas().createBufferStrategy(3);
       return;
     }
 
     g = bs.getDrawGraphics();
-    System.out.println("ENTERED RENDER");
 
     //render map before rendering all players
     gameMap.render(g);
      // render bullet
      // g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
+
+    if(bulletList.size() != 0) {
+      System.out.println("\nRENDERING BULLET\n");
+      for(Bullet bullet : bulletList) {
+        if(bullet.isVisible())
+          bullet.render(g);
+        else
+          bulletList.remove(bullet);
+      }
+    }
 
 
     for (Map.Entry<String, Player> entry : players.entrySet()) {
@@ -128,6 +140,8 @@ public class BattleCity implements Runnable, Constants {
       }
     }
 
+
+
 		bs.show();
 		g.dispose();
 	}
@@ -144,7 +158,7 @@ public class BattleCity implements Runnable, Constants {
 			toReceivePacket = new DatagramPacket(toReceive, toReceive.length);
 
 			try{
-				
+
         // Holy trinity for receiving packets
         socket.receive(toReceivePacket);
         toParse = new byte[toReceivePacket.getLength()];
@@ -166,8 +180,13 @@ public class BattleCity implements Runnable, Constants {
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
-          String movement = UDPPacket.Move.parseFrom(toParse).getAction();
+          String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
           fetchMovement(movement);
+        }
+
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
+          String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
+          fetchBullet(bulletMovement);
         }
 
 
@@ -193,7 +212,6 @@ public class BattleCity implements Runnable, Constants {
   }
 
   private void parseAllPlayers(String info) {
-
     if(info.startsWith("PLAYER")){
       String[] playersInfo = info.split(":");
       for(int i=0; i<playersInfo.length; i++){
@@ -234,16 +252,50 @@ public class BattleCity implements Runnable, Constants {
   }
 
 
+  private void fetchBullet(String info) {
+    if(info.startsWith("BULLET")){
+      System.out.println("\n=========== BULLET FETCHED ============\n");
+      String[] bulletInfo = info.split(":");
+
+      for(int i=0; i<bulletInfo.length; i++){
+
+        String[] playerData = bulletInfo[i].split(" ");
+        String pname = playerData[1];
+        int bx = Integer.parseInt(playerData[2]);
+        int by = Integer.parseInt(playerData[3]);
+        int bdir = Integer.parseInt(playerData[4]);
+
+        Bullet bullet = new Bullet(pname, bx, by, bdir);
+        bulletList.add(bullet);
+      }
+    }
+  }
+
+
  
 	public void sendUpdates(String msg){
 		try {
+      movementPacket.setType(UDPPacket.PacketType.MOVE);
       movementPacket.setAction(msg);
 			toSend = movementPacket.build().toByteArray();
       toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
       socket.send(toServerPacket);
-			System.out.println("Sending move to server...");
+			System.out.println("Sending movement to server...");
 		}catch(Exception e){}
 	}
+
+ 
+  public void sendBullet(String msg){
+    try {
+      movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
+      movementPacket.setAction(msg);
+      toSend = movementPacket.build().toByteArray();
+      toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
+      socket.send(toServerPacket);
+      System.out.println("Sending bullet to server...");
+    }catch(Exception e){}
+  }
+
 
 	public boolean collision(int x, int y, int pdir){
 		System.out.println("Detecting collision.");
@@ -251,44 +303,8 @@ public class BattleCity implements Runnable, Constants {
 		Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
     List<Tile> tiles = gameMap.getTiles();
 
-    for (Map.Entry<String, Player> entry : players.entrySet()) {
-      String pname = entry.getKey();
-      Player player = entry.getValue();
-      
-      int px = player.getX();
-      int py = player.getY();;
-      Rectangle playerRec = new Rectangle(px, py, TANK_WIDTH, TANK_HEIGHT);
-      if (r.intersects(playerRec)) {
-        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
-        System.out.println(pdir);
-        if(pdir == 0){
-          if(r.y > playerRec.y)
-            return true;
-          else
-            return false;
-        }
-        else if(pdir == 1){
-          if(r.x < playerRec.x)
-            return true;
-          else
-            return false;
-        }
-        else if(pdir == 2){
-          if(r.y < playerRec.y)
-            return true;
-          else
-            return false;
-        }
-        else if(pdir == 3){
-          if(r.x > playerRec.x)
-            return true;
-          else
-            return false;
-        }
-      }
-    }
 
-    for(Tile tile : tiles){
+    for(Tile tile : tiles) {
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
         System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
@@ -297,29 +313,53 @@ public class BattleCity implements Runnable, Constants {
         if(pdir == 0){
           if(r.y > r2.y)
             return true;
-          else
-            return false;
         }
         else if(pdir == 1){
           if(r.x < r2.x)
             return true;
-          else
-            return false;
         }
         else if(pdir == 2){
           if(r.y < r2.y)
             return true;
-          else
-            return false;
         }
         else if(pdir == 3){
           if(r.x > r2.x)
             return true;
-          else
-            return false;
         }
       }
     }
+
+    for (Map.Entry<String, Player> entry : players.entrySet()) {
+      String pname = entry.getKey();
+      Player player = entry.getValue();
+      
+      int px = player.getX();
+      int py = player.getY();;
+      Rectangle playerRec = new Rectangle(px, py, TANK_WIDTH, TANK_HEIGHT);
+
+
+      if (r.intersects(playerRec)) {
+        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        System.out.println(pdir);
+        if(pdir == 0){
+          if(r.y > playerRec.y)
+            return true;
+        }
+        else if(pdir == 1){
+          if(r.x < playerRec.x)
+            return true;
+        }
+        else if(pdir == 2){
+          if(r.y < playerRec.y)
+            return true;
+        }
+        else if(pdir == 3){
+          if(r.x > playerRec.x)
+            return true;
+        }
+      }
+    }
+
     return false;
 	}
 

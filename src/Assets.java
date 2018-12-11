@@ -38,6 +38,6 @@ public class Assets{
 		powerArmor = powUpAtkSprite.cropImg(0,0,atkPowUpWidth,atkPowUpHeight);
 		timeSkip = powUpMsSprite.cropImg(0,0,msPowUpWidth,msPowUpHeight);
 
-		bullet = powUpMsSprite.cropImg(0,0,bulletWidth,bulletHeight);
+		bullet = bulletSprite.cropImg(0,0,bulletWidth,bulletHeight);
 	}
 }

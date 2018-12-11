@@ -5,10 +5,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-	protected int dir;
+	protected int dir = 0;
 	protected boolean pressed, firing;
 
 	int x, y, moveSpeed;
+  String playerName;
 
 	BattleCity bcGame;
 
@@ -17,9 +18,10 @@ public class KeyHandler implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent ke){
-		x = bcGame.players.get(bcGame.name).getX();
-		y = bcGame.players.get(bcGame.name).getY();
-		moveSpeed = bcGame.players.get(bcGame.name).getSpeed();
+    playerName = bcGame.name;
+		x = bcGame.players.get(playerName).getX();
+		y = bcGame.players.get(playerName).getY();
+		moveSpeed = bcGame.players.get(playerName).getSpeed();
 		switch(ke.getKeyCode()){
 
 			case KeyEvent.VK_UP:
@@ -28,7 +30,7 @@ public class KeyHandler implements KeyListener {
         if((y-moveSpeed) >= 0) {
           if(!bcGame.collision(x, y, dir)){
             y -= moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
@@ -40,7 +42,7 @@ public class KeyHandler implements KeyListener {
         if((x+moveSpeed) <= 870) {
           if(!bcGame.collision(x, y, dir)){
             x += moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
@@ -52,7 +54,7 @@ public class KeyHandler implements KeyListener {
         if((y+moveSpeed) <= 570){
           if(!bcGame.collision(x, y, dir)){
             y += moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
@@ -64,21 +66,26 @@ public class KeyHandler implements KeyListener {
         if((x-moveSpeed) >= 0){
           if(!bcGame.collision(x, y, dir)){
             x -= moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + bcGame.name + " " + x + " " + y + " " + dir);
+          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
+				break;
 
-				break;
 			case KeyEvent.VK_SPACE:
-        System.out.println("Move: fired");
-				firing = true;
+        System.out.println(playerName + " fired");
+        firing = true;
+        bcGame.sendBullet("BULLET " + playerName + " " + x + " " + y + " " + dir);
 				break;
+
+      case KeyEvent.VK_ENTER:
+        bcGame.getMapFrame().getTextArea().requestFocus();
+        break;
 		}
 	}
 
 	public void keyTyped(KeyEvent ke) {
-		
+
 	}
 
 	public void keyReleased(KeyEvent ke){
