@@ -324,12 +324,12 @@ public class GameServer implements Runnable, Constants{
 
 
   public static void main(String[] args) {
-    if(args.length !=1){
-      System.out.println("Usage: java GameServer <number of players>");
+    if(args.length !=2){
+      System.out.println("Usage: java GameServer <number of players> <ip address>");
       System.exit(1);
     }
 
-    new GameServer(Integer.parseInt(args[0]));
+    new GameServer(Integer.parseInt(args[0]), args[1]);
   }
 
 
