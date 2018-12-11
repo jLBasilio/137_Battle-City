@@ -144,26 +144,40 @@ public class GameServer implements Runnable, Constants{
         int py = Integer.parseInt(playersInfo[3]);
         int pdir = Integer.parseInt(playersInfo[4]);
         int moveSpeed = 5;
-        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
-        // Player player = new Player(pname);
-        Player player = updatePlayer(pname,px,py,pdir,moveSpeed);
-        // player.setX(px);
-        // player.setY(py);
-        // player.setDir(pdir);
-        game.update(pname,player); //updates player details saved in map.
-        broadcastInformation(player.getPlayerData());
+        System.out.println("OLD PLAYER DATA: "+pname+"|"+px+"|"+py+"|"+pdir);
+        Player player = updatePlayer(game.getPlayers().get(pname), px, py, pdir, moveSpeed);
+        game.update(pname, player); //updates player details saved in map.
+        System.out.println("NEW PLAYER DATA: " + player.getPlayerData());
+        broadCastMovement(player.getPlayerData());
+
       }
     }
   }
 
   public void broadcastInformation(String message) {
     try {
+      playerInfoToSend.setType(UDPPacket.PacketType.PLAYER_INFO);
       playerInfoToSend.setInfo(message);
       toSend = playerInfoToSend.build().toByteArray();
       for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
         String key = entry.getKey();
         Player currentPlayer = entry.getValue();
-        System.out.println("Broadcasting list of players to " + key);
+        toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+        serverSocket.send(toSendPacket);
+      }
+    } catch (Exception e) { System.err.println("Error broadcast info: " + e.toString()); }
+  }
+
+
+  public void broadCastMovement(String message) {
+    try {
+
+      playerInfoToSend.setType(UDPPacket.PacketType.MOVE);
+      playerInfoToSend.setInfo(message);
+      toSend = playerInfoToSend.build().toByteArray();
+      for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+        String key = entry.getKey();
+        Player currentPlayer = entry.getValue();
         toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
         serverSocket.send(toSendPacket);
       }
@@ -188,57 +202,48 @@ public class GameServer implements Runnable, Constants{
     } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
   }
 
-  private Player updatePlayer(String pname, int px, int py, int pdir, int moveSpeed){
-    Player player = new Player(pname);
+  private Player updatePlayer(Player player, int px, int py, int pdir, int moveSpeed){
     int x=px,y=py;
     switch(pdir){
       case 0:
-        System.out.println("Moved up");
         if((py-moveSpeed) >= 0) {
           if(!game.collision(px, py, pdir)){
             y-=moveSpeed;
-            System.out.println("===============" + x + " " + y + "===============up");
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
         break;
 
       case 1:
-        System.out.println("Moved right");
         if((px+moveSpeed) <= 870) {
           if(!game.collision(px, py, pdir)){
             x+=moveSpeed;
-            System.out.println("===============" + x + " " + y + "===============right");
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
         break;
 
       case 2:
-        System.out.println("Moved down");
         if((py+moveSpeed) <= 570){
           if(!game.collision(px, py, pdir)){
             y+=moveSpeed;
-            System.out.println("===============" + x + " " + y + "===============down");
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
         break;
 
       case 3:
-        System.out.println("Moved left");
         if((px-moveSpeed) >= 0){
           if(!game.collision(px, py, pdir)){
             x-=moveSpeed;
-            System.out.println("===============" + x + " " + y + "===============left");
           }
           else{ System.out.println("Collision detected @ right!"); }
         }
         break;
     }
 
-    player.setX(px);
-    player.setY(py);
+    player.setX(x);
+    player.setY(y);
     player.setDir(pdir);
 
     return player;

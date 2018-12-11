@@ -148,11 +148,11 @@ public class BattleCity implements Runnable, Constants {
 
 	public void run() {
 
-		while(running) {
+
+    while(running) {
       
       update();
       render();
-
 			// get data from server
 			toReceive = new byte[1024];
 			toReceivePacket = new DatagramPacket(toReceive, toReceive.length);
@@ -182,11 +182,13 @@ public class BattleCity implements Runnable, Constants {
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
           String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
           fetchMovement(movement);
+
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
           String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
           fetchBullet(bulletMovement);
+
         }
 
 
@@ -233,19 +235,22 @@ public class BattleCity implements Runnable, Constants {
 
   private void fetchMovement(String info) {
 
-    if(info.startsWith("PLAYERUPDATE")){
+    if(info.startsWith("PLAYER")){
+      System.out.println("\n=========== NEW MOVEMENT FETCHED ============\n");
+
       String[] playersInfo = info.split(" ");
       for(int i=0; i<playersInfo.length; i++){
         String pname = playersInfo[1];
         int px = Integer.parseInt(playersInfo[2]);
         int py = Integer.parseInt(playersInfo[3]);
         int pdir = Integer.parseInt(playersInfo[4]);
-        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        System.out.println("FETCH MOVEMENT: Player data: "+pname+"|"+px+"|"+py+"|"+pdir + "\n");
         Player player = new Player(pname);
         player.setX(px);
         player.setY(py);
         player.setDir(pdir);
         players.put(pname, player); //adds player to map or updates player details saved in map.
+
       }
     }
 
@@ -275,12 +280,13 @@ public class BattleCity implements Runnable, Constants {
  
 	public void sendUpdates(String msg){
 		try {
+      System.out.println("==== FROM SENDUPDATES: " + msg);
       movementPacket.setType(UDPPacket.PacketType.MOVE);
       movementPacket.setAction(msg);
 			toSend = movementPacket.build().toByteArray();
       toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
       socket.send(toServerPacket);
-			System.out.println("Sending movement to server...");
+			System.out.println("Sending movement to server...\n");
 		}catch(Exception e){}
 	}
 

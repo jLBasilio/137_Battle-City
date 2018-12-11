@@ -94,7 +94,7 @@ public class Player implements Constants{
     data += name + " ";
     data += x + " ";
     data += y + " ";
-    data += dir + " ";
+    data += dir;
     return data;
   }
 }

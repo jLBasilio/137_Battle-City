@@ -13,6 +13,8 @@ import java.awt.Rectangle;
 public class GameState implements Constants{
   private List<Coordinates> spawnAreas;
   private Map<String, Player> players = new HashMap<String, Player>();
+  private Map<String, Player> playerList = new HashMap<String, Player>();
+
   private ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
   private GameMap gameMap;
   
@@ -74,6 +76,11 @@ public class GameState implements Constants{
     return this.players;
   }
 
+  public Map<String, Player> getPlayerList(){
+    return this.playerList;
+  }
+
+
   public ArrayList<Bullet> getBullets() {
     return this.bulletList;
   }
@@ -98,7 +105,7 @@ public class GameState implements Constants{
 
 
   public boolean collision(int x, int y, int pdir){
-    System.out.println("Detecting collision.");
+    // System.out.println("Detecting collision.");
 
     Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
     List<Tile> tiles = gameMap.getTiles();
@@ -107,7 +114,7 @@ public class GameState implements Constants{
     for(Tile tile : tiles) {
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
-        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        // System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
         System.out.println(pdir);
 
         if(pdir == 0){
@@ -138,7 +145,7 @@ public class GameState implements Constants{
       Rectangle playerRec = new Rectangle(px, py, TANK_WIDTH, TANK_HEIGHT);
 
       if (r.intersects(playerRec)) {
-        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        // System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
         System.out.println(pdir);
         if(pdir == 0){
           if(r.y > playerRec.y)
