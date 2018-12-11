@@ -110,8 +110,9 @@ public class GameServer implements Runnable, Constants{
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
           String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
-          parseMovement(movement);
-          // broadcastInformation(movement);     // All data of single player
+          String newMovement = parseMovement(movement);
+          broadCastMovement(newMovement);
+          
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
@@ -134,7 +135,9 @@ public class GameServer implements Runnable, Constants{
   }
 
 
-  private void parseMovement(String info) {
+  private String parseMovement(String info) {
+
+    String toReturn = "";
 
     if(info.startsWith("PLAYER")){
       String[] playersInfo = info.split(" ");
@@ -144,14 +147,16 @@ public class GameServer implements Runnable, Constants{
         int py = Integer.parseInt(playersInfo[3]);
         int pdir = Integer.parseInt(playersInfo[4]);
         int moveSpeed = 5;
-        System.out.println("OLD PLAYER DATA: "+pname+"|"+px+"|"+py+"|"+pdir);
         Player player = updatePlayer(game.getPlayers().get(pname), px, py, pdir, moveSpeed);
         game.update(pname, player); //updates player details saved in map.
+        System.out.println("OLD PLAYER DATA: "+pname+"|"+px+"|"+py+"|"+pdir);
         System.out.println("NEW PLAYER DATA: " + player.getPlayerData());
-        broadCastMovement(player.getPlayerData());
+
+        toReturn = player.getPlayerData();
 
       }
     }
+    return toReturn;
   }
 
   public void broadcastInformation(String message) {
@@ -186,21 +191,8 @@ public class GameServer implements Runnable, Constants{
 
   }
 
-  public void broadcastBullet(String message) {
-    try {
-      movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
-      movementPacket.setAction(message);
-      toSend = movementPacket.build().toByteArray();
-      for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
-        String key = entry.getKey();
-        Player currentPlayer = entry.getValue();
-        System.out.println("Broadcasting Bullet to " + key);
-        toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
-        serverSocket.send(toSendPacket);
-      }
 
-    } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
-  }
+
 
   private Player updatePlayer(Player player, int px, int py, int pdir, int moveSpeed){
     int x=px,y=py;
@@ -249,7 +241,28 @@ public class GameServer implements Runnable, Constants{
     return player;
   }
 
-  
+
+
+
+
+
+
+  public void broadcastBullet(String message) {
+    try {
+      movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
+      movementPacket.setAction(message);
+      toSend = movementPacket.build().toByteArray();
+      for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+        String key = entry.getKey();
+        Player currentPlayer = entry.getValue();
+        System.out.println("Broadcasting Bullet to " + key);
+        toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
+        serverSocket.send(toSendPacket);
+      }
+
+    } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
+  }
+
   public String calculateBulletSpawn(String info) {
 
     String toReturn = "";

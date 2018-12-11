@@ -115,7 +115,7 @@ public class GameState implements Constants{
       Rectangle r2 = tile.getBounds();
       if (r.intersects(r2)) {
         // System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
-        System.out.println(pdir);
+        // System.out.println(pdir);
 
         if(pdir == 0){
           if(r.y > r2.y)

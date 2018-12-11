@@ -191,9 +191,6 @@ public class BattleCity implements Runnable, Constants {
 
         }
 
-
-
-
       } catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
     
     }

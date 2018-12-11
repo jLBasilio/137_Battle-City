@@ -23,41 +23,33 @@ public class KeyHandler implements KeyListener {
     currentTime = System.nanoTime();
     playerName = bcGame.name;
 		x = bcGame.players.get(playerName).getX();
-		y = bcGame.players.get(playerName).getY();
+    y = bcGame.players.get(playerName).getY();
 		moveSpeed = bcGame.players.get(playerName).getSpeed();
-    System.out.println("\n\n======== FROM KEYHANDLER =========");
+
     switch(ke.getKeyCode()){
 
 
 			case KeyEvent.VK_UP:
-        System.out.println("key pressed up, " + x + " " + y);
 				dir=0;
         pressed = true;
-        System.out.println("\n\n======== END FROM KEYHANDLER =========");
         bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_RIGHT:
-        System.out.println("key pressed right, " + x + " " + y);
 				dir=1;
         pressed = true;
-        System.out.println("\n\n======== END FROM KEYHANDLER =========");
         bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_DOWN:
-        System.out.println("key pressed down, " + x + " " + y);
 				dir=2;
         pressed = true;
-        System.out.println("\n\n======== END FROM KEYHANDLER =========");
         bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_LEFT:
-        System.out.println("key pressed left, " + x + " " + y);
 				dir=3;
         pressed = true;
-        System.out.println("\n\n======== END FROM KEYHANDLER =========");
         bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
