@@ -34,7 +34,7 @@ public class BattleCity implements Runnable, Constants {
 	private DatagramSocket socket;
 	private String serverData;
   public Map<String, Player> players;
-  public List<Bullet> bulletList = new ArrayList<Bullet>();
+  public Map<Integer, Bullet> bulletList = new HashMap<Integer, Bullet>();
 
   UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
   UDPPacket.Movement.Builder movementPacket = UDPPacket.Movement.newBuilder();
@@ -116,12 +116,17 @@ public class BattleCity implements Runnable, Constants {
 
     if(bulletList.size() != 0) {
       System.out.println("\nRENDERING BULLET\n");
-      for(Bullet bullet : bulletList) {
+      for (Map.Entry<Integer, Bullet> bulletLoop : bulletList.entrySet()) {
+
+        int key = bulletLoop.getKey();
+        Bullet bullet = bulletLoop.getValue();
+
         if(bullet.isVisible())
           bullet.render(g);
         else
-          bulletList.remove(bullet);
+          bulletList.remove(bullet.getBulletKey());
       }
+
     }
 
 
@@ -188,8 +193,15 @@ public class BattleCity implements Runnable, Constants {
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
           String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
           fetchBullet(bulletMovement);
+        }
+
+        else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.UPDATE_BULLET) {
+          String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
+          // fetchBullet(bulletMovement);
 
         }
+
+
 
       } catch (Exception e) { System.err.println("Error in receive: " + e.toString()); }
     
@@ -207,7 +219,6 @@ public class BattleCity implements Runnable, Constants {
       socket.send(toServerPacket);
       System.out.println(this.name + " has sent connect packet to server.\n");
     }catch(Exception e){}
-
   }
 
   private void parseAllPlayers(String info) {
@@ -219,7 +230,7 @@ public class BattleCity implements Runnable, Constants {
         int px = Integer.parseInt(playerData[2]);
         int py = Integer.parseInt(playerData[3]);
         int pdir = Integer.parseInt(playerData[4]);
-        System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
+        // System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
         Player player = new Player(pname);
         player.setX(px);
         player.setY(py);
@@ -228,7 +239,6 @@ public class BattleCity implements Runnable, Constants {
       }
     }
   }
-
 
   private void fetchMovement(String info) {
 
@@ -250,9 +260,7 @@ public class BattleCity implements Runnable, Constants {
 
       }
     }
-
   }
-
 
   private void fetchBullet(String info) {
     if(info.startsWith("BULLET")){
@@ -266,28 +274,26 @@ public class BattleCity implements Runnable, Constants {
         int bx = Integer.parseInt(playerData[2]);
         int by = Integer.parseInt(playerData[3]);
         int bdir = Integer.parseInt(playerData[4]);
+        int bkey = Integer.parseInt(playerData[5]);
 
-        Bullet bullet = new Bullet(pname, bx, by, bdir);
-        bulletList.add(bullet);
+        Bullet bullet = new Bullet(pname, bx, by, bdir, bkey);
+        bulletList.put(bkey, bullet);
       }
     }
   }
 
-
- 
 	public void sendUpdates(String msg){
 		try {
-      System.out.println("==== FROM SENDUPDATES: " + msg);
+      // System.out.println("==== FROM SENDUPDATES: " + msg);
       movementPacket.setType(UDPPacket.PacketType.MOVE);
       movementPacket.setAction(msg);
 			toSend = movementPacket.build().toByteArray();
       toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
       socket.send(toServerPacket);
-			System.out.println("Sending movement to server...\n");
+			// System.out.println("Sending movement to server...\n");
 		}catch(Exception e){}
 	}
 
- 
   public void sendBullet(String msg){
     try {
       movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
@@ -295,7 +301,7 @@ public class BattleCity implements Runnable, Constants {
       toSend = movementPacket.build().toByteArray();
       toServerPacket = new DatagramPacket(toSend, toSend.length, inetaddress, PORT);      
       socket.send(toServerPacket);
-      System.out.println("Sending bullet to server...");
+      // System.out.println("Sending bullet to server...");
     }catch(Exception e){}
   }
 }

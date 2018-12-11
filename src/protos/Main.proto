@@ -12,6 +12,7 @@ message UDPPacket {
     MOVE = 1;
     PLAYER_INFO = 2;
     FIRE_BULLET = 3;
+    UPDATE_BULLET = 4;
     CUSTOM = 9;
   }
 

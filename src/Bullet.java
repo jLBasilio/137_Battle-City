@@ -5,17 +5,19 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Bullet implements Constants{
-  private int x,y,dir;
+public class Bullet implements Constants {
+  private int x,y,dir, bulletKey;
   private boolean visibility;
   private String sender, playerOwner;
+  GameServer gameServer;
 
-  public Bullet(String playerOwner, int x,int y, int dir){
+  public Bullet(String playerOwner, int x,int y, int dir, int bulletKey){
     this.playerOwner = playerOwner;
     this.x = x;
     this.y = y;
     this.dir = dir;
     this.visibility = true;
+    this.bulletKey = bulletKey;
   }
 
   public void setX(int x){
@@ -50,6 +52,21 @@ public class Bullet implements Constants{
     return visibility;
   }
 
+  public int getBulletKey() {
+    return this.bulletKey;
+  }
+
+  public String getBulletData(){
+    String data = "BULLET ";
+    data += playerOwner + " ";
+    data += x + " ";
+    data += y + " ";
+    data += dir + " ";
+    data += bulletKey;
+    return data;
+  }
+
+
   public void update(){
     if(visibility){
       switch(dir){
@@ -73,11 +90,14 @@ public class Bullet implements Constants{
 
 
 
+
   public void render(Graphics g){
     //render sprite base on the direction the tank is facing/moving
     g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
 
   }  
+
+
 
   // public boolean collision(){
   //   System.out.println("Detecting bullet collision.");

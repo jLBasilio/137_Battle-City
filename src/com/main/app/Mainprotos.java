@@ -133,6 +133,10 @@ public final class Mainprotos {
        */
       FIRE_BULLET(3),
       /**
+       * <code>UPDATE_BULLET = 4;</code>
+       */
+      UPDATE_BULLET(4),
+      /**
        * <code>CUSTOM = 9;</code>
        */
       CUSTOM(9),
@@ -154,6 +158,10 @@ public final class Mainprotos {
        * <code>FIRE_BULLET = 3;</code>
        */
       public static final int FIRE_BULLET_VALUE = 3;
+      /**
+       * <code>UPDATE_BULLET = 4;</code>
+       */
+      public static final int UPDATE_BULLET_VALUE = 4;
       /**
        * <code>CUSTOM = 9;</code>
        */
@@ -178,6 +186,7 @@ public final class Mainprotos {
           case 1: return MOVE;
           case 2: return PLAYER_INFO;
           case 3: return FIRE_BULLET;
+          case 4: return UPDATE_BULLET;
           case 9: return CUSTOM;
           default: return null;
         }
@@ -3725,7 +3734,7 @@ public final class Mainprotos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\nMain.proto\022\003app\"\272\003\n\tUDPPacket\022\'\n\004type\030" +
+      "\n\nMain.proto\022\003app\"\315\003\n\tUDPPacket\022\'\n\004type\030" +
       "\001 \002(\0162\031.app.UDPPacket.PacketType\032C\n\010Move" +
       "ment\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.Packe" +
       "tType\022\016\n\006action\030\002 \001(\t\032c\n\007Connect\022\'\n\004type" +
@@ -3734,10 +3743,10 @@ public final class Mainprotos {
       "(\005\032C\n\nPlayerinfo\022\'\n\004type\030\001 \002(\0162\031.app.UDP" +
       "Packet.PacketType\022\014\n\004info\030\002 \001(\t\032B\n\006Custo" +
       "m\022\'\n\004type\030\001 \002(\0162\031.app.UDPPacket.PacketTy" +
-      "pe\022\017\n\007message\030\002 \002(\t\"Q\n\nPacketType\022\013\n\007CON" +
+      "pe\022\017\n\007message\030\002 \002(\t\"d\n\nPacketType\022\013\n\007CON" +
       "NECT\020\000\022\010\n\004MOVE\020\001\022\017\n\013PLAYER_INFO\020\002\022\017\n\013FIR" +
-      "E_BULLET\020\003\022\n\n\006CUSTOM\020\tB\032\n\014com.main.appB\n" +
-      "Mainprotos"
+      "E_BULLET\020\003\022\021\n\rUPDATE_BULLET\020\004\022\n\n\006CUSTOM\020" +
+      "\tB\032\n\014com.main.appB\nMainprotos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

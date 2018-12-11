@@ -50,7 +50,11 @@ public class GameServer implements Runnable, Constants{
 
 
     game = new GameState();
+    game.instantiateServerToSelf(this);
+
     gsThread.start();
+    game.start();
+
   }
 
 
@@ -102,7 +106,7 @@ public class GameServer implements Runnable, Constants{
             serverSocket.send(toSendPacket);
           }
 
-          // Send all player list to all when playercountis reached
+          // Send all player list to all when playercount is reached
           if (playerCount == numOfPlayers) {
             broadcastInformation(game.getGameData());     // All data of all players
           }
@@ -112,16 +116,16 @@ public class GameServer implements Runnable, Constants{
           String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
           String newMovement = parseMovement(movement);
           broadCastMovement(newMovement);
-          
+
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
           String bulletMovement = UDPPacket.Movement.parseFrom(toParse).getAction();
-          System.out.println("BULLET RECEIVED => " + bulletMovement);
-          
           // Broadcast initial bullet
+          System.out.println("\n\n======= BULLET RECEIVED =======");
           String initialBullet = calculateBulletSpawn(bulletMovement);
-          broadcastBullet(initialBullet);
+
+          // updateBullet(initialBullet);
 
 
         }
@@ -173,7 +177,6 @@ public class GameServer implements Runnable, Constants{
     } catch (Exception e) { System.err.println("Error broadcast info: " + e.toString()); }
   }
 
-
   public void broadCastMovement(String message) {
     try {
 
@@ -188,11 +191,7 @@ public class GameServer implements Runnable, Constants{
       }
 
     } catch (Exception e) { System.err.println("Error broadcast info: " + e.toString()); }
-
   }
-
-
-
 
   private Player updatePlayer(Player player, int px, int py, int pdir, int moveSpeed){
     int x=px,y=py;
@@ -241,12 +240,6 @@ public class GameServer implements Runnable, Constants{
     return player;
   }
 
-
-
-
-
-
-
   public void broadcastBullet(String message) {
     try {
       movementPacket.setType(UDPPacket.PacketType.FIRE_BULLET);
@@ -255,7 +248,7 @@ public class GameServer implements Runnable, Constants{
       for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
         String key = entry.getKey();
         Player currentPlayer = entry.getValue();
-        System.out.println("Broadcasting Bullet to " + key);
+        // System.out.println("Broadcasting Bullet to " + key);
         toSendPacket = new DatagramPacket(toSend, toSend.length, currentPlayer.getAddress(), currentPlayer.getPort());
         serverSocket.send(toSendPacket);
       }
@@ -276,77 +269,58 @@ public class GameServer implements Runnable, Constants{
         int px = Integer.parseInt(playerData[2]);
         int py = Integer.parseInt(playerData[3]);
         int pdir = Integer.parseInt(playerData[4]);
-
+        int bCount = game.getBulletCount();
         // Initial location of bullet
         switch(pdir){
           case 0: 
             toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + py + " " + pdir; 
             bx = px-5+TILE_WIDTH/2;
             by = py;
-            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            game.getBullets().put(bCount, new Bullet(pname, bx, by, pdir, bCount));
+            game.incrementBulletCounter();
             break;
 
           case 1: 
             toReturn = "BULLET " + pname + " " + (px+20) + " " + (py-5+TILE_HEIGHT/2) + " " + pdir;
             bx = px+20;
             by = py-5+TILE_HEIGHT/2;
-            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            game.getBullets().put(bCount, new Bullet(pname, bx, by, pdir, bCount));
+            game.incrementBulletCounter();
             break;
 
           case 2: 
             toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + (py+20) + " " + pdir;
             bx = px-5+TILE_WIDTH/2;
             by = py+20;
-            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            game.getBullets().put(bCount, new Bullet(pname, bx, by, pdir, bCount));
+            game.incrementBulletCounter();
             break;
 
           case 3: 
             toReturn = "BULLET " + pname + " " + px + " " + (py-5+TILE_HEIGHT/2) + " " + pdir;
             bx = px;
             by = py-5+TILE_HEIGHT/2;
-            game.getBullets().add(new Bullet(pname, bx, by, pdir));
+            game.getBullets().put(bCount, new Bullet(pname, bx, by, pdir, bCount));
+            game.incrementBulletCounter();
             break;
 
         }
       }
     }
-
+    System.out.println("Total bullets: " + game.getBulletCount());
     return toReturn;
   }
 
-  // public String sendContinuousBullets(String info) {
-  //   String toReturn = "";
-  //   int bx, by, incrementorX, incrementorY;
-    
-  //   if(info.startsWith("BULLET")){
-  //     String[] bulletInfo = info.split(" ");
-  //     String pname = bulletInfo[1];
-  //     int px = Integer.parseInt(bulletInfo[2]);
-  //     int py = Integer.parseInt(bulletInfo[3]);
-  //     int pdir = Integer.parseInt(bulletInfo[4]);
+  public void updateBullet(String bulletInfo) {
+    String toReturn = "";
 
-  //     incrementorX = 0;
-  //     incrementorY = 0;
-  //     switch(pdir) {
+    String[] bulletData = bulletInfo.split(" ");
+    String pname = bulletData[1];
+    int bx = Integer.parseInt(bulletData[2]);
+    int by = Integer.parseInt(bulletData[3]);
+    int bdir = Integer.parseInt(bulletData[4]);
 
-  //       case 0:
-  //         toReturn = "BULLET " + pname + " " + (px-5+TILE_WIDTH/2) + " " + py + " " + pdir; 
-  //         bx = px-5+TILE_WIDTH/2;
-  //         by = py;
-  //         game.getBullets().add(new Bullet(pname, bx, by, pdir));
-
-  //         while
-
-
-  //       case 1:
-
-
-
-  //     }
-
-
-  //   }
-  // }
+  }
 
 
   public static void main(String[] args) {

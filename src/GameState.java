@@ -10,14 +10,16 @@ import java.util.Iterator;
 import java.util.Map;
 import java.awt.Rectangle;
 
-public class GameState implements Constants{
+public class GameState extends Thread implements Constants {
   private List<Coordinates> spawnAreas;
   private Map<String, Player> players = new HashMap<String, Player>();
   private Map<String, Player> playerList = new HashMap<String, Player>();
-
-  private ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
+  private Map<Integer, Bullet> bulletList = new HashMap<Integer, Bullet>();
   private GameMap gameMap;
-  
+  private GameServer server;
+
+  private int bulletCounter = 0;
+
   public GameState(){
     gameMap = new GameMap("map/city1.map");
 
@@ -81,12 +83,20 @@ public class GameState implements Constants{
   }
 
 
-  public ArrayList<Bullet> getBullets() {
+  public Map<Integer, Bullet> getBullets() {
     return this.bulletList;
   }
 
   public GameMap getGameMap() {
-    return this.gameMap;
+    return this.gameMap; 
+  }
+
+  public int getBulletCount() {
+    return this.bulletCounter;
+  }
+
+  public void incrementBulletCounter() {
+    this.bulletCounter++;
   }
 
   private void printAllPlayers() {
@@ -101,8 +111,6 @@ public class GameState implements Constants{
 
     }
   }
-
-
 
   public boolean collision(int x, int y, int pdir){
     // System.out.println("Detecting collision.");
@@ -168,4 +176,47 @@ public class GameState implements Constants{
 
     return false;
   }
+
+  public void instantiateServerToSelf(GameServer server) {
+
+    this.server = server;
+
+  }
+
+
+  @Override
+  public void run() {
+
+
+    while(true) {
+      if(bulletList.size() > 0) {
+        System.out.println("=======[GAMESTATE] BROADCASTING BULLET=======");
+        for (Map.Entry<Integer, Bullet> bulletLoop : bulletList.entrySet()) {
+
+          int key = bulletLoop.getKey();
+          Bullet bullet = bulletLoop.getValue();
+
+          if(bullet.getX() > 890 || bullet.getX() < 0 || bullet.getY() > 590 || bullet.getY() < 0) {
+            bullet.setVisibility(false);
+            bulletList.remove(bullet.getBulletKey());
+          }
+          else
+            bullet.update();
+
+          server.broadcastBullet(bullet.getBulletData());
+
+        }
+      }
+
+      try {
+
+        Thread.sleep(1);
+        
+      } catch(Exception e) {}
+
+    }
+
+  }
+
+
 }
