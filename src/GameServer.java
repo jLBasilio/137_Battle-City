@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
@@ -37,11 +38,11 @@ public class GameServer implements Runnable, Constants{
 
     this.numOfPlayers = numOfPlayers;
     try{
-      serverSocket = new DatagramSocket(PORT);
+      serverSocket = new DatagramSocket(PORT, InetAddress.getByName("0.0.0.0"));
       serverSocket.setSoTimeout(1000000);
     } catch (IOException e) {
-            System.err.println("Could not listen on port: " + PORT);
-            System.exit(-1);
+        System.err.println("Could not listen on port: " + PORT);
+        System.exit(1);
     }catch(Exception e) {
       e.printStackTrace();
     }
