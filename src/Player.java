@@ -90,7 +90,7 @@ public class Player implements Constants{
   }
 
   public String getPlayerData(){
-    String data = "PLAYERUPDATE ";
+    String data = "PLAYER ";
     data += name + " ";
     data += x + " ";
     data += y + " ";

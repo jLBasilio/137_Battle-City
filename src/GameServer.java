@@ -110,7 +110,8 @@ public class GameServer implements Runnable, Constants{
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.MOVE) {
           String movement = UDPPacket.Movement.parseFrom(toParse).getAction();
-          broadcastInformation(movement);     // All data of single player
+          parseMovement(movement);
+          // broadcastInformation(movement);     // All data of single player
         }
 
         else if (UDPPacket.parseFrom(toParse).getType() == UDPPacket.PacketType.FIRE_BULLET) {
@@ -141,12 +142,14 @@ public class GameServer implements Runnable, Constants{
         int px = Integer.parseInt(playersInfo[2]);
         int py = Integer.parseInt(playersInfo[3]);
         int pdir = Integer.parseInt(playersInfo[4]);
+        int moveSpeed = 5;
         System.out.println("Player data: "+pname+"|"+px+"|"+py+"|"+pdir);
-        Player player = new Player(pname);
-        player.setX(px);
-        player.setY(py);
-        player.setDir(pdir);
-        game.update(pname,player); //adds player to map or updates player details saved in map.
+        // Player player = new Player(pname);
+        Player player = updatePlayer(pname,px,py,pdir,moveSpeed);
+        // player.setX(px);
+        // player.setY(py);
+        // player.setDir(pdir);
+        game.update(pname,player); //updates player details saved in map.
         broadcastInformation(player.getPlayerData());
       }
     }
@@ -184,6 +187,61 @@ public class GameServer implements Runnable, Constants{
     } catch (Exception e) { System.err.println("Error broadcasting bullet: " + e.toString()); }
   }
 
+  private Player updatePlayer(String pname, int px, int py, int pdir, int moveSpeed){
+    Player player = new Player(pname);
+    int x=px,y=py;
+    switch(pdir){
+      case 0:
+        System.out.println("Moved up");
+        if((py-moveSpeed) >= 0) {
+          if(!game.collision(px, py, pdir)){
+            y-=moveSpeed;
+            System.out.println("===============" + x + " " + y + "===============up");
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
+        break;
+
+      case 1:
+        System.out.println("Moved right");
+        if((px+moveSpeed) <= 870) {
+          if(!game.collision(px, py, pdir)){
+            x+=moveSpeed;
+            System.out.println("===============" + x + " " + y + "===============right");
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
+        break;
+
+      case 2:
+        System.out.println("Moved down");
+        if((py+moveSpeed) <= 570){
+          if(!game.collision(px, py, pdir)){
+            y+=moveSpeed;
+            System.out.println("===============" + x + " " + y + "===============down");
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
+        break;
+
+      case 3:
+        System.out.println("Moved left");
+        if((px-moveSpeed) >= 0){
+          if(!game.collision(px, py, pdir)){
+            x-=moveSpeed;
+            System.out.println("===============" + x + " " + y + "===============left");
+          }
+          else{ System.out.println("Collision detected @ right!"); }
+        }
+        break;
+    }
+
+    player.setX(px);
+    player.setY(py);
+    player.setDir(pdir);
+
+    return player;
+  }
 
   public String calculateBulletSpawn(String info) {
 

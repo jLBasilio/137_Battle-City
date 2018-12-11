@@ -8,8 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Iterator;
 import java.util.Map;
+import java.awt.Rectangle;
 
-public class GameState {
+public class GameState implements Constants{
   private List<Coordinates> spawnAreas;
   private Map<String, Player> players = new HashMap<String, Player>();
   private ArrayList<Bullet> bulletList = new ArrayList<Bullet>();
@@ -81,12 +82,6 @@ public class GameState {
     return this.gameMap;
   }
 
-
-
-
-
-
-
   private void printAllPlayers() {
 
     System.out.println("=========== CURRENT PLAYERS IN SERVER ============");
@@ -102,5 +97,68 @@ public class GameState {
 
 
 
+  public boolean collision(int x, int y, int pdir){
+    System.out.println("Detecting collision.");
 
+    Rectangle r = new Rectangle(x,y,TANK_WIDTH,TANK_HEIGHT);
+    List<Tile> tiles = gameMap.getTiles();
+
+
+    for(Tile tile : tiles) {
+      Rectangle r2 = tile.getBounds();
+      if (r.intersects(r2)) {
+        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        System.out.println(pdir);
+
+        if(pdir == 0){
+          if(r.y > r2.y)
+            return true;
+        }
+        else if(pdir == 1){
+          if(r.x < r2.x)
+            return true;
+        }
+        else if(pdir == 2){
+          if(r.y < r2.y)
+            return true;
+        }
+        else if(pdir == 3){
+          if(r.x > r2.x)
+            return true;
+        }
+      }
+    }
+
+    for (Map.Entry<String, Player> entry : players.entrySet()) {
+      String pname = entry.getKey();
+      Player player = entry.getValue();
+      
+      int px = player.getX();
+      int py = player.getY();;
+      Rectangle playerRec = new Rectangle(px, py, TANK_WIDTH, TANK_HEIGHT);
+
+      if (r.intersects(playerRec)) {
+        System.out.println(x/TILE_WIDTH + ":" + y/TILE_HEIGHT);
+        System.out.println(pdir);
+        if(pdir == 0){
+          if(r.y > playerRec.y)
+            return true;
+        }
+        else if(pdir == 1){
+          if(r.x < playerRec.x)
+            return true;
+        }
+        else if(pdir == 2){
+          if(r.y < playerRec.y)
+            return true;
+        }
+        else if(pdir == 3){
+          if(r.x > playerRec.x)
+            return true;
+        }
+      }
+    }
+
+    return false;
+  }
 }

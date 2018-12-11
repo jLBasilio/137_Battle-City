@@ -25,51 +25,31 @@ public class KeyHandler implements KeyListener {
 		switch(ke.getKeyCode()){
 
 			case KeyEvent.VK_UP:
-        System.out.println("Moved up");
+        System.out.println("key pressed up");
 				dir=0;
-        if((y-moveSpeed) >= 0) {
-          if(!bcGame.collision(x, y, dir)){
-            y -= moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
-          }
-          else{ System.out.println("Collision detected @ right!"); }
-        }
+        pressed = true;
+        bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_RIGHT:
-        System.out.println("Moved right");
+        System.out.println("key pressed right");
 				dir=1;
-        if((x+moveSpeed) <= 870) {
-          if(!bcGame.collision(x, y, dir)){
-            x += moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
-          }
-          else{ System.out.println("Collision detected @ right!"); }
-        }
+        pressed = true;
+        bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_DOWN:
-        System.out.println("Moved down");
+        System.out.println("key pressed down");
 				dir=2;
-        if((y+moveSpeed) <= 570){
-          if(!bcGame.collision(x, y, dir)){
-            y += moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
-          }
-          else{ System.out.println("Collision detected @ right!"); }
-        }
+        pressed = true;
+        bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_LEFT:
-        System.out.println("Moved left");
+        System.out.println("key pressed left");
 				dir=3;
-        if((x-moveSpeed) >= 0){
-          if(!bcGame.collision(x, y, dir)){
-            x -= moveSpeed;
-          	bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
-          }
-          else{ System.out.println("Collision detected @ right!"); }
-        }
+        pressed = true;
+        bcGame.sendUpdates("PLAYER " + playerName + " " + x + " " + y + " " + dir);
 				break;
 
 			case KeyEvent.VK_SPACE:
