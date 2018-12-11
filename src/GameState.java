@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Map;
 
 public class GameState {
   private List<Coordinates> spawnAreas;
-  private HashMap<String, Player> players = new HashMap<String, Player>();
+  private Map<String, Player> players = new HashMap<String, Player>();
   private GameMap gameMap;
   
   public GameState(){
@@ -67,7 +68,7 @@ public class GameState {
 
   }
 
-  public HashMap<String, Player> getPlayers(){
+  public Map<String, Player> getPlayers(){
     return this.players;
   }
 
@@ -75,7 +76,7 @@ public class GameState {
 
     System.out.println("=========== CURRENT PLAYERS IN SERVER ============");
 
-    for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+    for (Map.Entry<String, Player> entry : players.entrySet()) {
         String key = entry.getKey();
         Player value = entry.getValue();
         

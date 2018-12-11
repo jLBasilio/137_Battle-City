@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -91,7 +92,7 @@ public class GameServer implements Runnable, Constants{
           // Broadcasting - loop through each existing player to notify a new player
           customPacket.setMessage("New Player Connected: " + newPlayerName);
           toSend = customPacket.build().toByteArray();
-          for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+          for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
             String key = entry.getKey();
             Player currentPlayer = entry.getValue();
             System.out.println("Broadcasting message to " + key);
@@ -152,7 +153,7 @@ public class GameServer implements Runnable, Constants{
     try {
       playerInfoToSend.setInfo(message);
       toSend = playerInfoToSend.build().toByteArray();
-      for (HashMap.Entry<String, Player> entry : game.getPlayers().entrySet()) {
+      for (Map.Entry<String, Player> entry : game.getPlayers().entrySet()) {
         String key = entry.getKey();
         Player currentPlayer = entry.getValue();
         System.out.println("Broadcasting list of players to " + key);

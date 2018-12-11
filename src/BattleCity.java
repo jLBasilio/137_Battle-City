@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ public class BattleCity implements Runnable, Constants {
 	private KeyHandler keyHandler;
 	private DatagramSocket socket;
 	private String serverData;
-  public HashMap<String, Player> players;
+  public Map<String, Player> players;
 
   UDPPacket.Connect.Builder connectPacket = UDPPacket.Connect.newBuilder();
   UDPPacket.Move.Builder movementPacket = UDPPacket.Move.newBuilder();
@@ -112,7 +113,7 @@ public class BattleCity implements Runnable, Constants {
      // g.drawImage(Assets.bullet ,x ,y ,BULLET_WIDTH ,BULLET_HEIGHT ,null);
 
 
-    for (HashMap.Entry<String, Player> entry : players.entrySet()) {
+    for (Map.Entry<String, Player> entry : players.entrySet()) {
       String pname = entry.getKey();
       Player player = entry.getValue();
       
